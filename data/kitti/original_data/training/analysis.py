@@ -148,7 +148,12 @@ with open("cluster.pkl","wb") as fp:
 
 print("img width:{}, height:{}".format(im.width,im.height))
 #print(cluster_centers*im_ratio)
-print(cluster_centers)
+
+for c in np.arange(nCluster):
+	print("{},{},{}, ".format(round(cluster_centers[c,0],1),round(cluster_centers[c,1],1),round(cluster_centers[c,2],1)))
+
+#print(cluster_centers)
+
 print(x3d_mean)
 print(y3d_mean)
 print(z3d_mean)
