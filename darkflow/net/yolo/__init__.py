@@ -19,7 +19,6 @@ def constructor(self, meta, FLAGS):
 	if 'labels' not in meta:
 		misc.labels(meta, FLAGS)
 	print(meta)
-	import pdb;pdb.set_trace()
 	assert len(meta['labels']) == meta['classes'], (
 		'labels.txt and {} indicate' + ' '
 		'inconsistent class numbers'
