@@ -60,6 +60,7 @@ def loss(self, net_out):
     coords = tf.reshape(coords, [-1, H*W, B, 4])
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * np.reshape(anchors, [1, 1, B, 2]) / np.reshape([W, H], [1, 1, 1, 2]))
+    pdb.set_trace()
     coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3)
 
     adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4])
