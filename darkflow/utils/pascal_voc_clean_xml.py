@@ -53,7 +53,12 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
                 xx = int(float(xmlbox.find('xmax').text))
                 yn = int(float(xmlbox.find('ymin').text))
                 yx = int(float(xmlbox.find('ymax').text))
-                current = [name,xn,yn,xx,yx]
+                
+                # get distance z, hachiya
+                xmlbox = obj.find('position')
+                z = float(xmlbox.find('z').text)
+                
+                current = [name,xn,yn,xx,yx,z]
                 all += [current]
 
         add = [[jpg, [w, h, all]]]
