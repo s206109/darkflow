@@ -17,7 +17,7 @@ voc_models = ['yolo-full', 'yolo-tiny', 'yolo-small',  # <- v1
               'tiny-yolo-voc', 'yolo-voc'] # <- v2
 
 
-voc_models_kitti = ['yolo-voc-kitti']
+voc_models_kitti = ['yolo-kitti','yolo-kitti-3d','tiny-yolo-kitti','tiny-yolo-kitti-3d']
 coco_models = ['tiny-coco', 'yolo-coco',  # <- v1.1
                'yolo', 'tiny-yolo'] # <- v2
 
