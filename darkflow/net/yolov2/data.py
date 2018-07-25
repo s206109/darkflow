@@ -51,21 +51,22 @@ def _batch(self, chunk):
     coord = np.zeros([H*W,B,4])
     proid = np.zeros([H*W,B,C])
     prear = np.zeros([H*W,4])
+    import pdb; pdb.set_trace()
     for obj in allobj:
-        probs[obj[5], :, :] = [[0.]*C] * B
-        probs[obj[5], :, labels.index(obj[0])] = 1.
-        proid[obj[5], :, :] = [[1.]*C] * B
-        coord[obj[5], :, :] = [obj[1:5]] * B
-        prear[obj[5],0] = obj[1] - obj[3]**2 * .5 * W # xleft
-        prear[obj[5],1] = obj[2] - obj[4]**2 * .5 * H # yup
-        prear[obj[5],2] = obj[1] + obj[3]**2 * .5 * W # xright
-        prear[obj[5],3] = obj[2] + obj[4]**2 * .5 * H # ybot
-        confs[obj[5], :] = [1.] * B
+        probs[obj[6], :, :] = [[0.]*C] * B
+        probs[obj[6], :, labels.index(obj[0])] = 1.
+        proid[obj[6], :, :] = [[1.]*C] * B
+        coord[obj[6], :, :] = [obj[1:5]] * B
+        prear[obj[6],0] = obj[1] - obj[3]**2 * .5 * W # xleft
+        prear[obj[6],1] = obj[2] - obj[4]**2 * .5 * H # yup
+        prear[obj[6],2] = obj[1] + obj[3]**2 * .5 * W # xright
+        prear[obj[6],3] = obj[2] + obj[4]**2 * .5 * H # ybot
+        confs[obj[6], :] = [1.] * B
 
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1)
     botright = np.expand_dims(prear[:,2:4], 1)
-    wh = botright - upleft; 
+    wh = botright - upleft;
     area = wh[:,:,0] * wh[:,:,1]
     upleft   = np.concatenate([upleft] * B, 1)
     botright = np.concatenate([botright] * B, 1)
