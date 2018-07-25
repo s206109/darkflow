@@ -7,6 +7,7 @@ import json
 from ...cython_utils.cy_yolo_findboxes import yolo_box_constructor
 
 def _fix(obj, dims, scale, offs):
+	#import pdb; pdb.set_trace()
 	for i in range(1, 5):
 		dim = dims[(i + 1) % 2]
 		off = offs[(i + 1) % 2]
@@ -40,10 +41,10 @@ def process_box(self, b, h, w, threshold):
 def findboxes(self, net_out):
 	meta, FLAGS = self.meta, self.FLAGS
 	threshold = FLAGS.threshold
-	
+
 	boxes = []
 	boxes = yolo_box_constructor(meta, net_out, threshold)
-	
+
 	return boxes
 
 def preprocess(self, im, allobj = None):
@@ -54,14 +55,22 @@ def preprocess(self, im, allobj = None):
 	image will be transformed with random noise to augment training data,
 	using scale, translation, flipping and recolor. The accompanied
 	parsed annotation (allobj) will also be modified accordingly.
+
+    画像を取得し、tfnetにすぐに供給される数のテンソルとして返します。
+	付随するアノテーション（allobj）がある場合、この前処理が
+	トレーニングプロセスに使用されていることを意味します。
+	この画像はランダムノイズで変換され、スケール、翻訳、フリッピング
+	および再描画を使用してトレーニングデータを補強します。
+	付随する解析されたアノテーション（allobj）もそれに応じて変更されます。
 	"""
 	if type(im) is not np.ndarray:
 		im = cv2.imread(im)
 
 	if allobj is not None: # in training mode
-		result = imcv2_affine_trans(im)
+		result = imcv2_affine_trans(im)#入力画像の情報所得
 		im, dims, trans_param = result
 		scale, offs, flip = trans_param
+		#import pdb; pdb.set_trace()
 		for obj in allobj:
 			_fix(obj, dims, scale, offs)
 			if not flip: continue
@@ -118,6 +127,6 @@ def postprocess(self, net_out, im, save = True):
 		textFile = os.path.splitext(img_name)[0] + ".json"
 		with open(textFile, 'w') as f:
 			f.write(textJSON)
-		return	
+		return
 
 	cv2.imwrite(img_name, imgcv)

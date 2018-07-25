@@ -23,27 +23,30 @@ def _batch(self, chunk):
     # preprocess
     jpg = chunk[0]; w, h, allobj_ = chunk[1]
     allobj = deepcopy(allobj_)#for文用に同じものを複製
+    #import pdb; pdb.set_trace()
     path = os.path.join(self.FLAGS.dataset, jpg)
-    img = self.preprocess(path, allobj)
+    img = self.preprocess(path, allobj)#ここで入力を
 
     # Calculate regression target
     cellx = 1. * w / W #画像の横幅を１グリッドあたりのピクセル数
     celly = 1. * h / H #画像の縦幅１グリッドあたりのピクセル数
     #import pdb; pdb.set_trace()
+    #
     for obj in allobj:
-        centerx = .5*(obj[1]+obj[3]) #xmin, xmax
-        centery = .5*(obj[2]+obj[4]) #ymin, ymax
-        cx = centerx / cellx
-        cy = centery / celly
+        centerx = .5*(obj[1]+obj[3]) #xmin, xmax 物体の中心座標
+        centery = .5*(obj[2]+obj[4]) #ymin, ymax 物体の中心座標
+        cx = centerx / cellx #どこのセルにあるかの番号
+        cy = centery / celly #どこのセルにあるかの番号
         #import pdb; pdb.set_trace()
-        if cx >= W or cy >= H: return None, None
-        obj[3] = float(obj[3]-obj[1]) / w
-        obj[4] = float(obj[4]-obj[2]) / h
-        obj[3] = np.sqrt(obj[3])
-        obj[4] = np.sqrt(obj[4])
-        obj[1] = cx - np.floor(cx) # centerx
-        obj[2] = cy - np.floor(cy) # centery
-        obj += [int(np.floor(cy) * W + np.floor(cx))]
+        if cx >= W or cy >= H: return None, None #１３以上なら画面外になってしまうから
+        obj[3] = float(obj[3]-obj[1]) / w #画像あたりのBBの横幅比率
+        obj[4] = float(obj[4]-obj[2]) / h #画像あたりのBBの縦幅比率
+        obj[3] = np.sqrt(obj[3]) #　そのルート
+        obj[4] = np.sqrt(obj[4]) #　そのルート
+        obj[1] = cx - np.floor(cx) # centerx　この値が０でなければ次の番号のセルであるということ
+        obj[2] = cy - np.floor(cy) # centery　この値が０でなければ次の番号のセルであるということ
+        import pdb; pdb.set_trace()
+        obj += [int(np.floor(cy) * W + np.floor(cx))]#この数字はなんのために使うのか謎。７番目の値
 
     # show(im, allobj, S, w, h, cellx, celly) # unit test
 
@@ -83,5 +86,5 @@ def _batch(self, chunk):
         'areas': areas, 'upleft': upleft,
         'botright': botright
     }
-
+    #import pdb; pdb.set_trace()
     return inp_feed_val, loss_feed_val

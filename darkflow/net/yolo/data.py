@@ -36,7 +36,6 @@ def _batch(self, chunk):
     img = self.preprocess(path, allobj)
 
     # Calculate regression target
-    #import pdb; pdb.set_trace()
     cellx = 1. * w / S
     celly = 1. * h / S
     for obj in allobj:
@@ -56,7 +55,6 @@ def _batch(self, chunk):
     # show(im, allobj, S, w, h, cellx, celly) # unit test
 
     # Calculate placeholders' values
-
     probs = np.zeros([S*S,C])
     confs = np.zeros([S*S,B])
     coord = np.zeros([S*S,B,4])
@@ -130,7 +128,7 @@ def shuffle(self):
                     feed_batch[key] = np.concatenate([
                         old_feed, [new]
                     ])
-            #import pdb; pdb.set_trace()
+
             x_batch = np.concatenate(x_batch, 0)
             yield x_batch, feed_batch
 
