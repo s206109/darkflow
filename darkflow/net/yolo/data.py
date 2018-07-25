@@ -5,7 +5,7 @@ from .predict import preprocess
 from copy import deepcopy
 import pickle
 import numpy as np
-import os 
+import os
 
 def parse(self, exclusive = False):
     meta = self.meta
@@ -22,7 +22,7 @@ def parse(self, exclusive = False):
 def _batch(self, chunk):
     """
     Takes a chunk of parsed annotations
-    returns value for placeholders of net's 
+    returns value for placeholders of net's
     input & loss layer correspond to this chunk
     """
     meta = self.meta
@@ -36,6 +36,7 @@ def _batch(self, chunk):
     img = self.preprocess(path, allobj)
 
     # Calculate regression target
+    #import pdb; pdb.set_trace()
     cellx = 1. * w / S
     celly = 1. * h / S
     for obj in allobj:
@@ -55,6 +56,7 @@ def _batch(self, chunk):
     # show(im, allobj, S, w, h, cellx, celly) # unit test
 
     # Calculate placeholders' values
+
     probs = np.zeros([S*S,C])
     confs = np.zeros([S*S,B])
     coord = np.zeros([S*S,B,4])
@@ -74,7 +76,7 @@ def _batch(self, chunk):
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1)
     botright = np.expand_dims(prear[:,2:4], 1)
-    wh = botright - upleft; 
+    wh = botright - upleft;
     area = wh[:,:,0] * wh[:,:,1]
     upleft   = np.concatenate([upleft] * B, 1)
     botright = np.concatenate([botright] * B, 1)
@@ -82,11 +84,11 @@ def _batch(self, chunk):
 
     # value for placeholder at input layer
     inp_feed_val = img
-    # value for placeholder at loss layer 
+    # value for placeholder at loss layer
     loss_feed_val = {
-        'probs': probs, 'confs': confs, 
+        'probs': probs, 'confs': confs,
         'coord': coord, 'proid': proid,
-        'areas': areas, 'upleft': upleft, 
+        'areas': areas, 'upleft': upleft,
         'botright': botright
     }
 
@@ -123,14 +125,13 @@ def shuffle(self):
 
                 for key in new_feed:
                     new = new_feed[key]
-                    old_feed = feed_batch.get(key, 
+                    old_feed = feed_batch.get(key,
                         np.zeros((0,) + new.shape))
-                    feed_batch[key] = np.concatenate([ 
-                        old_feed, [new] 
-                    ])      
-            
+                    feed_batch[key] = np.concatenate([
+                        old_feed, [new]
+                    ])
+            #import pdb; pdb.set_trace()
             x_batch = np.concatenate(x_batch, 0)
             yield x_batch, feed_batch
-        
-        print('Finish {} epoch(es)'.format(i + 1))
 
+        print('Finish {} epoch(es)'.format(i + 1))

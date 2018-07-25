@@ -10,30 +10,32 @@ import os
 def _batch(self, chunk):
     """
     Takes a chunk of parsed annotations
-    returns value for placeholders of net's 
+    returns value for placeholders of net's
     input & loss layer correspond to this chunk
     """
     meta = self.meta
     labels = meta['labels']
-    
+
     H, W, _ = meta['out_size']
     C, B = meta['classes'], meta['num']
     anchors = meta['anchors']
 
     # preprocess
     jpg = chunk[0]; w, h, allobj_ = chunk[1]
-    allobj = deepcopy(allobj_)
+    allobj = deepcopy(allobj_)#for文用に同じものを複製
     path = os.path.join(self.FLAGS.dataset, jpg)
     img = self.preprocess(path, allobj)
 
     # Calculate regression target
-    cellx = 1. * w / W
-    celly = 1. * h / H
+    cellx = 1. * w / W #画像の横幅を１グリッドあたりのピクセル数
+    celly = 1. * h / H #画像の縦幅１グリッドあたりのピクセル数
+    #import pdb; pdb.set_trace()
     for obj in allobj:
         centerx = .5*(obj[1]+obj[3]) #xmin, xmax
         centery = .5*(obj[2]+obj[4]) #ymin, ymax
         cx = centerx / cellx
         cy = centery / celly
+        #import pdb; pdb.set_trace()
         if cx >= W or cy >= H: return None, None
         obj[3] = float(obj[3]-obj[1]) / w
         obj[4] = float(obj[4]-obj[2]) / h
@@ -52,7 +54,7 @@ def _batch(self, chunk):
     proid = np.zeros([H*W,B,C])
     prear = np.zeros([H*W,4])
     import pdb; pdb.set_trace()
-    for obj in allobj:
+    #for obj in allobj:
         probs[obj[6], :, :] = [[0.]*C] * B
         probs[obj[6], :, labels.index(obj[0])] = 1.
         proid[obj[6], :, :] = [[1.]*C] * B
@@ -74,13 +76,12 @@ def _batch(self, chunk):
 
     # value for placeholder at input layer
     inp_feed_val = img
-    # value for placeholder at loss layer 
+    # value for placeholder at loss layer
     loss_feed_val = {
-        'probs': probs, 'confs': confs, 
+        'probs': probs, 'confs': confs,
         'coord': coord, 'proid': proid,
-        'areas': areas, 'upleft': upleft, 
+        'areas': areas, 'upleft': upleft,
         'botright': botright
     }
 
     return inp_feed_val, loss_feed_val
-
