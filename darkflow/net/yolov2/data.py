@@ -45,37 +45,36 @@ def _batch(self, chunk):
         obj[4] = np.sqrt(obj[4]) #　そのルート
         obj[1] = cx - np.floor(cx) # centerx　この値が０でなければ次の番号のセルであるということ
         obj[2] = cy - np.floor(cy) # centery　この値が０でなければ次の番号のセルであるということ
-        import pdb; pdb.set_trace()
-        obj += [int(np.floor(cy) * W + np.floor(cx))]#この数字はなんのために使うのか謎。７番目の値
-
+        obj += [int(np.floor(cy) * W + np.floor(cx))]#左上のセルから数えて、１６９のうちどのセルにあるかの番号
     # show(im, allobj, S, w, h, cellx, celly) # unit test
 
     # Calculate placeholders' values
-    probs = np.zeros([H*W,B,C])
-    confs = np.zeros([H*W,B])
-    coord = np.zeros([H*W,B,4])
-    proid = np.zeros([H*W,B,C])
-    prear = np.zeros([H*W,4])
+    # 値を入れるために特定の和の要素の配列を確保
+    probs = np.zeros([H*W,B,C]) #169x5x2セルごとの各クラスへの所属確率
+    confs = np.zeros([H*W,B]) #169x5 セルごとの各BBの信頼度
+    coord = np.zeros([H*W,B,4]) #169x5x4  セルごとのBBの座標
+    proid = np.zeros([H*W,B,C]) #169x5x2
+    prear = np.zeros([H*W,4]) #169x4
     #import pdb; pdb.set_trace()
-    for obj in allobj:
-        probs[obj[6], :, :] = [[0.]*C] * B
-        probs[obj[6], :, labels.index(obj[0])] = 1.
-        proid[obj[6], :, :] = [[1.]*C] * B
-        coord[obj[6], :, :] = [obj[1:5]] * B
-        prear[obj[6],0] = obj[1] - obj[3]**2 * .5 * W # xleft
-        prear[obj[6],1] = obj[2] - obj[4]**2 * .5 * H # yup
-        prear[obj[6],2] = obj[1] + obj[3]**2 * .5 * W # xright
-        prear[obj[6],3] = obj[2] + obj[4]**2 * .5 * H # ybot
-        confs[obj[6], :] = [1.] * B
+    for obj in allobj: #全て物体が存在するセル番号にあてはめて値を入れ込んでいる
+        probs[obj[6], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
+        probs[obj[6], :, labels.index(obj[0])] = 1.   #そのうち入力された物体の方の確率を１とする
+        proid[obj[6], :, :] = [[1.]*C] * B #なぜかここは物体があるセルのクラスにかかわらず１を代入
+        coord[obj[6], :, :] = [obj[1:5]] * B #もともとのxx,xn,yx,ynをボックスの数だけそれぞれに同じものを入れ込んでいる
+        prear[obj[6],0] = obj[1] - obj[3]**2 * .5 * W # xleft BBの中心座標とBBの比率でそれぞれの座標を逆算
+        prear[obj[6],1] = obj[2] - obj[4]**2 * .5 * H # yup　BBの中心座標とBBの比率でそれぞれの座標を逆算
+        prear[obj[6],2] = obj[1] + obj[3]**2 * .5 * W # xright　BBの中心座標とBBの比率でそれぞれの座標を逆算
+        prear[obj[6],3] = obj[2] + obj[4]**2 * .5 * H # ybot　BBの中心座標とBBの比率でそれぞれの座標を逆算
+        confs[obj[6], :] = [1.] * B #物体が存在するセルの各BBの信頼度を１とする
 
     # Finalise the placeholders' values
-    upleft   = np.expand_dims(prear[:,0:2], 1)
-    botright = np.expand_dims(prear[:,2:4], 1)
-    wh = botright - upleft;
-    area = wh[:,:,0] * wh[:,:,1]
-    upleft   = np.concatenate([upleft] * B, 1)
-    botright = np.concatenate([botright] * B, 1)
-    areas = np.concatenate([area] * B, 1)
+    upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
+    botright = np.expand_dims(prear[:,2:4], 1) #単純にBBの左上の座標
+    wh = botright - upleft; #BBの縦横の幅
+    area = wh[:,:,0] * wh[:,:,1] #セルに物体があった場合のBBの面積
+    upleft   = np.concatenate([upleft] * B, 1) #これをBBの数（５）分だけ用意する
+    botright = np.concatenate([botright] * B, 1)#これをBBの数（５）分だけ用意する
+    areas = np.concatenate([area] * B, 1 )#これをBBの数（５）分だけ用意する
 
     # value for placeholder at input layer
     inp_feed_val = img
