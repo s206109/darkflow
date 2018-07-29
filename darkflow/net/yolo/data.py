@@ -8,14 +8,14 @@ import numpy as np
 import os
 
 def parse(self, exclusive = False):
-    meta = self.meta
+    meta = self.meta #おそらくcfgから取ってきた　cfgの設定値
     ext = '.parsed'
-    ann = self.FLAGS.annotation
+    ann = self.FLAGS.annotation #
     if not os.path.isdir(ann):
         msg = 'Annotation directory not found {} .'
         exit('Error: {}'.format(msg.format(ann)))
     print('\n{} parsing {}'.format(meta['model'], ann))
-    dumps = pascal_voc_clean_xml(ann, meta['labels'], exclusive)
+    dumps = pascal_voc_clean_xml(ann, meta['labels'], exclusive) #ここでようやくデータセット読み込み
     return dumps
 
 
@@ -93,8 +93,8 @@ def _batch(self, chunk):
     return inp_feed_val, loss_feed_val
 
 def shuffle(self):
-    batch = self.FLAGS.batch
-    data = self.parse()
+    batch = self.FLAGS.batch #初期設定値のバッチサイズ　ここでは１６
+    data = self.parse() #ここで純データを取得
     size = len(data)
 
     print('Dataset of {} instance(s)'.format(size))
@@ -111,7 +111,7 @@ def shuffle(self):
             for j in range(b*batch, b*batch+batch):
                 train_instance = data[shuffle_idx[j]]
                 try:
-                    inp, new_feed = self._batch(train_instance)
+                    inp, new_feed = self._batch(train_instance) #yolov2_batchで入力を整理
                 except ZeroDivisionError:
                     print("This image's width or height are zeros: ", train_instance[0])
                     print('train_instance:', train_instance)
@@ -122,14 +122,14 @@ def shuffle(self):
                 x_batch += [np.expand_dims(inp, 0)]
 
                 for key in new_feed:
-                    new = new_feed[key]
+                    new = new_feed[key] #
                     old_feed = feed_batch.get(key,
                         np.zeros((0,) + new.shape))
                     feed_batch[key] = np.concatenate([
                         old_feed, [new]
                     ])
 
-            x_batch = np.concatenate(x_batch, 0)
+            x_batch = np.concatenate(x_batch, 0) #なぜか入力画像を一次元増やしている。
             yield x_batch, feed_batch
 
         print('Finish {} epoch(es)'.format(i + 1))

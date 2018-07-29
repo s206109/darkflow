@@ -7,7 +7,7 @@ import os
 import math
 import pdb
 
-def expit_tensor(x):
+def expit_tensor(x): #
 	return 1. / (1. + tf.exp(-x))
 
 def loss(self, net_out):
@@ -26,7 +26,7 @@ def loss(self, net_out):
     B, C = m['num'], m['classes']
     HW = H * W # number of grid cells
     anchors = m['anchors']
-
+    pdb.set_trace()
     print('{} loss hyper-parameters:'.format(m['model']))
     print('\tH       = {}'.format(H))
     print('\tW       = {}'.format(W))
@@ -54,17 +54,15 @@ def loss(self, net_out):
     }
 
     # Extract the coordinate prediction from net.out
-    net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C)])
-    coords = net_out_reshape[:, :, :, :, :4]
-    #pdb.set_trace()
+    net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C)])#おそらくデータセットの入力なぜクラス数を＋５してるのか
+    coords = net_out_reshape[:, :, :, :, :4]#なぜそれの４までしか使わないのか.-1を指定した次元は削除される
     coords = tf.reshape(coords, [-1, H*W, B, 4])
-    adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])
+    adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * np.reshape(anchors, [1, 1, B, 2]) / np.reshape([W, H], [1, 1, 1, 2]))
     #
-    #pdb.set_trace()
-    coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3)
+    coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3) #こいつらを繋げる
 
-    adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4])
+    adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4]) #
     adjusted_c = tf.reshape(adjusted_c, [-1, H*W, B, 1])
 
     adjusted_prob = tf.nn.softmax(net_out_reshape[:, :, :, :, 5:])

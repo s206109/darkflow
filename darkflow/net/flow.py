@@ -20,7 +20,7 @@ def _save_ckpt(self, step, loss_profile):
 
     profile = file.format(model, step, '.profile')
     profile = os.path.join(self.FLAGS.backup, profile)
-    with open(profile, 'wb') as profile_ckpt: 
+    with open(profile, 'wb') as profile_ckpt:
         pickle.dump(loss_profile, profile_ckpt)
 
     ckpt = file.format(model, step, '')
@@ -30,12 +30,11 @@ def _save_ckpt(self, step, loss_profile):
 
 
 def train(self):
-    loss_ph = self.framework.placeholders
-    loss_mva = None; profile = list()
+    loss_ph = self.framework.placeholders #lossのPlace Holderの略
+    loss_mva = None; profile = list() #
 
-    batches = self.framework.shuffle()
+    batches = self.framework.shuffle() #ここで入力画像とアノテーションを取得
     loss_op = self.framework.loss
-
     for i, (x_batch, datum) in enumerate(batches):
         if not i: self.say(train_stats.format(
             self.FLAGS.lr, self.FLAGS.batch,
@@ -43,7 +42,7 @@ def train(self):
         ))
 
         feed_dict = {
-            loss_ph[key]: datum[key] 
+            loss_ph[key]: datum[key]
                 for key in loss_ph }
         feed_dict[self.inp] = x_batch
         feed_dict.update(self.feed)
@@ -53,7 +52,7 @@ def train(self):
         if self.FLAGS.summary:
             fetches.append(self.summary_op)
 
-        fetched = self.sess.run(fetches, feed_dict)
+        fetched = self.sess.run(fetches, feed_dict #ここでロスがもとまる
         loss = fetched[1]
 
         if loss_mva is None: loss_mva = loss
@@ -126,7 +125,7 @@ def predict(self):
                 os.path.join(inp_path, inp)), 0)), this_batch)
 
         # Feed to the net
-        feed_dict = {self.inp : np.concatenate(inp_feed, 0)}    
+        feed_dict = {self.inp : np.concatenate(inp_feed, 0)}
         self.say('Forwarding {} inputs ...'.format(len(inp_feed)))
         start = time.time()
         out = self.sess.run(self.out, feed_dict)
