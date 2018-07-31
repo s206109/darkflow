@@ -23,18 +23,17 @@ def _batch(self, chunk):
     # preprocess
     jpg = chunk[0]; w, h, allobj_ = chunk[1]
     allobj = deepcopy(allobj_)#for文用に同じものを複製
-    #import pdb; pdb.set_trace()
     path = os.path.join(self.FLAGS.dataset, jpg)
     img = self.preprocess(path, allobj)#ここで入力を
 
     # Calculate regression target
     cellx = 1. * w / W #画像の横幅を１グリッドあたりのピクセル数
     celly = 1. * h / H #画像の縦幅１グリッドあたりのピクセル数
-    #import pdb; pdb.set_trace()
     #
     for obj in allobj:
         centerx = .5*(obj[1]+obj[3]) #xmin, xmax 物体の中心座標
         centery = .5*(obj[2]+obj[4]) #ymin, ymax 物体の中心座標
+        centerz = obj[5]
         cx = centerx / cellx #どこのセルにあるかの番号
         cy = centery / celly #どこのセルにあるかの番号
         #import pdb; pdb.set_trace()
@@ -55,6 +54,7 @@ def _batch(self, chunk):
     coord = np.zeros([H*W,B,4]) #169x5x4  セルごとのBBの座標
     proid = np.zeros([H*W,B,C]) #169x5x2
     prear = np.zeros([H*W,4]) #169x4
+    dista = np.zeros([H*W,B,1])#169x5 セルごとの各BBの物体との距離
     #import pdb; pdb.set_trace()
     for obj in allobj: #全て物体が存在するセル番号にあてはめて値を入れ込んでいる
         probs[obj[6], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
@@ -66,16 +66,17 @@ def _batch(self, chunk):
         prear[obj[6],2] = obj[1] + obj[3]**2 * .5 * W # xright　BBの中心座標とBBの比率でそれぞれの座標を逆算
         prear[obj[6],3] = obj[2] + obj[4]**2 * .5 * H # ybot　BBの中心座標とBBの比率でそれぞれの座標を逆算
         confs[obj[6], :] = [1.] * B #物体が存在するセルの各BBの信頼度を１とする
-
+        dista[obj[6], :, :] = obj[5]
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
     botright = np.expand_dims(prear[:,2:4], 1) #単純にBBの左上の座標
     wh = botright - upleft; #BBの縦横の幅
+
     area = wh[:,:,0] * wh[:,:,1] #セルに物体があった場合のBBの面積
     upleft   = np.concatenate([upleft] * B, 1) #これをBBの数（５）分だけ用意する
     botright = np.concatenate([botright] * B, 1)#これをBBの数（５）分だけ用意する
     areas = np.concatenate([area] * B, 1 )#これをBBの数（５）分だけ用意する
-
+    import pdb; pdb.set_trace()
     # value for placeholder at input layer
     inp_feed_val = img
     # value for placeholder at loss layer
@@ -83,7 +84,6 @@ def _batch(self, chunk):
         'probs': probs, 'confs': confs,
         'coord': coord, 'proid': proid,
         'areas': areas, 'upleft': upleft,
-        'botright': botright
+        'botright': botright, 'dista':dista
     }
-    #import pdb; pdb.set_trace()
     return inp_feed_val, loss_feed_val

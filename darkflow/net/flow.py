@@ -51,7 +51,6 @@ def train(self):
 
         if self.FLAGS.summary:
             fetches.append(self.summary_op)
-
         fetched = self.sess.run(fetches, feed_dict) #ここでロスがもとまる
         loss = fetched[1]
 

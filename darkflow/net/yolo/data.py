@@ -96,9 +96,9 @@ def shuffle(self):
     batch = self.FLAGS.batch #初期設定値のバッチサイズ　ここでは１６
     data = self.parse() #ここで純データを取得
     size = len(data)
-
+    #import pdb; pdb.set_trace()
     print('Dataset of {} instance(s)'.format(size))
-    if batch > size: self.FLAGS.batch = batch = size
+    if batch > size: self.FLAGS.batch = batch = size #ミニバッチ法による
     batch_per_epoch = int(size / batch)
 
     for i in range(self.FLAGS.epoch):
@@ -109,7 +109,7 @@ def shuffle(self):
             feed_batch = dict()
 
             for j in range(b*batch, b*batch+batch):
-                train_instance = data[shuffle_idx[j]]
+                train_instance = data[shuffle_idx[j]] #ミニバッチ法でランダムで取り出したデータの画像とアノテーション情報を入れ込んだもの
                 try:
                     inp, new_feed = self._batch(train_instance) #yolov2_batchで入力を整理
                 except ZeroDivisionError:
@@ -118,7 +118,9 @@ def shuffle(self):
                     print('Please remove or fix it then try again.')
                     raise
 
-                if inp is None: continue
+                if inp is None:
+                     print('入力画像が読み込めません')
+                     continue
                 x_batch += [np.expand_dims(inp, 0)]
 
                 for key in new_feed:
@@ -128,7 +130,7 @@ def shuffle(self):
                     feed_batch[key] = np.concatenate([
                         old_feed, [new]
                     ])
-
+            #import pdb; pdb.set_trace()
             x_batch = np.concatenate(x_batch, 0) #なぜか入力画像を一次元増やしている。
             yield x_batch, feed_batch
 
