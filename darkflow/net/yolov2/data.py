@@ -76,7 +76,6 @@ def _batch(self, chunk):
     upleft   = np.concatenate([upleft] * B, 1) #これをBBの数（５）分だけ用意する
     botright = np.concatenate([botright] * B, 1)#これをBBの数（５）分だけ用意する
     areas = np.concatenate([area] * B, 1 )#これをBBの数（５）分だけ用意する
-    import pdb; pdb.set_trace()
     # value for placeholder at input layer
     inp_feed_val = img
     # value for placeholder at loss layer
