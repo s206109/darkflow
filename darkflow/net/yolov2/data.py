@@ -54,7 +54,7 @@ def _batch(self, chunk):
     coord = np.zeros([H*W,B,4]) #169x5x4  セルごとのBBの座標
     proid = np.zeros([H*W,B,C]) #169x5x2
     prear = np.zeros([H*W,4]) #169x4
-    dista = np.zeros([H*W,B,1])#169x5 セルごとの各BBの物体との距離
+    dista = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体との距離
     #import pdb; pdb.set_trace()
     for obj in allobj: #全て物体が存在するセル番号にあてはめて値を入れ込んでいる
         probs[obj[6], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
