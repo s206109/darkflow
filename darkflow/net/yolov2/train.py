@@ -69,6 +69,7 @@ def loss(self, net_out):
        adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
        adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:] / np.reshape([W], [1, 1, 1, 1])) #適当にロスっぽ
     else:
+       adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
        adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * np.reshape(anchors, [1, 1, B, 2]) / np.reshape([W, H], [1, 1, 1, 2]))
     coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3) #こいつらを繋げる
     import pdb; pdb.set_trace()
