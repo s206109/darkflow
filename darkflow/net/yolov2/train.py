@@ -57,21 +57,16 @@ def loss(self, net_out):
     }
 
     # Extract the coordinate prediction from net.out
-    import pdb; pdb.set_trace()
+    if m['name'].find('3d')>-1 : print('++++++++++++++++3次元で学習します+++++++++++++++')
+    anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
     net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋クラス２
     coords = net_out_reshape[:, :, :, :, :4]# 座標の４まで.-1を指定した次元は削除される
     coords = tf.reshape(coords, [-1, H*W, B, 4]) #セルxセルをセル番号
     distance = net_out_reshape[:, :, :, :, 7]# distance
     distance = tf.reshape(distance, [-1, H*W, B, 1])
-    if m['name'].find('3d') > -1: #3dかどうか分ける
-       anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
-       adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
-       adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
-       adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:] / np.reshape([W], [1, 1, 1, 1])) #適当にロスっぽ
-    else:
-       adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
-       adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * np.reshape(anchors, [1, 1, B, 2]) / np.reshape([W, H], [1, 1, 1, 2]))
-       adjusted_distance_z = distance
+    adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
+    adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
+    adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:] / np.reshape([W], [1, 1, 1, 1])) #適当にロスっぽくしてみる
     coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3) #こいつらを繋げる
     import pdb; pdb.set_trace()
     adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4]) #
