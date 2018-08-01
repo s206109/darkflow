@@ -63,7 +63,7 @@ def loss(self, net_out):
     coords = tf.reshape(coords, [-1, H*W, B, 4]) #セルxセルをセル番号
     distance = net_out_reshape[:, :, :, :, 7]# distance
     distance = tf.reshape(distance, [-1, H*W, B, 1])
-    if m['name'] == 'yolo-kitti-3d': #3dかどうか分ける
+    if m['name'].find('3d') > -1: #3dかどうか分ける
        anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
        adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
        adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
