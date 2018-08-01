@@ -105,7 +105,7 @@ def loss(self, net_out):
     weight_pro = tf.concat(C * [tf.expand_dims(confs, -1)], 3)
     proid = sprob * weight_pro
     weight_dis = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
-    disid =  0.0 * weight_dis
+    disid =  0.05 * weight_dis
 
 
     self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista]
