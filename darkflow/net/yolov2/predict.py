@@ -29,7 +29,6 @@ def postprocess(self, net_out, im, save = True):
 	Takes net output, draw net_out, save to disk
 	"""
 	boxes = self.findboxes(net_out)
-
 	# meta
 	meta = self.meta
 	threshold = meta['thresh']
@@ -39,7 +38,7 @@ def postprocess(self, net_out, im, save = True):
 		imgcv = cv2.imread(im)
 	else: imgcv = im
 	h, w, _ = imgcv.shape
-	
+
 	resultsForJSON = []
 	for b in boxes:
 		boxResults = self.process_box(b, h, w, threshold)
