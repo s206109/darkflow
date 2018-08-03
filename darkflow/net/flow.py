@@ -81,6 +81,7 @@ def return_predict(self, im):
 
     out = self.sess.run(self.out, feed_dict)[0]
     boxes = self.framework.findboxes(out)
+    import pdb; pdb.set_trace()
     threshold = self.FLAGS.threshold
     boxesInfo = list()
     for box in boxes:
@@ -95,7 +96,8 @@ def return_predict(self, im):
                 "y": tmpBox[2]},
             "bottomright": {
                 "x": tmpBox[1],
-                "y": tmpBox[3]}
+                "y": tmpBox[3]},
+            "distance": tmpBox[7]
         })
     return boxesInfo
 
