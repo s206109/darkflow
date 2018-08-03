@@ -2,7 +2,7 @@ from darkflow.net.build import TFNet
 import cv2
 import numpy as np
 
-options = {"model": "cfg/tiny-yolo-kitti.cfg","load":"ckpt/tiny-yolo-kitti-3d-9875.index", "threshold": 0.1}
+options = {"model": "cfg/tiny-yolo-kitti.cfg","load":"ckpt/tiny-yolo-kitti-3d-9875.meta", "threshold": 0.1}
 tfnet = TFNet(options)
 # 画像の読み込み
 img = cv2.imread('test.jpg')
