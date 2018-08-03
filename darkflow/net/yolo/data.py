@@ -6,6 +6,7 @@ from copy import deepcopy
 import pickle
 import numpy as np
 import os
+import pdb
 
 def parse(self, exclusive = False):
     meta = self.meta #おそらくcfgから取ってきた　cfgの設定値
@@ -96,7 +97,6 @@ def shuffle(self):
     batch = self.FLAGS.batch #初期設定値のバッチサイズ　ここでは１６
     data = self.parse() #ここで純データを取得
     size = len(data)
-    #import pdb; pdb.set_trace()
     print('Dataset of {} instance(s)'.format(size))
     if batch > size: self.FLAGS.batch = batch = size #ミニバッチ法による
     batch_per_epoch = int(size / batch)
@@ -118,8 +118,8 @@ def shuffle(self):
                     print('Please remove or fix it then try again.')
                     raise
 
+
                 if inp is None:
-                     print('入力画像が読み込めません')
                      continue
                 x_batch += [np.expand_dims(inp, 0)]
 

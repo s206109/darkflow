@@ -30,8 +30,9 @@ visualPath = 'visualization'
 imgPath = 'image_2'
 nCluster = 10
 nData = 1000
-widthRatio =488/1224
-heightRatio =488/370
+widthRatio = 1 #488/1224
+heightRatio = 1 #488/370
+distRatio = 1
 
 #----------------------
 # データの読み込み
@@ -152,8 +153,8 @@ print("img width:{}, height:{}".format(im.width,im.height))
 #print(cluster_centers*im_ratio)
 
 for c in np.arange(nCluster):
-	#print("{},{},{}, ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1),round(cluster_centers[c,2]*scaleRatio,1)))
-	print("{},{},  ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1)))
+	print("{},{},{}, ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1),round(cluster_centers[c,2]*distRatio,1)))
+	#print("{},{},  ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1)))
 
 #print(cluster_centers)
 

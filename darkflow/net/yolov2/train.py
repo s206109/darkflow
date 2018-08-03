@@ -23,6 +23,7 @@ def loss(self, net_out):
     sconf = float(m['object_scale'])
     snoob = float(m['noobject_scale'])
     scoor = float(m['coord_scale'])
+    sdist = float(m['dist_scale'])
     H, W, _ = m['out_size']
     B, C = m['num'], m['classes']
     HW = H * W # number of grid cells
@@ -66,9 +67,8 @@ def loss(self, net_out):
     distance = tf.reshape(distance, [-1, H*W, B, 1])
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
-    adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:] / np.reshape([W], [1, 1, 1, 1])) #適当にロスっぽくしてみる
+    adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:] / np.reshape([sdist], [1, 1, 1, 1])) 
     coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3) #こいつらを繋げる
-    import pdb; pdb.set_trace()
     adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4]) #
     adjusted_c = tf.reshape(adjusted_c, [-1, H*W, B, 1])
 
@@ -76,7 +76,6 @@ def loss(self, net_out):
     adjusted_prob = tf.reshape(adjusted_prob, [-1, H*W, B, C])
     adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, adjusted_prob], 3)
     adjusted_net_out = tf.concat([adjusted_net_out, adjusted_distance_z], 3)
-    import pdb; pdb.set_trace()
     #↓coordsの要素を二乗xセルの数(13)
     wh = tf.pow(coords[:,:,:,2:4], 2) * np.reshape([W, H], [1, 1, 1, 2])
     area_pred = wh[:,:,:,0] * wh[:,:,:,1]
@@ -105,7 +104,7 @@ def loss(self, net_out):
     weight_pro = tf.concat(C * [tf.expand_dims(confs, -1)], 3)
     proid = sprob * weight_pro
     weight_dis = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
-    disid =  0.05 * weight_dis
+    disid =  sdist * weight_dis
 
 
     self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista]
@@ -119,4 +118,3 @@ def loss(self, net_out):
     loss = tf.reduce_sum(loss, 1)
     self.loss = .5 * tf.reduce_mean(loss)
     tf.summary.scalar('{} loss'.format(m['model']), self.loss)
-    import pdb; pdb.set_trace()
