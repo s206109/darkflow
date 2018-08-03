@@ -25,6 +25,7 @@ def process_box(self, b, h, w, threshold):
 	max_indx = np.argmax(b.probs)
 	max_prob = b.probs[max_indx]
 	label = self.meta['labels'][max_indx]
+	import pdb; pdb.set_trace()
 	if max_prob > threshold:
 		left  = int ((b.x - b.w/2.) * w)
 		right = int ((b.x + b.w/2.) * w)
@@ -35,7 +36,7 @@ def process_box(self, b, h, w, threshold):
 		if top   < 0    :   top = 0
 		if bot   > h - 1:   bot = h - 1
 		mess = '{}'.format(label)
-		return (left, right, top, bot, mess, max_indx, max_prob)
+		return (left, right, top, bot, mess, max_indx, max_prob, dis)
 	return None
 
 def findboxes(self, net_out):

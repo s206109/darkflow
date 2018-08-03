@@ -55,7 +55,7 @@ for item in items:
     dist = item['distance']
     print(item)
     # 自信のあるものを表示
-    if conf > 0.1:
+    if conf > 0.05:
 
         for i in class_names:
             if label == i:
