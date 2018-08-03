@@ -1,13 +1,39 @@
 from darkflow.net.build import TFNet
 import cv2
 import numpy as np
+from darkflow.utils.pascal_voc_clean_xml import pascal_voc_clean_xml
 
-options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":9875, "threshold": 0.1}
+
+
+#options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":"bin/yolo.weights", "threshold": 0.1}
+options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":20000, "threshold": 0.1}
 tfnet = TFNet(options)
+
+#アノテーションの読み込み
+
+meta = tfnet.meta #おそらくcfgから取ってきた　cfgの設定値
+print("--------")
+print(meta)
+print("--------")
+#ann = self.FLAGS.annotation #
+
+print('extract annotations data')
+dumps = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], exclusive = False) #ここでようやくデータセット読み込み
+print('datas shape is {}',dumps.shape)
+
+
+
+
+
+
+
+
+
+
 # 画像の読み込み
 
 img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
-
+#img = cv2.imread('test.jpg')
 # 解析を行う
 items = tfnet.return_predict(img)
 # 検出できたものを確認
