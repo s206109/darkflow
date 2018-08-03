@@ -2,17 +2,18 @@ from darkflow.net.build import TFNet
 import cv2
 import numpy as np
 
-options = {"model": "cfg/tiny-yolo-kitti-3d.cfg","load": "ckpt/tiny-yolo-voc-9750.profile", "threshold": 0.1}
+options = {"model": "cfg/tiny-yolo-kitti.cfg","load":"ckpt/tiny-yolo-kitti-3d-9875.profile", "threshold": 0.1}
 tfnet = TFNet(options)
 # 画像の読み込み
-img = cv2.imread('data/kitti/set1/PNGImagesTrain/000001.png')
+img = cv2.imread('test.jpg')
 
 # 解析を行う
 items = tfnet.return_predict(img)
 # 検出できたものを確認
 print(items)
 
-class_names = ['car','Truck']
+class_names = ['car', 'Truck']
+
 
 
 for item in items:
@@ -24,9 +25,9 @@ for item in items:
     label = item['label']
     conf = item['confidence']
     dist = item['distance']
-
+    print(item)
     # 自信のあるものを表示
-    if conf > 0.4:
+    if conf > 0.1:
 
         for i in class_names:
             if label == i:
@@ -35,8 +36,10 @@ for item in items:
 
         # 検出位置の表示
         cv2.rectangle(img, (tlx, tly), (brx, bry), (200,200,0), 2)
-        text = label + " " + ('%.2f' % conf)
+        text = label + " " + ('%.2f' % dist)
         cv2.putText(img, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (200,200,0), 2)
+
+
 
 # 表示
 cv2.imshow("View", img)
