@@ -19,7 +19,7 @@ print("--------")
 
 print('extract annotations data')
 dumps = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], exclusive = False) #ここでようやくデータセット読み込み
-print('datas shape is {}',dumps.shape)
+print('datas shape is {}', len(dumps))
 
 
 
