@@ -22,7 +22,7 @@ def _batch(self, chunk):
     anchors = meta['anchors']
 
     # preprocess
-    z = meta['maxz'] # 距離の最大値を仮設定
+    maxz = meta['maxz'] # 距離の最大値を仮設定
     jpg = chunk[0]; w, h, allobj_ = chunk[1]
     allobj = deepcopy(allobj_)#for文用に同じものを複製
     path = os.path.join(self.FLAGS.dataset, jpg)
@@ -44,7 +44,7 @@ def _batch(self, chunk):
 
         obj[3] = float(obj[3]-obj[1]) / w #画像あたりのBBの横幅比率
         obj[4] = float(obj[4]-obj[2]) / h #画像あたりのBBの縦幅比率
-        obj[5] = obj[5] / z #最大距離に対する距離の比率
+        obj[5] = obj[5] / maxz #最大距離に対する距離の比率
         if obj[5] < 0: obj[5] = 0
         
         obj[3] = np.sqrt(obj[3]) #　そのルート
@@ -73,7 +73,7 @@ def _batch(self, chunk):
         prear[obj[6],2] = obj[1] + obj[3]**2 * .5 * W # xright　BBの中心座標とBBの比率でそれぞれの座標を逆算
         prear[obj[6],3] = obj[2] + obj[4]**2 * .5 * H # ybot　BBの中心座標とBBの比率でそれぞれの座標を逆算
         confs[obj[6], :] = [1.] * B #物体が存在するセルの各BBの信頼度を１とする
-        dista[obj[6], :, :] = obj[5] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
+        dista[obj[6], :, :] = [[obj[5]]] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
     botright = np.expand_dims(prear[:,2:4], 1) #単純にBBの左上の座標
