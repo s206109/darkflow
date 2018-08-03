@@ -5,7 +5,8 @@ import numpy as np
 options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":9875, "threshold": 0.1}
 tfnet = TFNet(options)
 # 画像の読み込み
-img = cv2.imread('test.jpg')
+
+img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.jpg')
 
 # 解析を行う
 items = tfnet.return_predict(img)
