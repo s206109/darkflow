@@ -5,6 +5,7 @@ class BoundBox:
         self.x, self.y = float(), float()
         self.w, self.h = float(), float()
         self.c = float()
+        self.z = float()
         self.class_num = classes
         self.probs = np.zeros((classes,))
 
