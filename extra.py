@@ -5,7 +5,7 @@ from darkflow.utils.pascal_voc_clean_xml import pascal_voc_clean_xml
 
 
 
-#options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":"bin/yolo.weights", "threshold": 0.1}
+#options = {"model": "cfg/yolo.cfg" ,"load":"bin/yolo.weights", "threshold": 0.1}
 options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":20000, "threshold": 0.05}
 tfnet = TFNet(options)
 
