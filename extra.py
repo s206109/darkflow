@@ -11,6 +11,7 @@ img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 # 解析を行う
 items = tfnet.return_predict(img)
 # 検出できたものを確認
+import pdb; pdb.set_trace()
 print(items)
 
 class_names = ['car', 'Truck']
@@ -36,10 +37,11 @@ for item in items:
                 break
 
         # 検出位置の表示
+        """
         cv2.rectangle(img, (tlx, tly), (brx, bry), (200,200,0), 2)
         text = label + " " + ('%.2f' % dist)
         cv2.putText(img, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (200,200,0), 2)
-
+        """
 
 
 # 表示
