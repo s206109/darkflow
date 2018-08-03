@@ -30,9 +30,9 @@ visualPath = 'visualization'
 imgPath = 'image_2'
 nCluster = 10
 nData = 1000
-widthRatio = 1 #488/1224
-heightRatio = 1 #488/370
-distRatio = 1
+widthRatio = 13/1242
+heightRatio = 13/370
+distRatio = 13/100
 
 #----------------------
 # データの読み込み
