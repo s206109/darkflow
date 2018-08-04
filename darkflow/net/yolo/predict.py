@@ -93,6 +93,7 @@ def postprocess(self, net_out, im, save = True):
 	colors, labels = meta['colors'], meta['labels']
 
 	boxes = self.findboxes(net_out)
+	import pdb; pdb.set_trace()
 
 	if type(im) is not np.ndarray:
 		imgcv = cv2.imread(im)
