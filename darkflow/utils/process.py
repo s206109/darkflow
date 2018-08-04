@@ -55,16 +55,14 @@ def parser(model):
 		splits = meta['anchors'].split(',')
 		anchors = [float(x.strip()) for x in splits]
 		meta['anchors'] = anchors
-	elif 'anchors2d' in meta:
+	if 'anchors2d' in meta:
 		splits = meta['anchors2d'].split(',')
 		anchors2d = [float(x.strip()) for x in splits]
-		print(anchors2d)
 		meta['anchors2d'] = anchors2d
-	elif 'anchors3d' in meta:
+	if 'anchors3d' in meta:
 		splits = meta['anchors3d'].split(',')
 		anchors3d = [float(x.strip()) for x in splits]
 		meta['anchors3d'] = anchors3d
-		print(anchors3d)
 	meta['model'] = model # path to cfg, not model name
 	meta['inp_size'] = [h, w, c]
 	return layers, meta
