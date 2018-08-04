@@ -59,6 +59,7 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
         double[:] anchors2d = np.asarray(meta['anchors2d'])
         double[:] anchors3d = np.asarray(meta['anchors3d'])
         list boxes = list()
+        float maxz = meta['maxz']
 
     H, W, _ = meta['out_size']
     C = meta['classes']
@@ -81,7 +82,7 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
                 Bbox_pred[row, col, box_loop, 1] = (row + expit_c(Bbox_pred[row, col, box_loop, 1])) / H
                 Bbox_pred[row, col, box_loop, 2] = exp(Bbox_pred[row, col, box_loop, 2]) * anchors2d[2 * box_loop + 0] / W
                 Bbox_pred[row, col, box_loop, 3] = exp(Bbox_pred[row, col, box_loop, 3]) * anchors2d[2 * box_loop + 1] / H
-                DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * anchors3d[box_loop] / H
+                DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * maxz * anchors3d[box_loop] / H
                 #SOFTMAX BLOCK, no more pointer juggling
                 for class_loop in range(C):
                     arr_max=max_c(arr_max,Classes[row,col,box_loop,class_loop])
