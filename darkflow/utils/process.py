@@ -51,10 +51,18 @@ def parser(model):
 					'banana ninja yadayada'
 
 	meta.update(layer) # last layer contains meta info
-	if ('anchors' or 'anchors2d' or 'anchors3d' )in meta:
+	if 'anchors' in meta:
 		splits = meta['anchors'].split(',')
 		anchors = [float(x.strip()) for x in splits]
 		meta['anchors'] = anchors
+	elif 'anchors2d' in meta:
+		splits = meta['anchors2d'].split(',')
+		anchors2d = [float(x.strip()) for x in splits]
+		meta['anchors2d'] = anchors2d
+	elif 'anchors3d' in meta:
+		splits = meta['anchors3d'].split(',')
+		anchors3d = [float(x.strip()) for x in splits]
+		meta['anchors3d'] = anchors3d
 	meta['model'] = model # path to cfg, not model name
 	meta['inp_size'] = [h, w, c]
 	return layers, meta
