@@ -81,7 +81,7 @@ def return_predict(self, im):
 
     out = self.sess.run(self.out, feed_dict)[0]
     out_z = np.reshape(out,[13,13,10,8]) #出力からわかりやすいように成形
-    out_z = out_z[:, :, :, 8:]
+    out_z = out_z[:, :, :, 8]
     boxes = self.framework.findboxes(out)
     import pdb; pdb.set_trace()
     threshold = self.FLAGS.threshold
