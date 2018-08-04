@@ -51,7 +51,7 @@ def parser(model):
 					'banana ninja yadayada'
 
 	meta.update(layer) # last layer contains meta info
-	if 'anchors' in meta or 'anchors2d' in meta or 'anchors3d' in meta:
+	if ('anchors' or 'anchors2d' or 'anchors3d' )in meta:
 		splits = meta['anchors'].split(',')
 		anchors = [float(x.strip()) for x in splits]
 		meta['anchors'] = anchors
