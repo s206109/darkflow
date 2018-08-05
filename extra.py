@@ -52,8 +52,8 @@ for i, file in enumerate(jsons):
            cdBox[j][6] = js[j]["confidence"]
            cdBox[j][1] = js[j]["topleft"]["x"]
            cdBox[j][4] = js[j]["topleft"]["y"]
-           cdBox[j][2] = js[j]["bottomright"]["x"]
-           cdBox[j][3] = js[j]["bottomright"]["y"]
+           cdBox[j][3] = js[j]["bottomright"]["x"]
+           cdBox[j][2] = js[j]["bottomright"]["y"]
            cdBox[j][5] = js[j]["dist"]
        cdBox.insert(0,file)
     resultBox[i] = cdBox
