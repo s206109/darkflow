@@ -5,6 +5,7 @@ import os
 import glob
 import json
 import re
+from darkflow.utils.iou import adjust_box
 from darkflow.utils.pascal_voc_clean_xml_ex import pascal_voc_clean_xml
 
 
@@ -26,7 +27,7 @@ dumps = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], 
 print('datas shape is {}', len(dumps))
 
 
-import pdb; pdb.set_trace()
+
 dumps.sort()
 print(dumps)
 
@@ -69,7 +70,7 @@ os.chdir(cur_dir)
 
 
 
-
+print(adjust_box(resultBox[0][1],dumps[0][1]))
 
 
 
