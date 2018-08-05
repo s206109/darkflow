@@ -16,10 +16,10 @@ def adjust_box(Anbox, Prbox ):
     h_a = yamax - yamin
     h_b = ybmax - ybmin
 
-    centerx_a = xamax - w_a * 0.5
-    centerx_b = xbmax - w_b * 0.5
-    centery_a = yamax - h_a * 0.5
-    centery_b = ybmax - h_b * 0.5
+    centerx_a = xamax
+    centerx_b = xbmax
+    centery_a = yamax
+    centery_b = ybmax
 
     return box_iou(w_a ,w_b, h_a, h_b, centerx_a, centerx_b, centery_a, centery_b)
 
