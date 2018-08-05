@@ -62,7 +62,7 @@ for i, file in enumerate(jsons):
        cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
     resultBox[i] = cdBox
 
-resultBox.sort
+resultBox.sort()
 print(resultBox)
 os.chdir(cur_dir)
 
