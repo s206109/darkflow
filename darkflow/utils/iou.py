@@ -37,6 +37,7 @@ def overlap(x1,w1,x2,w2):
 def box_intersection(wa, wb, ha, hb, cax, cay, cbx, cby):
     w = overlap(cax, wa, cbx, wb);
     h = overlap(cay, ha, cby, hb);
+    import pdb; pdb.set_trace()
     if w < 0 or h < 0: return 0;
     area = w * h;
     import pdb; pdb.set_trace()
