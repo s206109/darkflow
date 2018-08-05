@@ -4,7 +4,8 @@ import numpy as np
 import os
 import glob
 import json
-from darkflow.utils.pascal_voc_clean_xml import pascal_voc_clean_xml
+import re
+from darkflow.utils.pascal_voc_clean_xml_ex import pascal_voc_clean_xml
 
 
 
@@ -24,8 +25,9 @@ print('extract annotations data')
 dumps = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], exclusive = False) #ここでようやくデータセット読み込み
 print('datas shape is {}', len(dumps))
 
-print(dumps)
 
+print(dumps)
+import pdb; pdb.set_trace()
 
 
 JSN = ('data/kitti/set1/PNGImagesTest/out')
@@ -55,10 +57,10 @@ for i, file in enumerate(jsons):
            cdBox[j][3] = js[j]["bottomright"]["x"]
            cdBox[j][4] = js[j]["bottomright"]["y"]
            cdBox[j][5] = js[j]["dist"]
-       cdBox.insert(0,file)
+       cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
     resultBox[i] = cdBox
 print(resultBox)
-
+os.chdir(cur_dir)
 
 
 
@@ -66,7 +68,7 @@ print(resultBox)
 
 
 """
-os.chdir(cur_dir)
+
 
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
