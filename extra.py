@@ -8,8 +8,8 @@ from darkflow.utils.pascal_voc_clean_xml import pascal_voc_clean_xml
 
 
 
-options = {"model": "cfg/yolo.cfg" ,"load":"bin/yolo.weights", "threshold": 0.1,  "json": True, "imgdir": "data/kitti/set1/PNGImagesTest"}
-#options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":33000, "threshold": 0.1, "json": true}
+#options = {"model": "cfg/yolo.cfg" ,"load":"bin/yolo.weights", "threshold": 0.1,  "json": True, "imgdir": "data/kitti/set1/PNGImagesTest"}
+options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":33000, "threshold": 0.1, "json": true}
 tfnet = TFNet(options)
 
 #アノテーションの読み込み
