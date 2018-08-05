@@ -56,7 +56,6 @@ for i, file in enumerate(jsons):
            cdBox[j][3] = js[j]["bottomright"]["y"]
            cdBox[j][5] = js[j]["dist"]
        cdBox.insert(0,file)
-    import pdb; pdb.set_trace()
     resultBox[i] = cdBox
 print(resultBox)
 
