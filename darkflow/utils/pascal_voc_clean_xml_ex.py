@@ -41,6 +41,7 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
         imsize = root.find('size')
         w = int(imsize.find('width').text)
         h = int(imsize.find('height').text)
+
         all = list()
 
         for obj in root.iter('object'):
@@ -61,9 +62,9 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
                 z = float(xmlbox.find('z').text)
 
                 current = [name,xn,yn,xx,yx,z]
-                all += current
-
-        add = [[jpg,all]]
+                all += [current]
+        all.insert(0,jpg)
+        add = [all]
         dumps += add
         in_file.close()
 
