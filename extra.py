@@ -9,8 +9,8 @@ from darkflow.utils.pascal_voc_clean_xml_ex import pascal_voc_clean_xml
 
 
 
-#options = {"model": "cfg/yolo.cfg" ,"load":"bin/yolo.weights", "threshold": 0.1,  "json": True, "imgdir": "data/kitti/set1/PNGImagesTest"}
-options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":33000, "threshold": 0.1, "json": True}
+options = {"model": "cfg/yolo.cfg" ,"load":"bin/yolo.weights", "threshold": 0.1,  "json": True, "imgdir": "data/kitti/set1/PNGImagesTest"}
+#options = {"model": "cfg/tiny-yolo-kitti-3d.cfg" ,"load":33000, "threshold": 0.1, "json": True}
 tfnet = TFNet(options)
 
 #アノテーションの読み込み
@@ -25,9 +25,11 @@ print('extract annotations data')
 dumps = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], exclusive = False) #ここでようやくデータセット読み込み
 print('datas shape is {}', len(dumps))
 
+
+import pdb; pdb.set_trace()
 dumps.sort()
 print(dumps)
-import pdb; pdb.set_trace()
+
 
 
 JSN = ('data/kitti/set1/PNGImagesTest/out')
@@ -59,8 +61,14 @@ for i, file in enumerate(jsons):
            cdBox[j][5] = js[j]["dist"]
        cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
     resultBox[i] = cdBox
-#print(resultBox)
+
+resultBox.sort
+print(resultBox)
 os.chdir(cur_dir)
+
+
+
+
 
 
 
