@@ -32,6 +32,7 @@ def overlap(x1,w1,x2,w2):
     r1 = x1 + w1 / 2.;
     r2 = x2 + w2 / 2.;
     right = min(r1, r2)
+    import pdb; pdb.set_trace()
     return right - left;
 
 def box_intersection(wa, wb, ha, hb, cax, cay, cbx, cby):
