@@ -25,7 +25,7 @@ print('extract annotations data')
 dumps = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], exclusive = False) #ここでようやくデータセット読み込み
 print('datas shape is {}', len(dumps))
 
-strlist.sort()
+dumps.sort()
 print(dumps)
 import pdb; pdb.set_trace()
 
