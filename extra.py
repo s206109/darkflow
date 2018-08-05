@@ -25,7 +25,7 @@ print('extract annotations data')
 dumps = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], exclusive = False) #ここでようやくデータセット読み込み
 print('datas shape is {}', len(dumps))
 
-
+strlist.sort()
 print(dumps)
 import pdb; pdb.set_trace()
 
@@ -59,7 +59,7 @@ for i, file in enumerate(jsons):
            cdBox[j][5] = js[j]["dist"]
        cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
     resultBox[i] = cdBox
-print(resultBox)
+#print(resultBox)
 os.chdir(cur_dir)
 
 
