@@ -47,6 +47,7 @@ def box_union(wa, wb, ha, hb, cax, cay, cbx, cby):
     return u;
 
 def box_iou(wa, wb, ha, hb, cax, cay, cbx, cby):
+    import pdb; pdb.set_trace()
     return box_intersection(wa, wb, ha, hb, cax, cay, cbx, cby) / box_union(wa, wb, ha, hb, cax, cay, cbx, cby);
 
 def prob_compare(box):
