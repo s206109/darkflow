@@ -39,6 +39,7 @@ def box_intersection(wa, wb, ha, hb, cax, cay, cbx, cby):
     h = overlap(cay, ha, cby, hb);
     if w < 0 or h < 0: return 0;
     area = w * h;
+    import pdb; pdb.set_trace()
     return area;
 
 def box_union(wa, wb, ha, hb, cax, cay, cbx, cby):
