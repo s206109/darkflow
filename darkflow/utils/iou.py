@@ -21,7 +21,7 @@ def adjust_box(Anbox, Prbox ):
     centery_a = yamax - h_a * 0.5
     centery_b = ybmax - h_b * 0.5
     import pdb; pdb.set_trace()
-    return box_iou(w_a ,w_b, h_a, h_b, centerx_a, centerx_b, centery_a, centery_b)
+    return box_iou(w_a ,w_b, h_a, h_b, centerx_a, centery_a, centerx_b, centery_b)
 
 
 
