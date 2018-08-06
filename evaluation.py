@@ -72,9 +72,6 @@ bugname = []
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
 for dInd in np.arange(0,len(predBoxes)): #1つ目は空なので dInd = 何ファイル目なのかの数
-    if len(predBoxes[dInd]) == 1:
-        resultDF = resultDF.append(pd.Series([0,0,0,0,0,0,0,0,0,0,0,0,0],
-                           index=resultDF.columns),ignore_index=True)
     if dInd in bugid:
         bugname.append(predBoxes[dInd][0])
         import pdb; pdb.set_trace()
