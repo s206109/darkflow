@@ -82,7 +82,7 @@ for dInd in np.arange(0,len(predBoxes)):
         predBox.h = predBoxes[dInd][pInd][4] - predBoxes[dInd][pInd][2]
         predBox.z = predBoxes[dInd][pInd][5]
 
-        ious = [] 
+        ious = []
         gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))]
 
         for gInd in np.arange(1,len(gtBoxes[dInd])):
@@ -102,7 +102,7 @@ for dInd in np.arange(0,len(predBoxes)):
         ious = np.array(ious)
         maxInd = np.argmax(ious)
 
-        resultDF = resultDF.append(pd.Series([np.max(ious), 
+        resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z],
                            index=resultDF.columns),ignore_index=True)
@@ -111,6 +111,7 @@ for dInd in np.arange(0,len(predBoxes)):
 
 #-----------------------------
 # compute error
+import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10))[0]
 error10 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 std10 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
