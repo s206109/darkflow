@@ -68,13 +68,13 @@ os.chdir(cur_dir)
 #-----------------------------
 # for each image, compute IoU between predBox and gtBox
 # and select the gtBox with the highest IoU
-predBox = box.BoundBox(2)
 
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
 
-for dInd in range(0,len(predBoxes)):
-    for pInd in range(1,len(predBoxes[dInd])-1):
+for dInd in np.arange(0,len(predBoxes)):
+    for pInd in np.arange(1,len(predBoxes[dInd])):
+        predBox = box.BoundBox(2)
         predBox.c = predBoxes[dInd][pInd][0]
         predBox.x = predBoxes[dInd][pInd][1]
         predBox.y = predBoxes[dInd][pInd][2]
@@ -83,18 +83,19 @@ for dInd in range(0,len(predBoxes)):
         predBox.z = predBoxes[dInd][pInd][5]
 
         ious = [] 
-        gtBox = [box.BoundBox(2) for i in range(0,len(gtBoxes[dInd])-1)]
+        gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))]
 
-        for gInd in range(1,len(gtBoxes[dInd])-1):
-            gtBox[gInd].c = gtBoxes[dInd][gInd][0]
-            gtBox[gInd].x = gtBoxes[dInd][gInd][1]
-            gtBox[gInd].y = gtBoxes[dInd][gInd][2]
-            gtBox[gInd].w = gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1]
-            gtBox[gInd].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
-            gtBox[gInd].z = gtBoxes[dInd][gInd][5]
+        for gInd in np.arange(1,len(gtBoxes[dInd])):
+            if predBox.c != gtBoxes[dInd][gInd][0]: continue
 
-            if predBox.c == gtBox[gInd].c: 
-               ious.append(box.box_iou(predBox, gtBox[gInd]))
+            gtBox[gInd-1].c = gtBoxes[dInd][gInd][0]
+            gtBox[gInd-1].x = gtBoxes[dInd][gInd][1]
+            gtBox[gInd-1].y = gtBoxes[dInd][gInd][2]
+            gtBox[gInd-1].w = gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1]
+            gtBox[gInd-1].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
+            gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
+
+            ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
         if len(ious) == 0: continue
 
