@@ -1,0 +1,170 @@
+from darkflow.net.build import TFNet
+import cv2
+import numpy as np
+import os
+import glob
+import json
+import re
+import pdb
+import pandas as pd
+from darkflow.utils import box
+from darkflow.utils.pascal_voc_clean_xml_evaluation import pascal_voc_clean_xml
+from darkflow.utils import process
+
+
+#-----------------------------
+# parameters
+
+labels = ['car','Truck']
+threshold = 0.7
+#-----------------------------
+
+#-----------------------------
+# load config values
+_, meta = process.parser('cfg/tiny-yolo-kitti-3d.cfg')
+#-----------------------------
+
+#-----------------------------
+# load gt annotations from xml files as gtBoxes
+print('extract annotations data')
+gtBoxes = pascal_voc_clean_xml(meta['annotation_path'], labels, exclusive = False) #ここでようやくデータセット読み込み
+
+# sort to make the correspondence between gtBoxes and predBoxes
+gtBoxes.sort()
+#-----------------------------
+
+
+#-----------------------------
+# load predicted boxes as predBoxes
+# jsonの読み込み
+cur_dir = os.getcwd()
+os.chdir(meta['json_path'])
+jsonFiles = glob.glob('*.json')
+
+predBoxes = [0 for re2 in range(len(jsonFiles))]
+for i, file in enumerate(jsonFiles):
+    with open(file) as f:
+       js = json.load(f)
+       jnum = len(js)
+       cdBox = [[0 for ii in range(7)] for iii in range(jnum)]
+       for j in range(jnum):
+           cdBox[j][0] = js[j]["label"]
+           cdBox[j][6] = js[j]["confidence"]
+           cdBox[j][1] = js[j]["topleft"]["x"]
+           cdBox[j][2] = js[j]["topleft"]["y"]
+           cdBox[j][3] = js[j]["bottomright"]["x"]
+           cdBox[j][4] = js[j]["bottomright"]["y"]
+           cdBox[j][5] = js[j]["dist"]
+       cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
+    predBoxes[i] = cdBox
+
+predBoxes.sort()
+os.chdir(cur_dir)
+#-----------------------------
+
+
+#-----------------------------
+# for each image, compute IoU between predBox and gtBox
+# and select the gtBox with the highest IoU
+predBox = box.BoundBox(2)
+
+# dataframe for result records
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
+
+for dInd in range(0,len(predBoxes)):
+    for pInd in range(1,len(predBoxes[dInd])-1):
+        predBox.c = predBoxes[dInd][pInd][0]
+        predBox.x = predBoxes[dInd][pInd][1]
+        predBox.y = predBoxes[dInd][pInd][2]
+        predBox.w = predBoxes[dInd][pInd][3] - predBoxes[dInd][pInd][1]
+        predBox.h = predBoxes[dInd][pInd][4] - predBoxes[dInd][pInd][2]
+        predBox.z = predBoxes[dInd][pInd][5]
+
+        ious = [] 
+        gtBox = [box.BoundBox(2) for i in range(0,len(gtBoxes[dInd])-1)]
+
+        for gInd in range(1,len(gtBoxes[dInd])-1):
+            gtBox[gInd].c = gtBoxes[dInd][gInd][0]
+            gtBox[gInd].x = gtBoxes[dInd][gInd][1]
+            gtBox[gInd].y = gtBoxes[dInd][gInd][2]
+            gtBox[gInd].w = gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1]
+            gtBox[gInd].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
+            gtBox[gInd].z = gtBoxes[dInd][gInd][5]
+
+            if predBox.c == gtBox[gInd].c: 
+               ious.append(box.box_iou(predBox, gtBox[gInd]))
+
+        if len(ious) == 0: continue
+
+        ious = np.array(ious)
+        maxInd = np.argmax(ious)
+
+        resultDF = resultDF.append(pd.Series([np.max(ious), 
+                           predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
+                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z],
+                           index=resultDF.columns),ignore_index=True)
+
+#-----------------------------
+
+#-----------------------------
+# compute error
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10))[0]
+error10 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std10 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 10) & (resultDF['gz'] <= 20))[0]
+error20 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std20 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 20) & (resultDF['gz'] <= 30))[0]
+error30 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std30 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 30) & (resultDF['gz'] <= 40))[0]
+error40 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std40 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40) & (resultDF['gz'] <= 50))[0]
+error50 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std50 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 50))[0]
+error50over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std50over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+#-----------------------------
+
+
+pdb.set_trace()
+
+
+
+
+
+"""
+#img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
+img = cv2.imread('test.jpg')
+# 解析を行う
+items = tfnet.return_predict(img)
+# 検出できたものを確認
+import pdb; pdb.set_trace()
+print(items)
+
+for item in items:
+    # 四角を描くのに必要な情報とラベルを取り出す
+    tlx = item['topleft']['x']
+    tly = item['topleft']['y']
+    brx = item['bottomright']['x']
+    bry = item['bottomright']['y']
+    label = item['label']
+    conf = item['confidence']
+    dist = item['distance']
+    print(item)
+    # 自信のあるものを表示
+    if conf > 0.05:
+
+        for i in labels:
+            if label == i:
+                class_num = labels.index(i)
+                break
+
+"""
