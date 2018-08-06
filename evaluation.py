@@ -73,7 +73,7 @@ os.chdir(cur_dir)
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
 import pdb; pdb.set_trace()
 for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので
-    for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので
+    for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
         predBox.c = predBoxes[dInd][pInd][0]
         predBox.x = predBoxes[dInd][pInd][1]
@@ -83,8 +83,8 @@ for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので
         predBox.z = predBoxes[dInd][pInd][5]
 
         ious = []
-        gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))]
-        
+        gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))] #物体の数だけgt入れる箱を作る
+
         for gInd in np.arange(1,len(gtBoxes[dInd])):
             if predBox.c != gtBoxes[dInd][gInd][0]: continue #classが違えば飛ばす
 
@@ -101,7 +101,7 @@ for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので
 
         ious = np.array(ious)
         maxInd = np.argmax(ious)
-
+        import pdb; pdb.set_trace()
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z],
