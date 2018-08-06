@@ -71,7 +71,7 @@ os.chdir(cur_dir)
 
 import pdb; pdb.set_trace()
 
-for idx in range(10):
+for idx in range(len(gt)):
     for idz in range(1,2,3):
         objnum = len(resultBox[idx])-1 #objectの数だけループを回す
         for idy in range(1,objnum):
