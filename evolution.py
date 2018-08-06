@@ -83,7 +83,7 @@ for idx in range(len(gt)):
                 iounum += 1
 
 
-print('iouが0.7以上のボックスは、%d個あります',iounum)
+print('iouが0.7以上のボックスは、%d個あります' % iounum)
 
 
 
