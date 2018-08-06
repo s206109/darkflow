@@ -72,8 +72,6 @@ bugname = []
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
-    if len(predBoxes[dInd]) <= 1:
-        print('%d番目のデータは空です' % dInd)
     if dInd in bugid:
         bugname.append(predBoxes[dInd][0])
         print("======")
