@@ -75,7 +75,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
     if dInd in bugid:
         bugname.append(predBoxes[dInd][0])
         print("======")
-    for pInd in np.arange(0,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
+    for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
         predBox.c = predBoxes[dInd][pInd][0]
         predBox.x = predBoxes[dInd][pInd][1]
