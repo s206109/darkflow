@@ -23,13 +23,13 @@ print("--------")
 #ann = self.FLAGS.annotation #
 
 print('extract annotations data')
-dumps = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], exclusive = False) #ここでようやくデータセット読み込み
-print('datas shape is {}', len(dumps))
+gt = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTest', meta['labels'], exclusive = False) #ここでようやくデータセット読み込み
+print('datas shape is {}', len(gt))
 
 
 
-dumps.sort()
-print(dumps)
+gt.sort()
+print(gt)
 
 
 
@@ -70,7 +70,19 @@ os.chdir(cur_dir)
 
 
 import pdb; pdb.set_trace()
-print(adjust_box(resultBox[2][1],dumps[2][1]))
+
+for idx in range(10):
+    for idz in range(1,2,3):
+        objnum = len(resultBox[idx])-1 #objectの数だけループを回す
+        for idy in range(1,objnum):
+            protoiou = adjust_box(resultBox[idx][idy], gt[idx][idz])
+            if protoiou > 0:
+                print("------")
+                print(protoiou)
+                print("------")
+
+
+print(adjust_box(resultBox[2][1],gt[2][1]))
 
 
 

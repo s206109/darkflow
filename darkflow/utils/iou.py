@@ -20,7 +20,6 @@ def adjust_box(Anbox, Prbox ):
     centerx_b = xbmax - w_b * 0.5
     centery_a = yamax - h_a * 0.5
     centery_b = ybmax - h_b * 0.5
-    import pdb; pdb.set_trace()
     return box_iou(w_a ,w_b, h_a, h_b, centerx_a, centery_a, centerx_b, centery_b)
 
 
@@ -32,16 +31,13 @@ def overlap(x1,w1,x2,w2):
     r1 = x1 + w1 / 2.;
     r2 = x2 + w2 / 2.;
     right = min(r1, r2)
-    import pdb; pdb.set_trace()
     return right - left;
 
 def box_intersection(wa, wb, ha, hb, cax, cay, cbx, cby):
     w = overlap(cax, wa, cbx, wb);
     h = overlap(cay, ha, cby, hb);
-    import pdb; pdb.set_trace()
     if w < 0 or h < 0: return 0;
     area = w * h;
-    import pdb; pdb.set_trace()
     return area;
 
 def box_union(wa, wb, ha, hb, cax, cay, cbx, cby):
