@@ -72,7 +72,7 @@ os.chdir(cur_dir)
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
 import pdb; pdb.set_trace()
-for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので
+for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
         predBox.c = predBoxes[dInd][pInd][0]
@@ -86,7 +86,9 @@ for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので
         gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))] #物体の数だけgt入れる箱を作る
 
         for gInd in np.arange(1,len(gtBoxes[dInd])):
-            if predBox.c != gtBoxes[dInd][gInd][0]: continue #classが違えば飛ばす
+            if predBox.c != gtBoxes[dInd][gInd][0]:
+                 ious.append(0.0)
+                 continue #classが違えば飛ばす
 
             gtBox[gInd-1].c = gtBoxes[dInd][gInd][0]
             gtBox[gInd-1].x = gtBoxes[dInd][gInd][1]
