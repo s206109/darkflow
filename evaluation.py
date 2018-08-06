@@ -84,6 +84,7 @@ for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので
 
         ious = []
         gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))]
+        
         for gInd in np.arange(1,len(gtBoxes[dInd])):
             if predBox.c != gtBoxes[dInd][gInd][0]: continue #classが違えば飛ばす
 
@@ -95,9 +96,7 @@ for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
 
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
-            if box.box_iou(predBox, gtBox[gInd-1]) == 0.835059:
-                import pdb; pdb.set_trace()
-                pass
+
         if len(ious) == 0: continue
 
         ious = np.array(ious)
