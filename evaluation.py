@@ -71,8 +71,9 @@ os.chdir(cur_dir)
 
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
-import pdb; pdb.set_trace()
 for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので dInd = 何ファイル目なのかの数
+    if dInd == 823 or dInd == 2368:
+        import pdb; pdb.set_trace()
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
         predBox.c = predBoxes[dInd][pInd][0]
