@@ -100,8 +100,10 @@ for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので
         if len(ious) == 0: continue
 
         ious = np.array(ious)
-        maxInd = np.argmax(ious)
-        import pdb; pdb.set_trace()
+        maxInd = np.argmax(ious) #iouが最大になっているインデックスを返す
+        if ious[maxInd] > 0.7 and gtBox[maxInd].x == 0:
+           import pdb; pdb.set_trace()
+
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z],
