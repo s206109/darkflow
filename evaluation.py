@@ -72,8 +72,6 @@ bugname = []
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
-    if dInd in bugid:
-        bugname.append(predBoxes[dInd][0])
         print("======")
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -83,7 +81,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         predBox.w = predBoxes[dInd][pInd][3] - predBoxes[dInd][pInd][1]
         predBox.h = predBoxes[dInd][pInd][4] - predBoxes[dInd][pInd][2]
         predBox.z = predBoxes[dInd][pInd][5]
-        predBox.filenum = predBoxes[dInd][0]
+        predBox.filenum = predBoxes[dInd][0] #filename取得
         ious = []
         gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))] #物体の数だけgt入れる箱を作る
 
@@ -143,6 +141,7 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 #-----------------------------
 # plot distance prediction error
 plt.plot(['10','20','30','40','40 over'],[error10, error20, error30, error40, error40over])
+plt.plot(['10','20','30','40','40 over'],[2,2,2,2,2])
 plt.xlabel('true distance')
 plt.ylabel('absolute error')
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
