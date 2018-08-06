@@ -63,8 +63,8 @@ for i, file in enumerate(jsonFiles):
 predBoxes.sort()
 os.chdir(cur_dir)
 #-----------------------------
-
-
+bugid = [ 694,  823, 1134, 2029, 2368, 2826, 3348, 3629, 3649]
+bugname = []
 #-----------------------------
 # for each image, compute IoU between predBox and gtBox
 # and select the gtBox with the highest IoU
@@ -72,8 +72,8 @@ os.chdir(cur_dir)
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
 for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので dInd = 何ファイル目なのかの数
-    if dInd == 823 or dInd == 2368:
-        import pdb; pdb.set_trace()
+    if dInd in bugid:
+        bugname.apend(predBoxes[dInd][0])
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
         predBox.c = predBoxes[dInd][pInd][0]
@@ -116,6 +116,7 @@ for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので dInd = 何フ�
 
 #-----------------------------
 # compute error
+print(bugname)
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
 error10 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
