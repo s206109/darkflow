@@ -83,7 +83,7 @@ for idx in range(len(gt)):
                 iounum += 1
 
 
-print(adjust_box(resultBox[2][1],gt[2][1]))
+print("iouが0.7以上のボックスは、{0}個あります",format(iounum))
 
 
 
