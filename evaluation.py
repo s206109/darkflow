@@ -71,7 +71,7 @@ os.chdir(cur_dir)
 
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
-
+import pdb; pdb.set_trace()
 for dInd in np.arange(0,len(predBoxes)):
     for pInd in np.arange(1,len(predBoxes[dInd])):
         predBox = box.BoundBox(2)
