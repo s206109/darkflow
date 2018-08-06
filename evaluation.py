@@ -73,7 +73,7 @@ bugname = []
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz'])
 for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので dInd = 何ファイル目なのかの数
     if dInd in bugid:
-        bugname.apend(predBoxes[dInd][0])
+        bugname.append(predBoxes[dInd][0])
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
         predBox.c = predBoxes[dInd][pInd][0]
