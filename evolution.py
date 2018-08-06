@@ -70,16 +70,17 @@ os.chdir(cur_dir)
 
 
 import pdb; pdb.set_trace()
-
+iounum = 0
 for idx in range(len(gt)):
     for idz in range(1,2,3):
         objnum = len(resultBox[idx])-1 #objectの数だけループを回す
         for idy in range(1,objnum):
             protoiou = adjust_box(resultBox[idx][idy], gt[idx][idz])
-            if protoiou > 0:
+            if protoiou > 0.7:
                 print("------")
                 print(protoiou)
                 print("------")
+                iounum += 1
 
 
 print(adjust_box(resultBox[2][1],gt[2][1]))
