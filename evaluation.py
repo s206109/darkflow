@@ -87,7 +87,7 @@ for dInd in np.arange(1,len(predBoxes)): #1つ目は空なので dInd = 何フ�
 
         for gInd in np.arange(1,len(gtBoxes[dInd])):
             if predBox.c != gtBoxes[dInd][gInd][0]:
-                 ious.append(0.0)
+                 ious.append(0.0) #classが違えば　iouをアペンドしてから飛ばす
                  continue #classが違えば飛ばす
 
             gtBox[gInd-1].c = gtBoxes[dInd][gInd][0]
@@ -132,18 +132,16 @@ inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 30) & (resultDF['gz'
 error40 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 std40 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
-inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40) & (resultDF['gz'] <= 50))[0]
-error50 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
-std50 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40))[0]
+error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
-inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 50))[0]
-error50over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
-std50over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
 #-----------------------------
 
 #-----------------------------
 # plot distance prediction error
-plt.plot(['10','20','30','40','50','50 over'],[error10, error20, error30, error40, error50, error50over])
+plt.plot(['10','20','30','40','50','50 over'],[error10, error20, error30, error40, error40over])
 plt.xlabel('true distance')
 plt.ylabel('absolute error')
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
