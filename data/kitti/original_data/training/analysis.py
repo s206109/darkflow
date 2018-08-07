@@ -128,7 +128,6 @@ cluster_centers = kmeans.cluster_centers_
 x3d_mean = np.array([np.mean(x3d[np.where(kmeans.labels_==c)[0]]) for c in np.arange(nCluster)])
 y3d_mean = np.array([np.mean(y3d[np.where(kmeans.labels_==c)[0]]) for c in np.arange(nCluster)])
 z3d_mean = np.array([np.mean(z3d[np.where(kmeans.labels_==c)[0]]) for c in np.arange(nCluster)])
-alpha_mean = np.array([np.mean(alpha[np.where(kmeans.labels_==c)[0]]) for c in np.arange(nCluster)])
 
 
 x3d_est = np.zeros(len(x3d))
@@ -157,7 +156,7 @@ print("img width:{}, height:{}".format(im.width,im.height))
 #print(cluster_centers*im_ratio)
 
 for c in np.arange(nCluster):
-	print("{},{},{}, ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1),round(cluster_centers[c,2]*distRatio,1)))
+	print("{},{},{},{}, ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1),round(cluster_centers[c,2]*distRatio,1), round(cluster_centers[c,3]*alphaRatio,1)))
 	#print("{},{},  ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1)))
 
 #print(cluster_centers)
