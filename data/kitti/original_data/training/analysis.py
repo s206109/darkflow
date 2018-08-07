@@ -128,6 +128,8 @@ cluster_centers = kmeans.cluster_centers_
 x3d_mean = np.array([np.mean(x3d[np.where(kmeans.labels_==c)[0]]) for c in np.arange(nCluster)])
 y3d_mean = np.array([np.mean(y3d[np.where(kmeans.labels_==c)[0]]) for c in np.arange(nCluster)])
 z3d_mean = np.array([np.mean(z3d[np.where(kmeans.labels_==c)[0]]) for c in np.arange(nCluster)])
+alpha_mean = np.array([np.mean(alpha[np.where(kmeans.labels_==c)[0]]) for c in np.arange(nCluster)])
+
 
 x3d_est = np.zeros(len(x3d))
 y3d_est = np.zeros(len(x3d))
@@ -163,6 +165,7 @@ for c in np.arange(nCluster):
 print(x3d_mean)
 print(y3d_mean)
 print(z3d_mean)
+print(plpha_mean)
 #----------------------
 
 #----------------------
