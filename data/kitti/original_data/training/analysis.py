@@ -7,7 +7,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from PIL import Image
 import pickle
-
+import math
 '''
 0：物体の種類（Car, Van, Truck, Pedestrian, Person_sitting, Cyclist）
 1：物体の画像からはみ出している割合（0は完全に見えている、1は完全にはみ出している）
@@ -33,7 +33,7 @@ nData = 1000
 widthRatio = 13/1242
 heightRatio = 13/370
 distRatio = 13/100
-alphaRatio = 13/
+alphaRatio = 13/(math.pi)
 
 
 #----------------------
