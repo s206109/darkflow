@@ -130,7 +130,7 @@ def shuffle(self):
                     feed_batch[key] = np.concatenate([
                         old_feed, [new]
                     ])
-            x_batch = np.concatenate(x_batch, 0) #なぜか入力画像を一次元増やしている。
+            x_batch = np.concatenate(x_batch, 0) #複数の画像のために入力画像を一次元増やしている。
             yield x_batch, feed_batch
 
         print('Finish {} epoch(es)'.format(i + 1))
