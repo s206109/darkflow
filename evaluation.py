@@ -97,7 +97,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
             gtBox[gInd-1].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
             gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][6]
-            gtBox9gInd-1].rty = gtBoxes[dInd][gInd][7]
+            gtBox[gInd-1].rty = gtBoxes[dInd][gInd][7]
 
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
