@@ -30,7 +30,7 @@ _, meta = process.parser('cfg/tiny-yolo-kitti-3d.cfg')
 # load gt annotations from xml files as gtBoxes
 print('extract annotations data')
 gtBoxes = pascal_voc_clean_xml(meta['annotation_path'], labels, exclusive = False) #ここでようやくデータセット読み込み
-
+import pdb; pdb.set_trace()
 # sort to make the correspondence between gtBoxes and predBoxes
 gtBoxes.sort()
 #-----------------------------
@@ -73,7 +73,6 @@ bugname = []
 # dataframe for result records
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','al','ry','pz-gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
-    print("＝", end="")
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
         predBox.c = predBoxes[dInd][pInd][0]
