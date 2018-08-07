@@ -30,7 +30,6 @@ _, meta = process.parser('cfg/tiny-yolo-kitti-3d.cfg')
 # load gt annotations from xml files as gtBoxes
 print('extract annotations data')
 gtBoxes = pascal_voc_clean_xml(meta['annotation_path'], labels, exclusive = False) #ここでようやくデータセット読み込み
-import pdb; pdb.set_trace()
 # sort to make the correspondence between gtBoxes and predBoxes
 gtBoxes.sort()
 #-----------------------------
@@ -115,7 +114,6 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 #-----------------------------
 # compute error
-print(bugname)
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
 error10 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
