@@ -108,7 +108,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
-                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,gtBox[maxInd].alpha, gtBox[maxInd].rty,(predBox.z - gtBox[maxInd].z , predBox.filenum],
+                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,gtBox[maxInd].alpha, gtBox[maxInd].rty,(predBox.z - gtBox[maxInd].z) , predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
