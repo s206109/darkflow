@@ -33,6 +33,8 @@ nData = 1000
 widthRatio = 13/1242
 heightRatio = 13/370
 distRatio = 13/100
+alphaRatio = 13/
+
 
 #----------------------
 # データの読み込み
@@ -51,7 +53,7 @@ for file in files[:nData]:
 
 	# Carのインデックス
 	inds = np.where((df[0]=='Car') & (df[1] < 0.5) & (df[2] < 2))[0]
-	
+
 	# append
 	tmp_minx = df[4][inds].values
 	tmp_miny = df[5][inds].values
@@ -65,17 +67,17 @@ for file in files[:nData]:
 	tmp_ry = df[14][inds].values
 	tmp_height3d = df[8][inds].values
 	tmp_width3d = df[9][inds].values
-	tmp_length3d = df[10][inds].values	
+	tmp_length3d = df[10][inds].values
 	tmp_x3d = df[11][inds].values
 	tmp_y3d = df[12][inds].values
 	tmp_z3d = df[13][inds].values
 	tmp_fnames = np.tile(file.split('.')[0],(1,len(inds)))[0]
-	
+
 	if flag==0:
 		minx = tmp_minx
 		miny = tmp_miny
 		maxx = tmp_maxx
-		maxy = tmp_maxy	
+		maxy = tmp_maxy
 		width2d = tmp_width2d
 		height2d = tmp_height2d
 		alpha = tmp_alpha
@@ -110,7 +112,7 @@ for file in files[:nData]:
 #----------------------
 # cluster
 #kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,minx,miny,maxx,maxy]).T)
-kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,z3d]).T)
+kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,z3d,alpha]).T)
 #kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,(maxx-minx)/2]).T)
 
 #----------------------
@@ -141,7 +143,7 @@ for i in np.arange(len(x3d)):
 	y3d_est[i] = (cy-375/2)*z3d_mean[c]/707.04930
 	x3d_est_c[i] = x3d_mean[c]
 	y3d_est_c[i] = y3d_mean[c]
-	
+
 with open("cluster.pkl","wb") as fp:
 	#pickle.dump(cluster_centers*im_ratio,fp)
 	pickle.dump(cluster_centers,fp)
@@ -164,18 +166,18 @@ print(z3d_mean)
 #----------------------
 
 #----------------------
-# histogram of alpha and ry 
+# histogram of alpha and ry
 for c in np.arange(nCluster):
 	print("{}:{},{}".format(c,kmeans.cluster_centers_[c][0],kmeans.cluster_centers_[c][1]))
 
 	inds = np.where(kmeans.labels_==c)[0]
 	fig, figInd=plt.subplots(ncols=5,sharex=False)
-	
+
 	# rotation and coordinate
 	figInd[0].plot(np.cos(alpha[inds]),np.sin(alpha[inds]),'.')
 	figInd[0].set_title('alpha')
 	figInd[0].set_xlim([-1,1])
-	
+
 	figInd[1].plot(np.cos(ry[inds]),np.sin(ry[inds]),'.')
 	figInd[1].set_title('ry')
 	figInd[1].set_xlim([-1,1])
@@ -183,12 +185,12 @@ for c in np.arange(nCluster):
 	figInd[0].hist(alpha[inds])
 	figInd[0].set_title('alpha')
 	figInd[0].set_xlim([-3.14,3.14])
-	
+
 	figInd[1].hist(ry[inds])
 	figInd[1].set_title('ry')
-	figInd[1].set_xlim([-3.14,3.14])	
+	figInd[1].set_xlim([-3.14,3.14])
 	'''
-	
+
 	# coordinate
 	figInd[2].hist(x3d[inds])
 	figInd[2].set_title('x')
@@ -201,7 +203,7 @@ for c in np.arange(nCluster):
 	figInd[4].hist(z3d[inds])
 	figInd[4].set_title('z')
 	figInd[4].set_xlim([-50,50])
-	
+
 	plt.savefig(os.path.join(visualPath,"alpha_ry_coodinate_hist_{}.png".format(c)))
 
 	# dimension
@@ -210,7 +212,7 @@ for c in np.arange(nCluster):
 	figInd[0].hist(height3d[inds])
 	figInd[0].set_title('height')
 	figInd[0].set_xlim([0,6])
-	
+
 	figInd[1].hist(width3d[inds])
 	figInd[1].set_title('width')
 	figInd[1].set_xlim([0,6])
@@ -218,7 +220,7 @@ for c in np.arange(nCluster):
 	figInd[2].hist(length3d[inds])
 	figInd[2].set_title('length')
 	figInd[1].set_xlim([0,6])
-	
+
 	plt.savefig(os.path.join(visualPath,"dimension_hist_{}.png".format(c)))
 
 	#----------------------
@@ -229,7 +231,7 @@ for c in np.arange(nCluster):
 		im_crop = im.crop((minx[tmp_ind], miny[tmp_ind], maxx[tmp_ind], maxy[tmp_ind]))
 		imgVisualPath = os.path.join(visualPath,str(c))
 		if not os.path.exists(imgVisualPath): os.mkdir(imgVisualPath)
-		
+
 		im_crop.save(os.path.join(imgVisualPath,"{}_{}.png".format(fnames[tmp_ind],ind)), quality=95)
 	#----------------------
 #----------------------
@@ -253,4 +255,3 @@ with open(os.path.join(visualPath,'log.pkl'),'wb') as fp:
 	pickle.dump(y3d,fp)
 	pickle.dump(z3d,fp)
 #----------------------
-
