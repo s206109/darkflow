@@ -120,7 +120,7 @@ def loss(self, net_out):
 
     self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista, alpid, _alpha]
     true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista, _alpha], 3)
-    wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid, alpha], 3)
+    wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid, alpid], 3)
 
     print('Building {} loss'.format(m['model']))
     loss = tf.pow(adjusted_net_out - true, 2)
