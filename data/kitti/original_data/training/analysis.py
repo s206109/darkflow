@@ -164,7 +164,7 @@ for c in np.arange(nCluster):
 print(x3d_mean)
 print(y3d_mean)
 print(z3d_mean)
-print(alpha_mean)
+
 #----------------------
 
 #----------------------
