@@ -98,6 +98,7 @@ def return_predict(self, im):
                 "x": tmpBox[1],
                 "y": tmpBox[3]},
             "distance" : tmpBox[7]
+              "alpha"  : tmpBox[8]
         })
     return boxesInfo
 

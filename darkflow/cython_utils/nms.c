@@ -2030,6 +2030,7 @@ static const char __pyx_k_step[] = "step";
 static const char __pyx_k_stop[] = "stop";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_ASCII[] = "ASCII";
+static const char __pyx_k_alpha[] = "alpha";
 static const char __pyx_k_class[] = "__class__";
 static const char __pyx_k_error[] = "error";
 static const char __pyx_k_flags[] = "flags";
@@ -2138,6 +2139,7 @@ static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View_MemoryView;
 static PyObject *__pyx_n_s_allocate_buffer;
+static PyObject *__pyx_n_s_alpha;
 static PyObject *__pyx_n_s_asarray;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_c;
@@ -2607,12 +2609,12 @@ static float __pyx_f_8darkflow_12cython_utils_3nms_box_iou_c(float __pyx_v_ax, f
 /* "darkflow/cython_utils/nms.pyx":63
  * @cython.wraparound(False)  # turn off negative index wrapping for entire function
  * @cython.cdivision(True)
- * cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista):             # <<<<<<<<<<<<<<
+ * cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista, float[:] final_alpha):             # <<<<<<<<<<<<<<
  *     cdef list boxes = list()
  *     cdef set indices = set()
  */
 
-static PyObject *__pyx_f_8darkflow_12cython_utils_3nms_NMS(__Pyx_memviewslice __pyx_v_final_probs, __Pyx_memviewslice __pyx_v_final_bbox, __Pyx_memviewslice __pyx_v_final_dista) {
+static PyObject *__pyx_f_8darkflow_12cython_utils_3nms_NMS(__Pyx_memviewslice __pyx_v_final_probs, __Pyx_memviewslice __pyx_v_final_bbox, __Pyx_memviewslice __pyx_v_final_dista, __Pyx_memviewslice __pyx_v_final_alpha) {
   PyObject *__pyx_v_boxes = 0;
   PyObject *__pyx_v_indices = 0;
   __pyx_t_5numpy_intp_t __pyx_v_pred_length;
@@ -2675,13 +2677,14 @@ static PyObject *__pyx_f_8darkflow_12cython_utils_3nms_NMS(__Pyx_memviewslice __
   Py_ssize_t __pyx_t_50;
   Py_ssize_t __pyx_t_51;
   Py_ssize_t __pyx_t_52;
-  __Pyx_memviewslice __pyx_t_53 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_54;
+  Py_ssize_t __pyx_t_53;
+  __Pyx_memviewslice __pyx_t_54 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_55;
   __Pyx_RefNannySetupContext("NMS", 0);
 
   /* "darkflow/cython_utils/nms.pyx":64
  * @cython.cdivision(True)
- * cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista):
+ * cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista, float[:] final_alpha):
  *     cdef list boxes = list()             # <<<<<<<<<<<<<<
  *     cdef set indices = set()
  *     cdef:
@@ -2692,7 +2695,7 @@ static PyObject *__pyx_f_8darkflow_12cython_utils_3nms_NMS(__Pyx_memviewslice __
   __pyx_t_1 = 0;
 
   /* "darkflow/cython_utils/nms.pyx":65
- * cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista):
+ * cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista, float[:] final_alpha):
  *     cdef list boxes = list()
  *     cdef set indices = set()             # <<<<<<<<<<<<<<
  *     cdef:
@@ -3021,7 +3024,7 @@ static PyObject *__pyx_f_8darkflow_12cython_utils_3nms_NMS(__Pyx_memviewslice __
  *                 bb.h = final_bbox[index, 3]
  *                 bb.c = final_bbox[index, 4]             # <<<<<<<<<<<<<<
  *                 bb.z = final_dista[index]
- *                 bb.probs = np.asarray(final_probs[index,:])
+ *                 bb.alpha = final_alpha[index]
  */
         __pyx_t_50 = __pyx_v_index;
         __pyx_t_51 = 4;
@@ -3034,8 +3037,8 @@ static PyObject *__pyx_f_8darkflow_12cython_utils_3nms_NMS(__Pyx_memviewslice __
  *                 bb.h = final_bbox[index, 3]
  *                 bb.c = final_bbox[index, 4]
  *                 bb.z = final_dista[index]             # <<<<<<<<<<<<<<
+ *                 bb.alpha = final_alpha[index]
  *                 bb.probs = np.asarray(final_probs[index,:])
- *                 boxes.append(bb)
  */
         __pyx_t_52 = __pyx_v_index;
         __pyx_t_1 = PyFloat_FromDouble((*((float *) ( /* dim=0 */ (__pyx_v_final_dista.data + __pyx_t_52 * __pyx_v_final_dista.strides[0]) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
@@ -3046,18 +3049,31 @@ static PyObject *__pyx_f_8darkflow_12cython_utils_3nms_NMS(__Pyx_memviewslice __
         /* "darkflow/cython_utils/nms.pyx":92
  *                 bb.c = final_bbox[index, 4]
  *                 bb.z = final_dista[index]
+ *                 bb.alpha = final_alpha[index]             # <<<<<<<<<<<<<<
+ *                 bb.probs = np.asarray(final_probs[index,:])
+ *                 boxes.append(bb)
+ */
+        __pyx_t_53 = __pyx_v_index;
+        __pyx_t_1 = PyFloat_FromDouble((*((float *) ( /* dim=0 */ (__pyx_v_final_alpha.data + __pyx_t_53 * __pyx_v_final_alpha.strides[0]) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        if (__Pyx_PyObject_SetAttrStr(__pyx_v_bb, __pyx_n_s_alpha, __pyx_t_1) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "darkflow/cython_utils/nms.pyx":93
+ *                 bb.z = final_dista[index]
+ *                 bb.alpha = final_alpha[index]
  *                 bb.probs = np.asarray(final_probs[index,:])             # <<<<<<<<<<<<<<
  *                 boxes.append(bb)
  *                 indices.add(index)
  */
-        __pyx_t_38 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_38)) __PYX_ERR(0, 92, __pyx_L1_error)
+        __pyx_t_38 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_38)) __PYX_ERR(0, 93, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_38);
-        __pyx_t_41 = __Pyx_PyObject_GetAttrStr(__pyx_t_38, __pyx_n_s_asarray); if (unlikely(!__pyx_t_41)) __PYX_ERR(0, 92, __pyx_L1_error)
+        __pyx_t_41 = __Pyx_PyObject_GetAttrStr(__pyx_t_38, __pyx_n_s_asarray); if (unlikely(!__pyx_t_41)) __PYX_ERR(0, 93, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_41);
         __Pyx_DECREF(__pyx_t_38); __pyx_t_38 = 0;
-        __pyx_t_53.data = __pyx_v_final_probs.data;
-        __pyx_t_53.memview = __pyx_v_final_probs.memview;
-        __PYX_INC_MEMVIEW(&__pyx_t_53, 0);
+        __pyx_t_54.data = __pyx_v_final_probs.data;
+        __pyx_t_54.memview = __pyx_v_final_probs.memview;
+        __PYX_INC_MEMVIEW(&__pyx_t_54, 0);
         {
     Py_ssize_t __pyx_tmp_idx = __pyx_v_index;
     Py_ssize_t __pyx_tmp_shape = __pyx_v_final_probs.shape[0];
@@ -3066,20 +3082,20 @@ static PyObject *__pyx_f_8darkflow_12cython_utils_3nms_NMS(__Pyx_memviewslice __
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(0, 92, __pyx_L1_error)
+        __PYX_ERR(0, 93, __pyx_L1_error)
     }
-        __pyx_t_53.data += __pyx_tmp_idx * __pyx_tmp_stride;
+        __pyx_t_54.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
 
-__pyx_t_53.shape[0] = __pyx_v_final_probs.shape[1];
-__pyx_t_53.strides[0] = __pyx_v_final_probs.strides[1];
-    __pyx_t_53.suboffsets[0] = -1;
+__pyx_t_54.shape[0] = __pyx_v_final_probs.shape[1];
+__pyx_t_54.strides[0] = __pyx_v_final_probs.strides[1];
+    __pyx_t_54.suboffsets[0] = -1;
 
-__pyx_t_38 = __pyx_memoryview_fromslice(__pyx_t_53, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_38)) __PYX_ERR(0, 92, __pyx_L1_error)
+__pyx_t_38 = __pyx_memoryview_fromslice(__pyx_t_54, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_38)) __PYX_ERR(0, 93, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_38);
-        __PYX_XDEC_MEMVIEW(&__pyx_t_53, 1);
-        __pyx_t_53.memview = NULL;
-        __pyx_t_53.data = NULL;
+        __PYX_XDEC_MEMVIEW(&__pyx_t_54, 1);
+        __pyx_t_54.memview = NULL;
+        __pyx_t_54.data = NULL;
         __pyx_t_39 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_41))) {
           __pyx_t_39 = PyMethod_GET_SELF(__pyx_t_41);
@@ -3091,14 +3107,14 @@ __pyx_t_38 = __pyx_memoryview_fromslice(__pyx_t_53, 1, (PyObject *(*)(char *)) _
           }
         }
         if (!__pyx_t_39) {
-          __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_41, __pyx_t_38); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_41, __pyx_t_38); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_38); __pyx_t_38 = 0;
           __Pyx_GOTREF(__pyx_t_1);
         } else {
           #if CYTHON_FAST_PYCALL
           if (PyFunction_Check(__pyx_t_41)) {
             PyObject *__pyx_temp[2] = {__pyx_t_39, __pyx_t_38};
-            __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_41, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+            __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_41, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_39); __pyx_t_39 = 0;
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_38); __pyx_t_38 = 0;
@@ -3107,47 +3123,47 @@ __pyx_t_38 = __pyx_memoryview_fromslice(__pyx_t_53, 1, (PyObject *(*)(char *)) _
           #if CYTHON_FAST_PYCCALL
           if (__Pyx_PyFastCFunction_Check(__pyx_t_41)) {
             PyObject *__pyx_temp[2] = {__pyx_t_39, __pyx_t_38};
-            __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_41, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+            __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_41, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_39); __pyx_t_39 = 0;
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_38); __pyx_t_38 = 0;
           } else
           #endif
           {
-            __pyx_t_40 = PyTuple_New(1+1); if (unlikely(!__pyx_t_40)) __PYX_ERR(0, 92, __pyx_L1_error)
+            __pyx_t_40 = PyTuple_New(1+1); if (unlikely(!__pyx_t_40)) __PYX_ERR(0, 93, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_40);
             __Pyx_GIVEREF(__pyx_t_39); PyTuple_SET_ITEM(__pyx_t_40, 0, __pyx_t_39); __pyx_t_39 = NULL;
             __Pyx_GIVEREF(__pyx_t_38);
             PyTuple_SET_ITEM(__pyx_t_40, 0+1, __pyx_t_38);
             __pyx_t_38 = 0;
-            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_41, __pyx_t_40, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_41, __pyx_t_40, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_40); __pyx_t_40 = 0;
           }
         }
         __Pyx_DECREF(__pyx_t_41); __pyx_t_41 = 0;
-        if (__Pyx_PyObject_SetAttrStr(__pyx_v_bb, __pyx_n_s_probs, __pyx_t_1) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
+        if (__Pyx_PyObject_SetAttrStr(__pyx_v_bb, __pyx_n_s_probs, __pyx_t_1) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "darkflow/cython_utils/nms.pyx":93
- *                 bb.z = final_dista[index]
+        /* "darkflow/cython_utils/nms.pyx":94
+ *                 bb.alpha = final_alpha[index]
  *                 bb.probs = np.asarray(final_probs[index,:])
  *                 boxes.append(bb)             # <<<<<<<<<<<<<<
  *                 indices.add(index)
  *     return boxes
  */
-        __pyx_t_54 = __Pyx_PyList_Append(__pyx_v_boxes, __pyx_v_bb); if (unlikely(__pyx_t_54 == -1)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __pyx_t_55 = __Pyx_PyList_Append(__pyx_v_boxes, __pyx_v_bb); if (unlikely(__pyx_t_55 == -1)) __PYX_ERR(0, 94, __pyx_L1_error)
 
-        /* "darkflow/cython_utils/nms.pyx":94
+        /* "darkflow/cython_utils/nms.pyx":95
  *                 bb.probs = np.asarray(final_probs[index,:])
  *                 boxes.append(bb)
  *                 indices.add(index)             # <<<<<<<<<<<<<<
  *     return boxes
  * 
  */
-        __pyx_t_1 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 95, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_54 = PySet_Add(__pyx_v_indices, __pyx_t_1); if (unlikely(__pyx_t_54 == -1)) __PYX_ERR(0, 94, __pyx_L1_error)
+        __pyx_t_55 = PySet_Add(__pyx_v_indices, __pyx_t_1); if (unlikely(__pyx_t_55 == -1)) __PYX_ERR(0, 95, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
         /* "darkflow/cython_utils/nms.pyx":84
@@ -3162,7 +3178,7 @@ __pyx_t_38 = __pyx_memoryview_fromslice(__pyx_t_53, 1, (PyObject *(*)(char *)) _
     }
   }
 
-  /* "darkflow/cython_utils/nms.pyx":95
+  /* "darkflow/cython_utils/nms.pyx":96
  *                 boxes.append(bb)
  *                 indices.add(index)
  *     return boxes             # <<<<<<<<<<<<<<
@@ -3177,7 +3193,7 @@ __pyx_t_38 = __pyx_memoryview_fromslice(__pyx_t_53, 1, (PyObject *(*)(char *)) _
   /* "darkflow/cython_utils/nms.pyx":63
  * @cython.wraparound(False)  # turn off negative index wrapping for entire function
  * @cython.cdivision(True)
- * cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista):             # <<<<<<<<<<<<<<
+ * cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista, float[:] final_alpha):             # <<<<<<<<<<<<<<
  *     cdef list boxes = list()
  *     cdef set indices = set()
  */
@@ -3189,7 +3205,7 @@ __pyx_t_38 = __pyx_memoryview_fromslice(__pyx_t_53, 1, (PyObject *(*)(char *)) _
   __Pyx_XDECREF(__pyx_t_39);
   __Pyx_XDECREF(__pyx_t_40);
   __Pyx_XDECREF(__pyx_t_41);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_53, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_54, 1);
   __Pyx_AddTraceback("darkflow.cython_utils.nms.NMS", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -19247,6 +19263,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
+  {&__pyx_n_s_alpha, __pyx_k_alpha, sizeof(__pyx_k_alpha), 0, 0, 1, 1},
   {&__pyx_n_s_asarray, __pyx_k_asarray, sizeof(__pyx_k_asarray), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
@@ -19819,7 +19836,7 @@ PyMODINIT_FUNC PyInit_nms(void)
   indirect_contiguous = Py_None; Py_INCREF(Py_None);
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
-  if (__Pyx_ExportFunction("NMS", (void (*)(void))__pyx_f_8darkflow_12cython_utils_3nms_NMS, "PyObject *(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("NMS", (void (*)(void))__pyx_f_8darkflow_12cython_utils_3nms_NMS, "PyObject *(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   /*--- Type init code ---*/
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;

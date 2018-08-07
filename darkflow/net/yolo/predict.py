@@ -31,12 +31,13 @@ def process_box(self, b, h, w, threshold):
 		top   = int ((b.y - b.h/2.) * h)
 		bot   = int ((b.y + b.h/2.) * h)
 		dis   = b.z
+		alp   = b.alpha
 		if left  < 0    :  left = 0
 		if right > w - 1: right = w - 1
 		if top   < 0    :   top = 0
 		if bot   > h - 1:   bot = h - 1
 		mess = '{}'.format(label)
-		return (left, right, top, bot, mess, max_indx, max_prob, dis)
+		return (left, right, top, bot, mess, max_indx, max_prob, dis, alp)
 	return None
 
 def findboxes(self, net_out):
