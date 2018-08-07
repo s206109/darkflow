@@ -9,6 +9,7 @@ class BoundBox:
         self.class_num = classes
         self.probs = np.zeros((classes,))
         self.filenum = int()
+        self.alpha = float()
 
 def overlap(x1,w1,x2,w2):
     l1 = x1 - w1 / 2.;
