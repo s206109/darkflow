@@ -75,8 +75,8 @@ def loss(self, net_out):
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
     adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:3] / np.reshape([W], [1, 1, 1, 1]))
-    import pdb; pdb.set_trace()
-    adjusted_alpha = (tf.asin(alpha[:,:,:,:1]-np.reshape(1, [1, 1, 1, 1])) + anchors[:,:,:,3:4] + math.pi) / np.reshape([W], [1, 1, 1, 1])
+    adjusted_alpha = tf.sign(( alpha[:,:,:,:1] + anchors[:,:,:,3:4] ) / np.reshape([W], [1, 1, 1, 1]))
+    #adjusted_alpha = tf.cond(adjusted_alpha > 0, lambda: tf.mutiply(adjusted_alpha, np.reshape(1, [1, 1, 1, 1])), lambda: tf.multiply(adjusted_alpha, np.reshape(-1, [1, 1, 1, 1])))
     coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3) #こいつらを繋げる
     adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4]) #
     adjusted_c = tf.reshape(adjusted_c, [-1, H*W, B, 1])
