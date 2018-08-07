@@ -154,7 +154,7 @@ with open("cluster.pkl","wb") as fp:
 
 print("img width:{}, height:{}".format(im.width,im.height))
 #print(cluster_centers*im_ratio)
-
+import pdb; pdb.set_trace()
 for c in np.arange(nCluster):
 	print("{},{},{},{}, ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1),round(cluster_centers[c,2]*distRatio,1), round(cluster_centers[c,3]*alphaRatio,1)))
 	#print("{},{},  ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1)))
