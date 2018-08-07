@@ -66,7 +66,11 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
                 xmlbox = obj.find('rotation')
                 alpha = float(xmlbox.find('object_angle').text)
 
-                current = [name,xn,yn,xx,yx,z,alpha]
+                # get rotation rotation_y, sasaki
+                xmlbox = obj.find('rotation')
+                rty = float(xmlbox.find('camera_y').text)
+
+                current = [name,xn,yn,xx,yx,z,alpha,rty]
                 all += [current]
         all.insert(0,jpg)
         add = [all]
