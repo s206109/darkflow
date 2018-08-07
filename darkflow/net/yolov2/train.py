@@ -24,6 +24,7 @@ def loss(self, net_out):
     snoob = float(m['noobject_scale'])
     scoor = float(m['coord_scale'])
     sdist = float(m['dist_scale'])
+    salph = float(m['alpha_scale'])
 
     H, W, _ = m['out_size']
     B, C = m['num'], m['classes']
@@ -35,7 +36,7 @@ def loss(self, net_out):
     print('\tW       = {}'.format(W))
     print('\tbox     = {}'.format(m['num']))
     print('\tclasses = {}'.format(m['classes']))
-    print('\tscales  = {}'.format([sprob, sconf, snoob, scoor]))
+    print('\tscales  = {}'.format([sprob, sconf, snoob, scoor, sdist, salph]))
 
     size1 = [None, HW, B, C]
     size2 = [None, HW, B]
@@ -49,6 +50,7 @@ def loss(self, net_out):
     # weights term for L2 loss
     _proid = tf.placeholder(tf.float32, size1)
     _dista = tf.placeholder(tf.float32, size3)
+    _alpha = tf.placeholder(tf.float32, size3)
     # material calculating IOU
     _areas = tf.placeholder(tf.float32, size2)
     _upleft = tf.placeholder(tf.float32, size2 + [2])
@@ -56,20 +58,23 @@ def loss(self, net_out):
 
     self.placeholders = {
         'probs':_probs, 'confs':_confs, 'coord':_coord, 'proid':_proid,
-        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista
+        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'alpha':_alpha
     }
 
     # Extract the coordinate prediction from net.out
     if m['name'].find('3d')>-1 : print('++++++++++++++++3次元で学習します+++++++++++++++')
-    anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
-    net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋クラス２
+    anchors = np.reshape(anchors, [1, 1, B, 4]) #他に合うようにリシェイプ
+    net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
     coords = net_out_reshape[:, :, :, :, :4]# 座標の４まで.-1を指定した次元は削除される
     coords = tf.reshape(coords, [-1, H*W, B, 4]) #セルxセルをセル番号
     distance = net_out_reshape[:, :, :, :, 7]# distance
     distance = tf.reshape(distance, [-1, H*W, B, 1])
+    alpha = net_out_reshape[:, :, :, :, 8]# alpha
+    alpha = tf.reshape(alpha, [-1, H*W, B, 1])
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
-    adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:] / np.reshape([W], [1, 1, 1, 1])) 
+    adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:3] / np.reshape([W], [1, 1, 1, 1]))
+    adjusted_alpha = tf.sqrt(tf.exp(alpha[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
     coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3) #こいつらを繋げる
     adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4]) #
     adjusted_c = tf.reshape(adjusted_c, [-1, H*W, B, 1])
@@ -77,7 +82,7 @@ def loss(self, net_out):
     adjusted_prob = tf.nn.softmax(net_out_reshape[:, :, :, :, 5:7])
     adjusted_prob = tf.reshape(adjusted_prob, [-1, H*W, B, C])
     adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, adjusted_prob], 3)
-    adjusted_net_out = tf.concat([adjusted_net_out, adjusted_distance_z], 3)
+    adjusted_net_out = tf.concat([adjusted_net_out, adjusted_distance_z, adjusted_alpha], 3)
     #↓coordsの要素を二乗xセルの数(13)
     wh = tf.pow(coords[:,:,:,2:4], 2) * np.reshape([W, H], [1, 1, 1, 2])
     area_pred = wh[:,:,:,0] * wh[:,:,:,1]
@@ -107,16 +112,18 @@ def loss(self, net_out):
     proid = sprob * weight_pro
     weight_dis = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
     disid =  sdist * weight_dis
+    weight_alp = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
+    alpid =  salph * weight_alp
 
 
-    self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista]
-    true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista], 3)
-    wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid], 3)
+    self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista, alpid, _alpha]
+    true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista, _alpha], 3)
+    wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid, alpha], 3)
 
     print('Building {} loss'.format(m['model']))
     loss = tf.pow(adjusted_net_out - true, 2)
     loss = tf.multiply(loss, wght)
-    loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
+    loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 + C)])
     loss = tf.reduce_sum(loss, 1)
     self.loss = .5 * tf.reduce_mean(loss)
     tf.summary.scalar('{} loss'.format(m['model']), self.loss)

@@ -7,6 +7,7 @@ import pickle
 import numpy as np
 import os
 import pdb
+import math
 
 def _batch(self, chunk):
     """
@@ -46,7 +47,7 @@ def _batch(self, chunk):
         obj[4] = float(obj[4]-obj[2]) / h #画像あたりのBBの縦幅比率
         obj[5] = obj[5] / maxz #最大距離に対する距離の比率
         if obj[5] < 0: obj[5] = 0
-        
+        obj[6] = obj[6] / math.pi #最大角度に対する角度の比率
         obj[3] = np.sqrt(obj[3]) #　そのルート
         obj[4] = np.sqrt(obj[4]) #　そのルート
         obj[5] = np.sqrt(obj[5]) #　そのルート
@@ -63,17 +64,20 @@ def _batch(self, chunk):
     proid = np.zeros([H*W,B,C]) #169x5x2
     prear = np.zeros([H*W,4]) #169x4
     dista = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体との距離
+    alpha = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体の角度
     for obj in allobj: #全て物体が存在するセル番号にあてはめて値を入れ込んでいる
-        probs[obj[6], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
-        probs[obj[6], :, labels.index(obj[0])] = 1.   #そのうち入力された物体の方の確率を１とする
-        proid[obj[6], :, :] = [[1.]*C] * B #なぜかここは物体があるセルのクラスにかかわらず１を代入
-        coord[obj[6], :, :] = [obj[1:5]] * B #中心ずれと幅高さ比率を、アンカーの数だけそれぞれに同じものを代入
-        prear[obj[6],0] = obj[1] - obj[3]**2 * .5 * W # xleft BBの中心座標とBBの比率でそれぞれの座標を逆算
-        prear[obj[6],1] = obj[2] - obj[4]**2 * .5 * H # yup　BBの中心座標とBBの比率でそれぞれの座標を逆算
-        prear[obj[6],2] = obj[1] + obj[3]**2 * .5 * W # xright　BBの中心座標とBBの比率でそれぞれの座標を逆算
-        prear[obj[6],3] = obj[2] + obj[4]**2 * .5 * H # ybot　BBの中心座標とBBの比率でそれぞれの座標を逆算
-        confs[obj[6], :] = [1.] * B #物体が存在するセルの各BBの信頼度を１とする
-        dista[obj[6], :, :] = [[obj[5]]] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
+        probs[obj[7], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
+        probs[obj[7], :, labels.index(obj[0])] = 1.   #そのうち入力された物体の方の確率を１とする
+        proid[obj[7], :, :] = [[1.]*C] * B #なぜかここは物体があるセルのクラスにかかわらず１を代入
+        coord[obj[7], :, :] = [obj[1:5]] * B #中心ずれと幅高さ比率を、アンカーの数だけそれぞれに同じものを代入
+        prear[obj[7],0] = obj[1] - obj[3]**2 * .5 * W # xleft BBの中心座標とBBの比率でそれぞれの座標を逆算
+        prear[obj[7],1] = obj[2] - obj[4]**2 * .5 * H # yup　BBの中心座標とBBの比率でそれぞれの座標を逆算
+        prear[obj[7],2] = obj[1] + obj[3]**2 * .5 * W # xright　BBの中心座標とBBの比率でそれぞれの座標を逆算
+        prear[obj[7],3] = obj[2] + obj[4]**2 * .5 * H # ybot　BBの中心座標とBBの比率でそれぞれの座標を逆算
+        confs[obj[7], :] = [1.] * B #物体が存在するセルの各BBの信頼度を１とする
+        dista[obj[7], :, :] = [[obj[5]]] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
+        alpha[obj[7], :, :] = [[obj[6]]] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
+
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
     botright = np.expand_dims(prear[:,2:4], 1) #単純にBBの左上の座標
@@ -90,6 +94,7 @@ def _batch(self, chunk):
         'probs': probs, 'confs': confs,
         'coord': coord, 'proid': proid,
         'areas': areas, 'upleft': upleft,
-        'botright': botright, 'dista':dista
+        'botright': botright, 'dista':dista,
+        'alpha':alpha
     }
     return inp_feed_val, loss_feed_val
