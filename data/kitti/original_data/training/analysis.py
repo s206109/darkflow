@@ -62,7 +62,13 @@ for file in files[:nData]:
 	tmp_width2d = (df[6][inds] - df[4][inds]).values
 	tmp_height2d = (df[7][inds] - df[5][inds]).values
 	#tmp_alpha = np.cos(df[3][inds].values)
-	tmp_alpha = df[3][inds].values
+    #もし負の数のデータの場合、πを足して向うむきに強制的に変える
+
+	if   df[3][inds].values < 0:
+         tmp_alpha = df[3][inds].values + math.pi
+	else:
+         tmp_alpha = df[3][inds].values
+
 	#tmp_ry = np.cos(df[14][inds].values)
 	tmp_ry = df[14][inds].values
 	tmp_height3d = df[8][inds].values
