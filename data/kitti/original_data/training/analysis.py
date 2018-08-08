@@ -33,7 +33,7 @@ nData = 1000
 widthRatio = 13/1242
 heightRatio = 13/370
 distRatio = 13/100
-alphaRatio = 13/(math.pi)
+alphaRatio = 13
 
 
 #----------------------
@@ -69,6 +69,7 @@ for file in files[:nData]:
 	if  len(negInds) > 0:
          for nInd in negInds:
              df.at[inds[nInd], 3] = df[3][inds][inds[nInd]] + math.pi
+             df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
 
 
 	tmp_alpha = df[3][inds].values
