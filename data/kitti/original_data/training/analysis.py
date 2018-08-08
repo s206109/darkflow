@@ -65,7 +65,7 @@ for file in files[:nData]:
     #もし負の数のデータの場合、πを足して向うむきに強制的に変える
 
 	import pdb; pdb.set_trace()
-	negInds = np.where(df[3][inds].values < 0)
+	negInds = np.where(df[3][inds].values < 0)[0]
 	if  len(negInds) > 0:
          for nInd in range(negInds):
              df[3][inds][nInd].values += math.pi
