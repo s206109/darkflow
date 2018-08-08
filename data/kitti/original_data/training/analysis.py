@@ -69,10 +69,10 @@ for file in files[:nData]:
 	if  len(negInds) > 0:
          for nInd in negInds:
              df.at[inds[nInd], 3] = df[3][inds][inds[nInd]] + math.pi
-             df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
 
 
-	tmp_alpha = df[3][inds].values
+
+	tmp_alpha = math.sin(df[3][inds].values)
 
 	#tmp_ry = np.cos(df[14][inds].values)
 	tmp_ry = df[14][inds].values
