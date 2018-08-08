@@ -47,7 +47,7 @@ def _batch(self, chunk):
         obj[4] = float(obj[4]-obj[2]) / h #画像あたりのBBの縦幅比率
         obj[5] = obj[5] / maxz #最大距離に対する距離の比率
         if obj[5] < 0: obj[5] = 0
-        obj[6] = obj[6] / math.pi #最大角度に対する角度の比率
+        #obj[6] = obj[6]#最大角度に対する角度の比率
         obj[3] = np.sqrt(obj[3]) #　そのルート
         obj[4] = np.sqrt(obj[4]) #　そのルート
         obj[5] = np.sqrt(obj[5]) #　そのルート
@@ -76,7 +76,7 @@ def _batch(self, chunk):
         prear[obj[7],3] = obj[2] + obj[4]**2 * .5 * H # ybot　BBの中心座標とBBの比率でそれぞれの座標を逆算
         confs[obj[7], :] = [1.] * B #物体が存在するセルの各BBの信頼度を１とする
         dista[obj[7], :, :] = [[obj[5]]] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
-        alpha[obj[7], :, :] = [[obj[6]]] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
+        alpha[obj[7], :, :] = [[obj[6]]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
 
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
