@@ -67,10 +67,10 @@ for file in files[:nData]:
 	#import pdb; pdb.set_trace()
 	negInds = np.where(df[3][inds].values  < 0)[0]
 	plaInds = np.where(df[3][inds].values >= 0)[0]
-    for nInd in negInds:
-        df.at[inds[nInd], 3] = df[3][inds][inds[nInd]] + math.pi
-        df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
-    for pInd in plaInds:
+	for nInd in negInds:
+		df.at[inds[nInd], 3] = df[3][inds][inds[nInd]] + math.pi
+		df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
+	for pInd in plaInds:
 		df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
 
 	tmp_alpha = df[3][inds].values
