@@ -84,7 +84,7 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
                 Bbox_pred[row, col, box_loop, 2] = exp(Bbox_pred[row, col, box_loop, 2]) * anchors[4 * box_loop + 0] / W
                 Bbox_pred[row, col, box_loop, 3] = exp(Bbox_pred[row, col, box_loop, 3]) * anchors[4 * box_loop + 1] / H
                 DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * maxz * anchors[4 * box_loop + 2] / W
-                ALPHA [row, col, box_loop]       = exp(ALPHA[row, col, box_loop]) * math.pi * anchors[4 * box_loop + 3] / W
+                ALPHA [row, col, box_loop]       = exp(ALPHA[row, col, box_loop]) * anchors[4 * box_loop + 3] / W
                 #SOFTMAX BLOCK, no more pointer juggling
                 for class_loop in range(C):
                     arr_max=max_c(arr_max,Classes[row,col,box_loop,class_loop])
