@@ -71,7 +71,7 @@ for file in files[:nData]:
 		df.at[inds[nInd], 3] = df[3][inds][inds[nInd]] + math.pi
 		df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
 	for pInd in plaInds:
-		df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
+		df.at[inds[pInd], 3] = math.sin(df[3][inds][inds[pInd]])
 
 	tmp_alpha = df[3][inds].values
 
