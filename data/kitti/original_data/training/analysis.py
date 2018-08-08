@@ -64,15 +64,16 @@ for file in files[:nData]:
 	#tmp_alpha = np.cos(df[3][inds].values)
     #もし負の数のデータの場合、πを足して向うむきに強制的に変える
 
-	import pdb; pdb.set_trace()
-	negInds = np.where(df[3][inds].values < 0)[0]
-	if  len(negInds) > 0:
-         for nInd in negInds:
-             df.at[inds[nInd], 3] = df[3][inds][inds[nInd]] + math.pi
+	#import pdb; pdb.set_trace()
+	negInds = np.where(df[3][inds].values  < 0)[0]
+	plaInds = np.where(df[3][inds].values >= 0)[0]
+    for nInd in negInds:
+        df.at[inds[nInd], 3] = df[3][inds][inds[nInd]] + math.pi
+        df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
+    for pInd in plaInds:
+		df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
 
-
-
-	tmp_alpha = math.sin(df[3][inds].values)
+	tmp_alpha = df[3][inds].values
 
 	#tmp_ry = np.cos(df[14][inds].values)
 	tmp_ry = df[14][inds].values
