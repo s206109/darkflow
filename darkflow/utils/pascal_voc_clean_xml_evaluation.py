@@ -7,6 +7,7 @@ import sys
 import xml.etree.ElementTree as ET
 import glob
 import re
+import math
 
 
 def _pp(l): # pretty printing
