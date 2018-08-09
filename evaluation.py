@@ -70,7 +70,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','al','ry','pz-gz','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','al','pz-gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -96,7 +96,6 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
             gtBox[gInd-1].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
             gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][6]
-            gtBox[gInd-1].rty = gtBoxes[dInd][gInd][7]
 
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
