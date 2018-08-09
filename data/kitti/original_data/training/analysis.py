@@ -69,9 +69,9 @@ for file in files[:nData]:
 	plaInds = np.where(df[3][inds].values >= 0)[0]
 	for nInd in negInds:
 		df.at[inds[nInd], 3] = df[3][inds][inds[nInd]] + math.pi
-		df.at[inds[nInd], 3] = math.sin(df[3][inds][inds[nInd]])
+		df.at[inds[nInd], 3] = abs(math.cos(df[3][inds][inds[nInd]]))
 	for pInd in plaInds:
-		df.at[inds[pInd], 3] = math.sin(df[3][inds][inds[pInd]])
+		df.at[inds[pInd], 3] = abs(math.cos(df[3][inds][inds[pInd]]))
 
 	tmp_alpha = df[3][inds].values
 
