@@ -28,11 +28,13 @@ import pickle
 
 visualPath = 'visualization'
 imgPath = 'image_2'
-nCluster = 10
+nCluster = 20
 nData = 1000
-widthRatio = 13/1242
+#widthRatio = 13/1242
+widthRatio = 39/1242
 heightRatio = 13/370
-distRatio = 13/100
+#distRatio = 13/100
+distRatio = 39/100
 
 #----------------------
 # データの読み込み

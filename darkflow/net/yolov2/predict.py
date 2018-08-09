@@ -3,6 +3,7 @@ import math
 import cv2
 import os
 import json
+import pdb
 #from scipy.special import expit
 #from utils.box import BoundBox, box_iou, prob_compare
 #from utils.box import prob_compare2, box_intersection
@@ -41,6 +42,7 @@ def postprocess(self, net_out, im, save = True):
 
 	resultsForJSON = []
 	for b in boxes:
+		print("x:{} w:{} z:{}".format(b.x,b.y,b.z))
 		boxResults = self.process_box(b, h, w, threshold)
 		if boxResults is None:
 			continue

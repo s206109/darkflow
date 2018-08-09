@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import os
 import json
+import pdb
 from ...cython_utils.cy_yolo_findboxes import yolo_box_constructor
 
 def _fix(obj, dims, scale, offs):
@@ -30,11 +31,12 @@ def process_box(self, b, h, w, threshold):
 		right = int ((b.x + b.w/2.) * w)
 		top   = int ((b.y - b.h/2.) * h)
 		bot   = int ((b.y + b.h/2.) * h)
-		dis   = b.z
+		dis   = b.z * self.meta['maxz']
 		if left  < 0    :  left = 0
 		if right > w - 1: right = w - 1
 		if top   < 0    :   top = 0
 		if bot   > h - 1:   bot = h - 1
+		if dis < 0: dis = 0
 		mess = '{}'.format(label)
 		return (left, right, top, bot, mess, max_indx, max_prob, dis)
 	return None
