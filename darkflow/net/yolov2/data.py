@@ -48,7 +48,7 @@ def _batch(self, chunk):
         obj[5] = obj[5] / maxz #最大距離に対する距離の比率
         if obj[5] < 0: obj[5] = 0
         if obj[6] < 0:obj[6] += math.pi
-        obj[6] = math.sin(obj[6])
+        obj[6] = abs(math.cos(obj[6]))
         obj[3] = np.sqrt(obj[3]) #　そのルート
         obj[4] = np.sqrt(obj[4]) #　そのルート
         obj[5] = np.sqrt(obj[5]) #　そのルート
