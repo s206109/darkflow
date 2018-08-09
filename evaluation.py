@@ -70,7 +70,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','al','pz-gz','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','pa-ga','pz-gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -80,6 +80,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         predBox.w = predBoxes[dInd][pInd][3] - predBoxes[dInd][pInd][1]
         predBox.h = predBoxes[dInd][pInd][4] - predBoxes[dInd][pInd][2]
         predBox.z = predBoxes[dInd][pInd][5]
+        predBox.alpha = predBoxes[dInd][pInd][6]
         predBox.filenum = predBoxes[dInd][0] #filename取得
         ious = []
         gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))] #物体の数だけgt入れる箱を作る
@@ -106,7 +107,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
-                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,gtBox[maxInd].alpha,(predBox.z - gtBox[maxInd].z) , predBox.filenum],
+                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,(predBox.alpha - gtBox[maxInd].alpha),(predBox.z - gtBox[maxInd].z) , predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
