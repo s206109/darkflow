@@ -141,6 +141,7 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 #-----------------------------
 # plot distance prediction error
 plt.plot(['10','20','30','40','40 over'],[error10, error20, error30, error40, error40over])
+plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
 plt.plot(['10','20','30','40','40 over'],[1.34,1.66,2.5,4.0,3.0])
 plt.xlabel('true distance')
 plt.ylabel('absolute error')
