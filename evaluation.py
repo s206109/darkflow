@@ -135,7 +135,29 @@ inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40) & (resultDF['gh'
 error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
+#-----------------------------
+# alpha ga umakudekiteiru mono
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25) & (abs(resultDF['pa-ga'])<0.1))[0]
+error10_a = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std10_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 10) & (resultDF['gz'] <= 20) & (resultDF['gh'] > 25)  & (abs(resultDF['pa-ga'])<0.1) )[0]
+error20_a = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std20_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 20) & (resultDF['gz'] <= 30) & (resultDF['gh'] > 25)  & (abs(resultDF['pa-ga'])<0.1))[0]
+error30_a = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std30_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 30) & (resultDF['gz'] <= 40) & (resultDF['gh'] > 25)  & (abs(resultDF['pa-ga'])<0.1))[0]
+error40_a = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std40_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40) & (resultDF['gh'] > 25)  & (abs(resultDF['pa-ga'])<0.1))[0]
+error40over_a = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
+#-----------------------------
 #-----------------------------
 
 #-----------------------------
@@ -143,6 +165,7 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 plt.plot(['10','20','30','40','40 over'],[error10, error20, error30, error40, error40over])
 plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
 plt.plot(['10','20','30','40','40 over'],[1.34,1.66,2.5,4.0,3.0])
+plt.plot(['10','20','30','40','40 over'],[error10_a, error20_a, error30_a, error40_a, error40over_a])
 plt.xlabel('true distance')
 plt.ylabel('absolute error')
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
