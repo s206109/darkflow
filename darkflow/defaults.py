@@ -4,7 +4,7 @@ class argHandler(dict):
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
     _descriptions = {'help, --h, -h': 'show this super helpful message and exit'}
-    
+
     def setDefaults(self):
         self.define('imgdir', './sample_img/', 'path to testing directory with images')
         self.define('binary', './bin/', 'path to .weights directory')
@@ -35,11 +35,12 @@ class argHandler(dict):
         self.define('saveVideo', False, 'Records video from input video or camera')
         self.define('pbLoad', '', 'path to .pb protobuf file (metaLoad must also be specified)')
         self.define('metaLoad', '', 'path to .meta file generated during --savepb that corresponds to .pb file')
+        self.define('alpha',False,'whether use meta of alpha')
 
     def define(self, argName, default, description):
         self[argName] = default
         self._descriptions[argName] = description
-    
+
     def help(self):
         print('Example usage: flow --imgdir sample_img/ --model cfg/yolo.cfg --load bin/yolo.weights')
         print('')
