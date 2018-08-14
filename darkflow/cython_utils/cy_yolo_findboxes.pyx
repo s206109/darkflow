@@ -20,7 +20,7 @@ def yolo_box_constructor(meta,np.ndarray[float] net_out, float threshold):
         int grid, b
         int class_loop
 
-
+    
     sqrt =  meta['sqrt'] + 1
     C, B, S = meta['classes'], meta['num'], meta['side']
     boxes = []
@@ -33,8 +33,8 @@ def yolo_box_constructor(meta,np.ndarray[float] net_out, float threshold):
         float [:,::1] confs =  np.ascontiguousarray(net_out[prob_size : (prob_size + conf_size)]).reshape([SS,B])
         float [: , : ,::1] coords =  np.ascontiguousarray(net_out[(prob_size + conf_size) : ]).reshape([SS, B, 4])
         float [:,:,::1] final_probs = np.zeros([SS,B,C],dtype=np.float32)
-        float [:] dummy = np.zeros([SS],dtype=np.float32)
-
+        
+    
     for grid in range(SS):
         for b in range(B):
             coords[grid, b, 0] = (coords[grid, b, 0] + grid %  S) / S
@@ -46,7 +46,6 @@ def yolo_box_constructor(meta,np.ndarray[float] net_out, float threshold):
                 #print("PROBS",probs[grid,class_loop])
                 if(probs[grid,class_loop] > threshold ):
                     final_probs[grid, b, class_loop] = probs[grid, class_loop]
-
-
-    #return NMS(np.ascontiguousarray(final_probs).reshape(SS*B, C) , np.ascontiguousarray(coords).reshape(SS*B, 4),np.ascontiguousarray(dummy),np.ascontiguousarray(dummy))
-    return NMS(np.ascontiguousarray(final_probs).reshape(SS*B, C) , np.ascontiguousarray(coords).reshape(SS*B, 4),np.ascontiguousarray(dummy))
+    
+    
+    return NMS(np.ascontiguousarray(final_probs).reshape(SS*B, C) , np.ascontiguousarray(coords).reshape(SS*B, 4))
