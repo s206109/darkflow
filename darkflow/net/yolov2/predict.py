@@ -44,7 +44,7 @@ def postprocess(self, net_out, im, save = True):
 		boxResults = self.process_box(b, h, w, threshold)
 		if boxResults is None:
 			continue
-        if self.FLAGS.alpha:
+		if self.FLAGS.alpha:
              left, right, top, bot, mess, max_indx, confidence, dist, alph = boxResults
         else:
              left, right, top, bot, mess, max_indx, confidence, dist= boxResults
