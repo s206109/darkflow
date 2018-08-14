@@ -73,9 +73,10 @@ for file in files[:nData]:
 		df.at[inds[nInd], 3] = abs(math.cos(df[3][inds][inds[nInd]]))
 	for pInd in plaInds:
 		df.at[inds[pInd], 3] = abs(math.cos(df[3][inds][inds[pInd]]))
+	'''
 
 	tmp_alpha = df[3][inds].values
-	'''
+
 
 	#tmp_ry = np.cos(df[14][inds].values)
 	tmp_ry = df[14][inds].values
