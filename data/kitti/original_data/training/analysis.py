@@ -33,7 +33,7 @@ nData = 1000
 widthRatio = 13/1242
 heightRatio = 13/370
 distRatio = 13/100
-alphaRatio = 13
+alphaRatio = 13/math.pi
 
 
 #----------------------
