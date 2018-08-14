@@ -66,8 +66,8 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
                 # get rotation alpha, sasaki
                 xmlbox = obj.find('rotation')
                 alpha = float(xmlbox.find('object_angle').text)
-                if alpha < 0:alpha += math.pi
-                alpha = abs(math.cos(alpha))
+                #if alpha < 0:alpha += math.pi
+                #alpha = abs(math.cos(alpha))
 
                 current = [name,xn,yn,xx,yx,z,alpha]
                 all += [current]
