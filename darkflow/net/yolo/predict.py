@@ -26,6 +26,7 @@ def process_box(self, b, h, w, threshold):
 	max_prob = b.probs[max_indx]
 	label = self.meta['labels'][max_indx]
 	if max_prob > threshold:
+		import pdb; pdb.set_trace()
 		left  = int ((b.x - b.w/2.) * w)
 		right = int ((b.x + b.w/2.) * w)
 		top   = int ((b.y - b.h/2.) * h)
