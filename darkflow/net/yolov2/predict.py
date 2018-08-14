@@ -44,10 +44,16 @@ def postprocess(self, net_out, im, save = True):
 		boxResults = self.process_box(b, h, w, threshold)
 		if boxResults is None:
 			continue
-		left, right, top, bot, mess, max_indx, confidence, dist, alph = boxResults
+        if self.FLAGS.alpha:
+             left, right, top, bot, mess, max_indx, confidence, dist, alph = boxResults
+        else:
+             left, right, top, bot, mess, max_indx, confidence, dist= boxResults
 		thick = int((h + w) // 300)
 		if self.FLAGS.json:
-			resultsForJSON.append({"label": mess, "confidence": float('%.2f' % confidence), "topleft": {"x": left, "y": top}, "bottomright": {"x": right, "y": bot}, "dist": dist, "alph":alph})
+            if self.FLAGS.alpha:
+			     resultsForJSON.append({"label": mess, "confidence": float('%.2f' % confidence), "topleft": {"x": left, "y": top}, "bottomright": {"x": right, "y": bot}, "dist": dist, "alph":alph})
+		    else:
+                 resultsForJSON.append({"label": mess, "confidence": float('%.2f' % confidence), "topleft": {"x": left, "y": top}, "bottomright": {"x": right, "y": bot}, "dist": dist})
 			continue
 
 		cv2.rectangle(imgcv,
