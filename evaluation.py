@@ -118,7 +118,7 @@ surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
 mejirushi = [-1*math.pi,(-1*math.pi)/2,math.pi/2,math.pi]
 plt.scatter(surveyx, surveyy,   c='b', s = 5, label = 'test_data')
-plt.scatter(surveyx, mejirushi,   c='b', s = 20,　marker='^', label = 'test_data')
+plt.scatter(surveyx, mejirushi,   c='g', s = 20, marker='^', label = 'test_data')
 #plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
 # 凡例を表示する
