@@ -115,8 +115,9 @@ surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['ga']
 surveyy = resultDF.ix[surveyInd]['pa']
 surveyy_g = resultDF.ix[surveyInd]['ga']
+surveyx_g = resultDF.ix[surveyInd]['ga']
 plt.scatter(surveyx, surveyy,   c='b', label = 'test_data')
-plt.scatter(surveyx, surveyy_g,   c='r', label = 'test_data')
+plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
 # 凡例を表示する
 plt.legend()
