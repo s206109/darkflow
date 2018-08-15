@@ -78,10 +78,10 @@ for file in files[:nData]:
 	tmp_alpha = df[3][inds].values
 	tmp_vecX = np.cos(df[3][inds].values)
 	tmp_vecY = np.sin(df[3][inds].values)
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
 	for vind in range(len(tmp_alpha)):
-          tmp_vecX[vind] = (tmp_vecX[vind] + 13)/2
-          tmp_vecY[vind] = (tmp_vecY[vind] + 13)/2
+          tmp_vecX[vind] = (tmp_vecX[vind] + 1)/2
+          tmp_vecY[vind] = (tmp_vecY[vind] + 1)/2
 
 
 	#tmp_ry = np.cos(df[14][inds].values)
