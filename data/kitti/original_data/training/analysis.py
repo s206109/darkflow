@@ -76,6 +76,8 @@ for file in files[:nData]:
 	'''
 
 	tmp_alpha = df[3][inds].values
+	tmp_vecX = np.cos(df[3][inds].values)
+	tmp_vecY = np.sin(df[3][inds].values)
 
 
 	#tmp_ry = np.cos(df[14][inds].values)
@@ -96,6 +98,8 @@ for file in files[:nData]:
 		width2d = tmp_width2d
 		height2d = tmp_height2d
 		alpha = tmp_alpha
+		vecX = tmp_vecX
+		vecY = tmp_vecY
 		ry = tmp_ry
 		height3d = tmp_height3d
 		width3d = tmp_width3d
@@ -115,6 +119,8 @@ for file in files[:nData]:
 		width2d = np.hstack([width2d,tmp_width2d])
 		height2d = np.hstack([height2d, tmp_height2d])
 		alpha = np.hstack([alpha,tmp_alpha])
+		vecX = np.hstack([vecX,tmp_vecX])
+		vecY = np.hstack([vecX,tmp_vecY])
 		ry = np.hstack([ry,tmp_ry])
 		height3d = np.hstack([height3d,tmp_height3d])
 		width3d = np.hstack([width3d,tmp_width3d])
@@ -127,7 +133,7 @@ for file in files[:nData]:
 #----------------------
 # cluster
 #kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,minx,miny,maxx,maxy]).T)
-kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,z3d,alpha]).T)
+kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,z3d,vecX,vecY]).T)
 #kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,(maxx-minx)/2]).T)
 
 #----------------------
