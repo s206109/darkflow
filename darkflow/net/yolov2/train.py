@@ -76,7 +76,7 @@ def loss(self, net_out):
     coords = tf.reshape(coords, [-1, H*W, B, 4]) #セルxセルをセル番号
     distance = net_out_reshape[:, :, :, :, 7]# distance
     distance = tf.reshape(distance, [-1, H*W, B, 1])
-    if self.FLAGS.alpha:
+    #if self.FLAGS.alpha:
          #alpha = net_out_reshape[:, :, :, :, 8]# alpha
     vecX = net_out_reshape[:, :, :, :, 8]
     vecY = net_out_reshape[:, :, :, :, 9]
