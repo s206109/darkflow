@@ -49,7 +49,7 @@ def _batch(self, chunk):
         if obj[5] < 0: obj[5] = 0
         #if obj[6] < 0:obj[6] += math.pi
         #obj[6] = abs(math.cos(obj[6]))
-        obj[6] = obj[6] / math.pi
+        obj[6] = obj[6]
         obj[3] = np.sqrt(obj[3]) #　そのルート
         obj[4] = np.sqrt(obj[4]) #　そのルート
         obj[5] = np.sqrt(obj[5]) #　そのルート
@@ -78,7 +78,8 @@ def _batch(self, chunk):
         prear[obj[7],3] = obj[2] + obj[4]**2 * .5 * H # ybot　BBの中心座標とBBの比率でそれぞれの座標を逆算
         confs[obj[7], :] = [1.] * B #物体が存在するセルの各BBの信頼度を１とする
         dista[obj[7], :, :] = [[obj[5]]] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
-        alpha[obj[7], :, :] = [[obj[6]]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
+        vecX[obj[7], :, :] = [[math.cos(obj[6])]] * B # cosαをアンカーの数だけそれぞれに同じものを代入
+        vecY[obj[7], :, :] = [[math.sin(obj[6])]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
 
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
@@ -97,6 +98,6 @@ def _batch(self, chunk):
         'coord': coord, 'proid': proid,
         'areas': areas, 'upleft': upleft,
         'botright': botright, 'dista':dista,
-        'alpha':alpha
+        'vecX':vecX , 'vecY':vecY
     }
     return inp_feed_val, loss_feed_val

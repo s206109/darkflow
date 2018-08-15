@@ -64,7 +64,7 @@ for file in files[:nData]:
 	#tmp_alpha = np.cos(df[3][inds].values)
     #もし負の数のデータの場合、πを足して向うむきに強制的に変える
 
-	#import pdb; pdb.set_trace()
+	import pdb; pdb.set_trace()
 	negInds = np.where(df[3][inds].values  < 0)[0]
 	plaInds = np.where(df[3][inds].values >= 0)[0]
 	'''
