@@ -114,8 +114,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['ga']
 surveyy = resultDF.ix[surveyInd]['pz']
-surveyy_g = resultDF.ix[surveyInd]['ga']
-surveyx_g = resultDF.ix[surveyInd]['gz']
+surveyy_g = resultDF.ix[surveyInd]['gz']
+surveyx_g = resultDF.ix[surveyInd]['ga']
 plt.scatter(surveyx, surveyy,   c='b', label = 'test_data')
 plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
