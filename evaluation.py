@@ -120,7 +120,7 @@ surveyx_g = resultDF.ix[surveyInd]['ga']
 mejirushiy = [0, 0, 0, 0, 0]
 mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
 plt.scatter(surveyx, surveyy,   c='b', s = 5, label = 'test_data')
-for ssk in range(mejirushi):
+for ssk in mejirushi:
      plt.vlines([ssk], -15, 15, "red", linestyles='dashed')
 #plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
