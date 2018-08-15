@@ -120,7 +120,7 @@ for file in files[:nData]:
 		height2d = np.hstack([height2d, tmp_height2d])
 		alpha = np.hstack([alpha,tmp_alpha])
 		vecX = np.hstack([vecX,tmp_vecX])
-		vecY = np.hstack([vecX,tmp_vecY])
+		vecY = np.hstack([vecY,tmp_vecY])
 		ry = np.hstack([ry,tmp_ry])
 		height3d = np.hstack([height3d,tmp_height3d])
 		width3d = np.hstack([width3d,tmp_width3d])
