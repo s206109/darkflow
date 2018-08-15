@@ -52,7 +52,7 @@ def loss(self, net_out):
     _proid = tf.placeholder(tf.float32, size1)
     _dista = tf.placeholder(tf.float32, size3)
     #_alpha = tf.placeholder(tf.float32, size3)
-	_vecX = tf.placeholder(tf.float32, size3)
+    _vecX = tf.placeholder(tf.float32, size3)
     _vecY = tf.placeholder(tf.float32, size3)
     # material calculating IOU
     _areas = tf.placeholder(tf.float32, size2)
@@ -145,10 +145,10 @@ def loss(self, net_out):
 
 
          #self.fetch += [alpid, _alpha]
-		 self.fetch += [veXid, _vecX, veYid, _vecY]
+         self.fetch += [veXid, _vecX, veYid, _vecY]
          #true = tf.concat([true, _alpha], 3)
          #wght = tf.concat([wght, alpid], 3)
-		 true = tf.concat([true, _vecX, _vecY], 3)
+         true = tf.concat([true, _vecX, _vecY], 3)
          wght = tf.concat([wght, veXid, veYid], 3)
 
 
