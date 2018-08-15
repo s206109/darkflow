@@ -33,7 +33,7 @@ nData = 1000
 widthRatio = 13/1242
 heightRatio = 13/370
 distRatio = 13/100
-alphaRatio = 13/math.pi
+vecRatio = 13
 
 
 #----------------------
@@ -177,7 +177,12 @@ print("img width:{}, height:{}".format(im.width,im.height))
 #print(cluster_centers*im_ratio)
 import pdb; pdb.set_trace()
 for c in np.arange(nCluster):
-	print("{},{},{},{}, ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1),round(cluster_centers[c,2]*distRatio,1), round(cluster_centers[c,3]*alphaRatio,1)))
+	print("{},{},{},{}, ".format(
+	round(cluster_centers[c,0]*widthRatio,1),
+	round(cluster_centers[c,1]*heightRatio,1),
+	round(cluster_centers[c,2]*distRatio,1),
+	round(cluster_centers[c,3]*vecRatio,1),
+	round(cluster_centers[c,4]*vecRatio,1)))
 	#print("{},{},  ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1)))
 
 #print(cluster_centers)
