@@ -66,7 +66,9 @@ def _batch(self, chunk):
     proid = np.zeros([H*W,B,C]) #169x5x2
     prear = np.zeros([H*W,4]) #169x4
     dista = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体との距離
-    alpha = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体の角度
+    vecX  = np.zeros([H*W,B,1])
+    vecY  = np.zeros([H*W,B,1])
+    #alpha = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体の角度
     for obj in allobj: #全て物体が存在するセル番号にあてはめて値を入れ込んでいる
         probs[obj[7], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
         probs[obj[7], :, labels.index(obj[0])] = 1.   #そのうち入力された物体の方の確率を１とする
