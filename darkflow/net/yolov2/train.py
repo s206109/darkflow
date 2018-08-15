@@ -155,10 +155,10 @@ def loss(self, net_out):
     print('Building {} loss'.format(m['model']))
     loss = tf.pow(adjusted_net_out - true, 2)
     loss = tf.multiply(loss, wght)
-    if self.FLAGS.alpha:
-        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 +1+ C)])
-    else:
-        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
+
+    loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 +1+ C)])
+
+    #loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
     loss = tf.reduce_sum(loss, 1)
     self.loss = .5 * tf.reduce_mean(loss)
     tf.summary.scalar('{} loss'.format(m['model']), self.loss)
