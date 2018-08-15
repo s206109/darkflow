@@ -111,7 +111,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
-surveyInd = np.where(resultDF['iou'] > 0.8)[0] #iou0.7のものを用意
+surveyInd = np.where(resultDF['iou'] > 0.5)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['ga']
 surveyy = resultDF.ix[surveyInd]['pz-gz']
 surveyy_g = resultDF.ix[surveyInd]['gz']
