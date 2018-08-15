@@ -66,28 +66,27 @@ def loss(self, net_out):
 
     # Extract the coordinate prediction from net.out
     if m['name'].find('3d')>-1 : print('++++++++++++++++3次元で学習します+++++++++++++++')
-    #if self.FLAGS.alpha:
-    anchors = np.reshape(anchors, [1, 1, B, 5]) #他に合うようにリシェイプ
-    net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１
-    #anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
-    #net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
+    if self.FLAGS.alpha:
+        anchors = np.reshape(anchors, [1, 1, B, 5]) #他に合うようにリシェイプ
+        net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１
+    else:
+        anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
+        net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
     coords = net_out_reshape[:, :, :, :, :4]# 座標の４まで.-1を指定した次元は削除される
     coords = tf.reshape(coords, [-1, H*W, B, 4]) #セルxセルをセル番号
     distance = net_out_reshape[:, :, :, :, 7]# distance
     distance = tf.reshape(distance, [-1, H*W, B, 1])
-    #if self.FLAGS.alpha:
+    if self.FLAGS.alpha:
          #alpha = net_out_reshape[:, :, :, :, 8]# alpha
-    vecX = net_out_reshape[:, :, :, :, 8]
-    vecY = net_out_reshape[:, :, :, :, 9]
+         vecX = net_out_reshape[:, :, :, :, 8]
+         vecY = net_out_reshape[:, :, :, :, 9]
          #alpha = tf.reshape(alpha, [-1, H*W, B, 1])
-    vecX = tf.reshape(vecX, [-1, H*W, B, 1])
-    vecY = tf.reshape(vecY, [-1, H*W, B, 1])
+         vecX = tf.reshape(vecX, [-1, H*W, B, 1])
+         vecY = tf.reshape(vecY, [-1, H*W, B, 1])
     #import pdb; pdb.set_trace()
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
     adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:3] / np.reshape([W], [1, 1, 1, 1]))
-    adjusted_vecX      = tf.sqrt(tf.exp(   vecX[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
-    adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
     coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3) #こいつらを繋げる
     adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4]) #
     adjusted_c = tf.reshape(adjusted_c, [-1, H*W, B, 1])
@@ -96,7 +95,6 @@ def loss(self, net_out):
     adjusted_prob = tf.reshape(adjusted_prob, [-1, H*W, B, C])
     adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, adjusted_prob], 3)
     adjusted_net_out = tf.concat([adjusted_net_out, adjusted_distance_z], 3)
-    adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 	#↓coordsの要素を二乗xセルの数(13)
     wh = tf.pow(coords[:,:,:,2:4], 2) * np.reshape([W, H], [1, 1, 1, 2])
     area_pred = wh[:,:,:,0] * wh[:,:,:,1]
@@ -134,23 +132,33 @@ def loss(self, net_out):
     veYid =  salph * weight_veY
 
 
-    self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista,veXid, _vecX, veYid, _vecY]
-    true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista,_vecX, _vecY], 3)
-    wght = tf.concat([cooid, tf.expand_dims(conid, 3),   proid,  disid, veXid, veYid], 3)
+    self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista]
+    true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista], 3)
+    wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid], 3)
 
-    #if self.FLAGS.alpha: #alphaを使う場合
+    if self.FLAGS.alpha: #alphaを使う場合
          #adjusted_alpha      = tf.sqrt(tf.exp(   alpha[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
+         adjusted_vecX      = tf.sqrt(tf.exp(   abs(vecX[:,:,:,:1])) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
+         adjusted_vecY      = tf.sqrt(tf.exp(   abs(vecY[:,:,:,:1])) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
+         adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
+
+         #self.fetch += [alpid, _alpha]
+         self.fetch += [veXid, _vecX, veYid, _vecY]
+         #true = tf.concat([true, _alpha], 3)
+         #wght = tf.concat([wght, alpid], 3)
+         true = tf.concat([true, _vecX, _vecY], 3)
+         wght = tf.concat([wght, veXid, veYid], 3)
 
 
     print('Building {} loss'.format(m['model']))
     loss = tf.pow(adjusted_net_out - true, 2)
     loss = tf.multiply(loss, wght)
 
-    loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 +1+ C)])
-
-    #loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
+        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 +1+ C)])
+    else:
+        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
     loss = tf.reduce_sum(loss, 1)
     self.loss = .5 * tf.reduce_mean(loss)
     tf.summary.scalar('{} loss'.format(m['model']), self.loss)
