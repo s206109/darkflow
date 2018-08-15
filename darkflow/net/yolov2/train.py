@@ -139,8 +139,8 @@ def loss(self, net_out):
     if self.FLAGS.alpha: #alphaを使う場合
          #adjusted_alpha      = tf.sqrt(tf.exp(   alpha[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
-         adjusted_vecX      = tf.sqrt(tf.exp(   abs(vecX[:,:,:,:1])) * abs(anchors[:,:,:,3:4]) / np.reshape([W], [1, 1, 1, 1]))
-         adjusted_vecY      = tf.sqrt(tf.exp(   abs(vecY[:,:,:,:1])) * abs(anchors[:,:,:,4:5]) / np.reshape([W], [1, 1, 1, 1]))
+         adjusted_vecX      = tf.sqrt(tf.exp(13 +  vecX[:,:,:,:1]) *(13 + anchors[:,:,:,3:4] )/ np.reshape([W], [1, 1, 1, 1]))
+         adjusted_vecY      = tf.sqrt(tf.exp(13 +  vecY[:,:,:,:1]) *(13 + anchors[:,:,:,4:5] )/ np.reshape([W], [1, 1, 1, 1]))
          adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
 
