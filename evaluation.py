@@ -111,8 +111,21 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
+surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
+surveyx = resultDF.ix[surveyInd]['ga']
+surveyy = resultDF.ix[surveyInd]['pa']
+pyplot.scatter(surveyx, surveyy,   c='b', label = 'test_data')
 
+# 凡例を表示する
+pyplot.legend()
+
+# グラフのタイトルを設定する
+pyplot.title("test_datas")
+
+# 表示する
+pyplot.show()
 #-----------------------------
+'''
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -172,7 +185,7 @@ plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror
 plt.show()
 #-----------------------------
 pdb.set_trace()
-
+'''
 
 """
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
