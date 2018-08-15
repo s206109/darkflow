@@ -116,7 +116,7 @@ surveyx = resultDF.ix[surveyInd]['ga']
 surveyy = resultDF.ix[surveyInd]['pz-gz']
 surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
-plt.scatter(surveyx, surveyy,   c='b', label = 'test_data')
+plt.scatter(surveyx, surveyy,   c='b', s = 10, label = 'test_data')
 #plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
 # 凡例を表示する
