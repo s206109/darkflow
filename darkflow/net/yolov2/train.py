@@ -53,7 +53,7 @@ def loss(self, net_out):
     _dista = tf.placeholder(tf.float32, size3)
     #_alpha = tf.placeholder(tf.float32, size3)
 	_vecX = tf.placeholder(tf.float32, size3)
-	_vecY = tf.placeholder(tf.float32, size3)
+    _vecY = tf.placeholder(tf.float32, size3)
     # material calculating IOU
     _areas = tf.placeholder(tf.float32, size2)
     _upleft = tf.placeholder(tf.float32, size2 + [2])
@@ -78,11 +78,11 @@ def loss(self, net_out):
     distance = tf.reshape(distance, [-1, H*W, B, 1])
     if self.FLAGS.alpha:
          #alpha = net_out_reshape[:, :, :, :, 8]# alpha
-		 vecX = net_out_reshape[:, :, :, :, 8]
-		 vecY = net_out_reshape[:, :, :, :, 9]
+         vecX = net_out_reshape[:, :, :, :, 8]
+         vecY = net_out_reshape[:, :, :, :, 9]
          #alpha = tf.reshape(alpha, [-1, H*W, B, 1])
-		 vecX = tf.reshape(vecX, [-1, H*W, B, 1])
-		 vecY = tf.reshape(vecY, [-1, H*W, B, 1])
+         vecX = tf.reshape(vecX, [-1, H*W, B, 1])
+         vecY = tf.reshape(vecY, [-1, H*W, B, 1])
     #import pdb; pdb.set_trace()
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
@@ -126,9 +126,9 @@ def loss(self, net_out):
     disid =  sdist * weight_dis
     weight_alp = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
     alpid =  salph * weight_alp
-	weight_veX = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
+    weight_veX = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
     veXid =  salph * weight_veX
-	weight_veY = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
+    weight_veY = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
     veYid =  salph * weight_veY
 
 
@@ -139,9 +139,9 @@ def loss(self, net_out):
     if self.FLAGS.alpha: #alphaを使う場合
          #adjusted_alpha      = tf.sqrt(tf.exp(   alpha[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
-		 adjusted_vecX      = tf.sqrt(tf.exp(   vecX[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
-		 adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
-		 adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
+         adjusted_vecX      = tf.sqrt(tf.exp(   vecX[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
+         adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
+         adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
 
          #self.fetch += [alpid, _alpha]
