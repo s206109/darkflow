@@ -139,7 +139,7 @@ def loss(self, net_out):
     true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista,_vecX, _vecY], 3)
     wght = tf.concat([cooid, tf.expand_dims(conid, 3),   proid,  disid, veXid, veYid], 3)
 
-    if self.FLAGS.alpha: #alphaを使う場合
+    #if self.FLAGS.alpha: #alphaを使う場合
          #adjusted_alpha      = tf.sqrt(tf.exp(   alpha[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
 
