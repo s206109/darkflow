@@ -112,8 +112,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
-'''
-surveyInd = np.where((resultDF['iou'] > 0.7) & (resultDF['gz']>=30))[0] #iou0.7のものを用意
+#TEST
+surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['ga']
 surveyy = resultDF.ix[surveyInd]['pz-gz']
 surveyy_g = resultDF.ix[surveyInd]['gz']
@@ -134,7 +134,9 @@ plt.title("test_datas")
 # 表示する
 plt.show()
 #-----------------------------
-'''
+
+
+"""
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -196,7 +198,7 @@ plt.show()
 pdb.set_trace()
 
 
-"""
+
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
