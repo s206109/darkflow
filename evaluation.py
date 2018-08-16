@@ -194,7 +194,7 @@ plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror
 plt.show()
 #-----------------------------
 pdb.set_trace()
-'''
+
 
 """
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
