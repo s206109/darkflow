@@ -113,6 +113,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 #-----------------------------
 #TEST
+"""
 surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['ga']
 surveyy = resultDF.ix[surveyInd]['pz-gz']
@@ -224,5 +225,3 @@ for item in items:
             if label == i:
                 class_num = labels.index(i)
                 break
-
-"""
