@@ -6,6 +6,6 @@ from libc.math cimport exp
 from utils.box import BoundBox
 
 
-cdef NMS(float[:, ::1] , float[:, ::1], float[:],float[:],float[:] )
+#cdef NMS(float[:, ::1] , float[:, ::1], float[:],float[:],float[:] )
 #cdef NMS(float[:, ::1] , float[:, ::1], float[:],float[:] )
-#cdef NMS(float[:, ::1] , float[:, ::1], float[:])
+cdef NMS(float[:, ::1] , float[:, ::1], float[:])

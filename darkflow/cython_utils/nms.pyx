@@ -60,8 +60,8 @@ cdef float box_iou_c(float ax, float ay, float aw, float ah, float bx, float by,
 @cython.boundscheck(False) # turn off bounds-checking for entire function
 @cython.wraparound(False)  # turn off negative index wrapping for entire function
 @cython.cdivision(True)
-#cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista, float[:] final_alpha):
-cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista,  float[:] final_vecX, float[:] final_vecY):
+cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista, float[:] final_alpha):
+#cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista,  float[:] final_vecX, float[:] final_vecY):
 #cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista):
 
     cdef list boxes = list()
