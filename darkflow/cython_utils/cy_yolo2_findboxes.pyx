@@ -64,8 +64,9 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
     H, W, _ = meta['out_size']
     C = meta['classes']
     B = meta['num']
-    ANC = 3
-
+    ###########################
+    ANC = 5
+    ###########################
     cdef:
         float[:, :, :, ::1] net_out = net_out_in.reshape([H, W, B, net_out_in.shape[2]/B])
         float[:, :, :, ::1] Classes = net_out[:, :, :, 5:7]
@@ -106,5 +107,5 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
 
     #NMS
     #return NMS(np.ascontiguousarray(probs).reshape(H*W*B,C), np.ascontiguousarray(Bbox_pred).reshape(H*B*W,5), np.ascontiguousarray(DISTANCE).reshape(H*W*B), np.ascontiguousarray(ALPHA).reshape(H*W*B))
-    return NMS(np.ascontiguousarray(probs).reshape(H*W*B,C), np.ascontiguousarray(Bbox_pred).reshape(H*B*W,5), np.ascontiguousarray(DISTANCE).reshape(H*W*B))
-    #return NMS(np.ascontiguousarray(probs).reshape(H*W*B,C), np.ascontiguousarray(Bbox_pred).reshape(H*B*W,5), np.ascontiguousarray(DISTANCE).reshape(H*W*B) , np.ascontiguousarray(VECX).reshape(H*W*B) , np.ascontiguousarray(VECY).reshape(H*W*B))
+    #return NMS(np.ascontiguousarray(probs).reshape(H*W*B,C), np.ascontiguousarray(Bbox_pred).reshape(H*B*W,5), np.ascontiguousarray(DISTANCE).reshape(H*W*B))
+    return NMS(np.ascontiguousarray(probs).reshape(H*W*B,C), np.ascontiguousarray(Bbox_pred).reshape(H*B*W,5), np.ascontiguousarray(DISTANCE).reshape(H*W*B) , np.ascontiguousarray(VECX).reshape(H*W*B) , np.ascontiguousarray(VECY).reshape(H*W*B))

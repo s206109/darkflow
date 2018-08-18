@@ -61,8 +61,8 @@ cdef float box_iou_c(float ax, float ay, float aw, float ah, float bx, float by,
 @cython.wraparound(False)  # turn off negative index wrapping for entire function
 @cython.cdivision(True)
 #cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista, float[:] final_alpha):
-#cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista,  float[:] final_vecX, float[:] final_vecY):
-cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista):
+cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista,  float[:] final_vecX, float[:] final_vecY):
+#cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_dista):
 
     cdef list boxes = list()
     cdef set indices = set()
@@ -93,8 +93,8 @@ cdef NMS(float[:, ::1] final_probs , float[:, ::1] final_bbox , float[:] final_d
                 bb.c = final_bbox[index, 4]
                 bb.z = final_dista[index]
                 #bb.alpha = final_alpha[index]
-                #bb.vecX = final_vecX[index]
-                #bb.vecY = final_vecY[index]
+                bb.vecX = final_vecX[index]
+                bb.vecY = final_vecY[index]
                 bb.probs = np.asarray(final_probs[index,:])
                 boxes.append(bb)
                 indices.add(index)
