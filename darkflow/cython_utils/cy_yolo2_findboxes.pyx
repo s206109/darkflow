@@ -64,7 +64,7 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
     H, W, _ = meta['out_size']
     C = meta['classes']
     B = meta['num']
-    ANC = 5
+    ANC = 3
 
     cdef:
         float[:, :, :, ::1] net_out = net_out_in.reshape([H, W, B, net_out_in.shape[2]/B])
