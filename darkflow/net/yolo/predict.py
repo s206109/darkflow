@@ -31,14 +31,15 @@ def process_box(self, b, h, w, threshold):
 		top   = int ((b.y - b.h/2.) * h)
 		bot   = int ((b.y + b.h/2.) * h)
 		dis   = b.z
-		alp   = b.alpha
+		veX   = b.vecX
+        veY   = b.vecY
 		if left  < 0    :  left = 0
 		if right > w - 1: right = w - 1
 		if top   < 0    :   top = 0
 		if bot   > h - 1:   bot = h - 1
 		mess = '{}'.format(label)
 		if self.FLAGS.alpha:
-			return (left, right, top, bot, mess, max_indx, max_prob, dis, alp)
+			return (left, right, top, bot, mess, max_indx, max_prob, dis, veX, veY)
 		else:
 			return (left, right, top, bot, mess, max_indx, max_prob, dis)
 	return None
