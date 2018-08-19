@@ -64,7 +64,7 @@ for i, file in enumerate(jsonFiles):
     predBoxes[i] = cdBox
 
 predBoxes.sort()
-import pdb; pdb.set_trace()
+#import pdb; pdb.set_trace()
 os.chdir(cur_dir)
 #-----------------------------
 bugid = [    1,    75,   738,  1755,  1829,  1839,  2036,  2130,  2554,3529,  3943,  4454,  4826,  4875,  4888,  4926,  5302,  5428, 5532,  5652,  7285,  7633,  7953,  8349,  8419,  8546,  8882, 9218,  9305,  9505, 10015, 10258, 10472]
