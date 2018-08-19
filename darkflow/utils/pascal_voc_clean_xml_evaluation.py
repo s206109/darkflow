@@ -69,7 +69,7 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
                 #if alpha < 0:alpha += math.pi
                 #alpha = abs(math.cos(alpha))
 
-                current = [name,xn,yn,xx,yx,z,alpha]
+                current = [name,xn,yn,xx,yx,z,math.cos(alpha),math.sin(alpha)]
                 all += [current]
         all.insert(0,jpg)
         add = [all]
