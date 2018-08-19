@@ -58,8 +58,8 @@ for i, file in enumerate(jsonFiles):
            cdBox[j][3] = js[j]["bottomright"]["x"]
            cdBox[j][4] = js[j]["bottomright"]["y"]
            cdBox[j][5] = js[j]["dist"]
-           cdBox[j][6] = js[j]["vecX"]
-           cdBox[j][7] = js[j]["vecY"]
+           cdBox[j][7] = js[j]["vecX"]
+           cdBox[j][8] = js[j]["vecY"]
        cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
     predBoxes[i] = cdBox
 
