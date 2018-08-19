@@ -57,7 +57,8 @@ for i, file in enumerate(jsonFiles):
            cdBox[j][3] = js[j]["bottomright"]["x"]
            cdBox[j][4] = js[j]["bottomright"]["y"]
            cdBox[j][5] = js[j]["dist"]
-           #cdBox[j][6] = js[j]["alph"]
+           cdBox[j][6] = js[j]["vecX"]
+           cdBox[j][7] = js[j]["vecY"]
        cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
     predBoxes[i] = cdBox
 
@@ -81,7 +82,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         predBox.w = predBoxes[dInd][pInd][3] - predBoxes[dInd][pInd][1]
         predBox.h = predBoxes[dInd][pInd][4] - predBoxes[dInd][pInd][2]
         predBox.z = predBoxes[dInd][pInd][5]
-        predBox.alpha = predBoxes[dInd][pInd][6]
+        predBox.vecX = predBoxes[dInd][pInd][6]
+        predBox.vecY = predBoxes[dInd][pInd][7]
         predBox.filenum = predBoxes[dInd][0] #filename取得
         ious = []
         gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))] #物体の数だけgt入れる箱を作る
@@ -97,8 +99,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
             gtBox[gInd-1].w = gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1]
             gtBox[gInd-1].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
-            gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][6]
-
+            gtBox[gInd-1].vecX = gtBoxes[dInd][gInd][6]
+            gtBox[gInd-1].vecY = gtBoxes[dInd][gInd][7]
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
         if len(ious) == 0: continue
@@ -107,8 +109,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         maxInd = np.argmax(ious) #iouが最大になっているインデックスを返す
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
-                           predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,predBox.alpha,
-                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z, gtBox[maxInd].alpha,(predBox.alpha - gtBox[maxInd].alpha),(predBox.z - gtBox[maxInd].z) , predBox.filenum],
+                           predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,math.atan(predBox.vecY/predBox.vecX),
+                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z, math.atan(gtBox[maxInd].vecY/gtBox[maxInd].vecX),(math.atan(predBox.vecY/predBox.vecX) - math.atan(gtBox[maxInd].vecY/gtBox[maxInd].vecX)),(predBox.z - gtBox[maxInd].z) , predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
