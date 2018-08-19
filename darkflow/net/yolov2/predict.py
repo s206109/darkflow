@@ -48,7 +48,7 @@ def postprocess(self, net_out, im, save = True):
 			continue
 		if self.FLAGS.alpha:
 			#left, right, top, bot, mess, max_indx, confidence, dist, alph = boxResults
-            left, right, top, bot, mess, max_indx, confidence, dist, vecX, vecY = boxResults
+			left, right, top, bot, mess, max_indx, confidence, dist, vecX, vecY = boxResults
 		else:
 			left, right, top, bot, mess, max_indx, confidence, dist= boxResults
 		thick = int((h + w) // 300)
