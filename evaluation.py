@@ -111,8 +111,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         maxInd = np.argmax(ious) #iouが最大になっているインデックスを返す
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
-                           predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,math.atan2(predBox.vecY,predBox.vecX),
-                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z, math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX),(math.atan2(predBox.vecY,predBox.vecX) - math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)),(predBox.z - gtBox[maxInd].z) , predBox.filenum],
+                           predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,math.atan2((predBox.vecY)*2+1,(predBox.vecX)*2+1),
+                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z, math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX),(math.atan2((predBox.vecY)*2+1,(predBox.vecX)*2+1) - math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)),(predBox.z - gtBox[maxInd].z) , predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
