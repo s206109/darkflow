@@ -43,7 +43,7 @@ def postprocess(self, net_out, im, save = True):
 	resultsForJSON = []
 	for b in boxes:
 		boxResults = self.process_box(b, h, w, threshold)
-		import pdb; pdb.set_trace()
+		#import pdb; pdb.set_trace()
 		if boxResults is None:
 			continue
 		if self.FLAGS.alpha:
