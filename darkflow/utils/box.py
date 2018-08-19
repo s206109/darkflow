@@ -9,7 +9,9 @@ class BoundBox:
         self.class_num = classes
         self.probs = np.zeros((classes,))
         self.filenum = int()
-        self.alpha = float()
+        #self.alpha = float()
+        self.vecX = float()
+        self.vecY = float()
         self.rty = float()
 
 def overlap(x1,w1,x2,w2):
