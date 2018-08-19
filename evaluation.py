@@ -50,6 +50,7 @@ for i, file in enumerate(jsonFiles):
        jnum = len(js)
        cdBox = [[0 for ii in range(7)] for iii in range(jnum)]
        for j in range(jnum):
+           import pdb; pdb.set_trace()
            cdBox[j][0] = js[j]["label"]
            cdBox[j][6] = js[j]["confidence"]
            cdBox[j][1] = js[j]["topleft"]["x"]
