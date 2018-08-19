@@ -48,7 +48,7 @@ for i, file in enumerate(jsonFiles):
     with open(file) as f:
        js = json.load(f)
        jnum = len(js)
-       cdBox = [[0 for ii in range(7)] for iii in range(jnum)]
+       cdBox = [[0 for ii in range(9)] for iii in range(jnum)]
        for j in range(jnum):
            import pdb; pdb.set_trace()
            cdBox[j][0] = js[j]["label"]
