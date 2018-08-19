@@ -32,7 +32,7 @@ def process_box(self, b, h, w, threshold):
 		bot   = int ((b.y + b.h/2.) * h)
 		dis   = b.z
 		veX   = b.vecX
-        veY   = b.vecY
+		veY   = b.vecY
 		if left  < 0    :  left = 0
 		if right > w - 1: right = w - 1
 		if top   < 0    :   top = 0
