@@ -55,7 +55,7 @@ def postprocess(self, net_out, im, save = True):
 		if self.FLAGS.json:
 			if self.FLAGS.alpha:
 				#resultsForJSON.append({"label": mess, "confidence": float('%.2f' % confidence), "topleft": {"x": left, "y": top}, "bottomright": {"x": right, "y": bot}, "dist": dist, "alph":alph})
-                resultsForJSON.append({"label": mess, "confidence": float('%.2f' % confidence), "topleft": {"x": left, "y": top}, "bottomright": {"x": right, "y": bot}, "dist": dist, "vecX":vecX, "vecY":vecY})
+				resultsForJSON.append({"label": mess, "confidence": float('%.2f' % confidence), "topleft": {"x": left, "y": top}, "bottomright": {"x": right, "y": bot}, "dist": dist, "vecX":vecX, "vecY":vecY})
 			else:
 				resultsForJSON.append({"label": mess, "confidence": float('%.2f' % confidence), "topleft": {"x": left, "y": top}, "bottomright": {"x": right, "y": bot}, "dist": dist})
 			continue
