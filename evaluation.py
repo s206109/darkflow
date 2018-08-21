@@ -109,12 +109,16 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
         ious = np.array(ious)
         maxInd = np.argmax(ious) #iouが最大になっているインデックスを返す
+        alphadif = abs(math.atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 )-math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX))
+        if alphadif > math.pi:
+
+            alphadif = 2 * math.pi - alphadif
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
                            (2*(predBox.vecX)-1 - gtBox[maxInd].vecX), (2*(predBox.vecY)-1 - gtBox[maxInd].vecY),
-                           (math.atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 ))-(math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)),
+                           alphadif,
                            (predBox.z   - gtBox[maxInd].z) , predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
