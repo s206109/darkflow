@@ -168,6 +168,7 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 #-----------------------------
 # alpha ga umakudekiteiru mono
+"""
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25) & (abs(resultDF['pa-ga'])<0.1))[0]
 error10_a = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 std10_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
@@ -187,7 +188,7 @@ std40_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40) & (resultDF['gh'] > 25)  & (abs(resultDF['pa-ga'])<0.1))[0]
 error40over_a = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
-
+"""
 #-----------------------------
 #-----------------------------
 
