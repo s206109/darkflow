@@ -148,7 +148,7 @@ plt.show()
 #-----------------------------
 
 
-"""
+
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -238,3 +238,4 @@ for item in items:
             if label == i:
                 class_num = labels.index(i)
                 break
+"""
