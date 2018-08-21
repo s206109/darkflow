@@ -114,7 +114,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
                            (2*(predBox.vecX)-1 - gtBox[maxInd].vecX), (2*(predBox.vecY)-1 - gtBox[maxInd].vecY),
-                           (atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 ))-(atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX))
+                           (math.atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 ))-(math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX))
                            (predBox.z   - gtBox[maxInd].z) , predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
