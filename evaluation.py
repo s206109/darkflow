@@ -74,7 +74,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','px-gx','py-gy','pa-ga','pz-gz','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','px-gx','py-gy','ad','pz-gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -175,23 +175,23 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 # alpha ga umakudekiteiru mono
 """
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
-error10_a = np.mean(np.abs((resultDF.ix[inds].alphadif).values))
+error10_a = np.mean(np.abs((resultDF.ix[inds].ad).values))
 std10_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 10) & (resultDF['gz'] <= 20) & (resultDF['gh'] > 25))[0]
-error20_a = np.mean(np.abs((resultDF.ix[inds].alphadif).values))
+error20_a = np.mean(np.abs((resultDF.ix[inds].ad).values))
 std20_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 20) & (resultDF['gz'] <= 30) & (resultDF['gh'] > 25))[0]
-error30_a = np.mean(np.abs((resultDF.ix[inds].alphadif).values))
+error30_a = np.mean(np.abs((resultDF.ix[inds].ad).values))
 std30_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 30) & (resultDF['gz'] <= 40) & (resultDF['gh'] > 25))[0]
-error40_a = np.mean(np.abs((resultDF.ix[inds].alphadif).values))
+error40_a = np.mean(np.abs((resultDF.ix[inds].ad).values))
 std40_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40) & (resultDF['gh'] > 25))[0]
-error40over_a = np.mean(np.abs((resultDF.ix[inds].alphadif).values))
+error40over_a = np.mean(np.abs((resultDF.ix[inds].ad).values))
 std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 #-----------------------------
