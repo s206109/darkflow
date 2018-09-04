@@ -14,7 +14,7 @@ from darkflow.utils import process
 import math
 
 
-
+"""
 def MUKI(arg):
     if   arg <     math.pi/4 and arg >= -1*math.pi/4:
         muki = "right"
@@ -28,7 +28,7 @@ def MUKI(arg):
 
 
     return muki
-
+"""
 #-----------------------------
 # parameters
 visualPath = 'visualization'
