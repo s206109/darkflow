@@ -127,7 +127,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['gz']
-surveyy = resultDF.ix[surveyInd]['da']
+surveyy = resultDF.ix[surveyInd]['ad']
 surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
 mejirushiy = [0, 0, 0, 0, 0]
