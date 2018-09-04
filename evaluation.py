@@ -125,9 +125,13 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
         ious = np.array(ious)
         maxInd = np.argmax(ious) #iouが最大になっているインデックスを返す
-        alp_pr = math.atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 )
+        vecX_pr= 2*(predBox.vecX)-1
+        vecY_pr= 2*(predBox.vecY)-1
+        alp_pr = math.atan2( vecY_pr, vecX_pr  )
         alp_gt = math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
         alphadif = alp_pr - alp_gt
+        vecXdif = vecX_pr - gtBox[maxInd].vecX
+        vecYdif = vecY_pr - gtBox[maxInd].vecY
         if alphadif > math.pi:
 
             alphadif =  2 * math.pi - alphadif
@@ -142,7 +146,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
                            (2*(predBox.vecX)-1 - gtBox[maxInd].vecX), (2*(predBox.vecY)-1 - gtBox[maxInd].vecY),
-                           alphadif,
+                           vecXdif,
                            (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, comp, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
