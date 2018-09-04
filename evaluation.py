@@ -115,7 +115,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
             alphadif =  2 * math.pi - alphadif
         elif alphadif < -1 * math.pi:
-            alphadif = -2 * math.pi + alphadif
+            alphadif = -2 * math.pi - alphadif
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
