@@ -109,7 +109,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
         ious = np.array(ious)
         maxInd = np.argmax(ious) #iouが最大になっているインデックスを返す
-        alphadif = math.atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 )-math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
+        alphadif = abs(math.atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 )-math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX))
         if alphadif > math.pi:
 
             alphadif = 2 * math.pi - alphadif
@@ -124,7 +124,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 #-----------------------------
 #ALPHATEST
-
+import pdb; pdb.set_trace()
 surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['gz']
 surveyy = resultDF.ix[surveyInd]['ad']
