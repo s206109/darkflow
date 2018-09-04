@@ -127,7 +127,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 #ALPHATEST
 import pdb; pdb.set_trace()
 surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
-surveyx = resultDF.ix[surveyInd]['gz']
+surveyx = resultDF.ix[surveyInd]['ga']
 surveyy = resultDF.ix[surveyInd]['ad']
 #surveyy_g = resultDF.ix[surveyInd]['gz']
 #surveyx_g = resultDF.ix[surveyInd]['ga']
