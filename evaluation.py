@@ -130,8 +130,10 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         alp_pr = math.atan2( vecY_pr, vecX_pr  )
         alp_gt = math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
         alphadif = alp_pr - alp_gt
-        vecXdif = vecX_pr - gtBox[maxInd].vecX
-        vecYdif = vecY_pr - gtBox[maxInd].vecY
+        #vecXdif = vecX_pr - gtBox[maxInd].vecX
+        #vecYdif = vecY_pr - gtBox[maxInd].vecY
+        vecXdif = vecX_pr
+        vecYdif = vecY_pr
         if alphadif > math.pi:
 
             alphadif =  2 * math.pi - alphadif
