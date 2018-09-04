@@ -74,7 +74,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','px-gx','py-gy','ad','pz-gz','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','px-gx','py-gy','ad','pz-gz','ga','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -120,7 +120,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
                            (2*(predBox.vecX)-1 - gtBox[maxInd].vecX), (2*(predBox.vecY)-1 - gtBox[maxInd].vecY),
                            alphadif,
-                           (predBox.z   - gtBox[maxInd].z) , predBox.filenum],
+                           (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
