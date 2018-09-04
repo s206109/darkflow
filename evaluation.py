@@ -14,6 +14,21 @@ from darkflow.utils import process
 import math
 
 
+
+def MUKI(arg):
+    if   arg <     math.pi/4 and arg >= -1*math.pi/4:
+        muki = "right"
+    elif arg <=  3*math.pi/4 and arg >     math.pi/4:
+        muki = "back"
+    elif abs(arg) > 3*math.pi/4 or arg == 3*math.pi/4:
+        muki = "left"
+    elif arg >= -3*math.pi/4 and arg < -1*math.pi/4:
+        muki = "front"
+
+
+
+    return muki
+
 #-----------------------------
 # parameters
 visualPath = 'visualization'
@@ -74,7 +89,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','px-gx','py-gy','ad','pz-gz','ga','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','px-gx','py-gy','ad','pz-gz','ga','ac','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -110,19 +125,25 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
         ious = np.array(ious)
         maxInd = np.argmax(ious) #iouが最大になっているインデックスを返す
-        alphadif = math.atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 )-math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
+        alp_pr = math.atan2( 2*(predBox.vecY)-1 , 2*(predBox.vecX)-1 )
+        alp_gt = math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
+        alphadif = alp_pr - alp_gt
         if alphadif > math.pi:
 
             alphadif =  2 * math.pi - alphadif
         elif alphadif < -1 * math.pi:
             alphadif = -2 * math.pi - alphadif
+        if MUKI(alp_pr) == MUKI(alp_gt):
+            comp = 1
+        else:
+            comp = 0
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
                            (2*(predBox.vecX)-1 - gtBox[maxInd].vecX), (2*(predBox.vecY)-1 - gtBox[maxInd].vecY),
                            alphadif,
-                           (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, predBox.filenum],
+                           (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, comp, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 
