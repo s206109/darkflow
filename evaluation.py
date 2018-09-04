@@ -40,7 +40,7 @@ gtBoxes.sort()
 # load predicted boxes as predBoxes
 # jsonの読み込み
 cur_dir = os.getcwd()
-os.chdir('data/kitti/set1/PNGImagesTest/out')
+os.chdir('data/kitti/set1/PNGImagesTest/out-30000-vector-ex')
 jsonFiles = glob.glob('*.json')
 
 predBoxes = [0 for re2 in range(len(jsonFiles))]
@@ -125,6 +125,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
+
+
 #-----------------------------
 #ALPHATEST
 import pdb; pdb.set_trace()
@@ -149,7 +151,7 @@ plt.title("test_datas")
 # 表示する
 plt.show()
 #-----------------------------
-"""
+
 
 #-----------------------------
 #TEST
