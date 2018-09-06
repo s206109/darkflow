@@ -33,10 +33,10 @@ def process_box(self, b, h, w, threshold):
 		dis   = b.z
 		veX   = b.vecX
 		veY   = b.vecY
-		if veY < -1     :  veY = -1
+		if veY <  0     :  veY =  0
 		if veY >  1     :  veY =  1
-		if veX < -1     :  veX = -1
-		if veX >  1     :  veX =  1		
+		if veX <  0     :  veX =  0
+		if veX >  1     :  veX =  1
 		if left  < 0    :  left = 0
 		if right > w - 1: right = w - 1
 		if top   < 0    :   top = 0
