@@ -149,7 +149,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            index=resultDF.columns),ignore_index=True)
 
 
-"""
+
 #-----------------------------
 #ALPHATEST
 import pdb; pdb.set_trace()
@@ -175,6 +175,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
+"""
 
 #-----------------------------
 #TEST
@@ -201,7 +202,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-"""
+
 
 # compute error
 import pdb; pdb.set_trace()
@@ -266,7 +267,7 @@ plt.show()
 
 pdb.set_trace()
 
-"""
+
 
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
