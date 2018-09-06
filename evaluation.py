@@ -100,7 +100,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         predBox.h = predBoxes[dInd][pInd][4] - predBoxes[dInd][pInd][2]
         predBox.z = predBoxes[dInd][pInd][5]
         predBox.vecX = predBoxes[dInd][pInd][7]
-        if abs(predBoxes[dInd][pInd][7]) > 1:import pdb; pdb.set_trace()
+        if predBoxes[dInd][pInd][7] > 0:import pdb; pdb.set_trace()
         predBox.vecY = predBoxes[dInd][pInd][8]
         predBox.filenum = predBoxes[dInd][0] #filename取得
         ious = []
