@@ -131,10 +131,10 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         alp_pr = math.atan2( vecY_pr, vecX_pr  )
         alp_gt = math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
         alphadif = alp_pr - alp_gt
-        #vecXdif = vecX_pr - gtBox[maxInd].vecX
-        #vecYdif = vecY_pr - gtBox[maxInd].vecY
-        vecXdif = vecX_pr
-        vecYdif = vecY_pr
+        vecXdif = vecX_pr - gtBox[maxInd].vecX
+        vecYdif = vecY_pr - gtBox[maxInd].vecY
+        #vecXdif = vecX_pr
+        #vecYdif = vecY_pr
         if alphadif > math.pi:
 
             alphadif =  2 * math.pi - alphadif
@@ -144,7 +144,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
                            (2*(predBox.vecX)-1 - gtBox[maxInd].vecX), (2*(predBox.vecY)-1 - gtBox[maxInd].vecY),
-                           gtBox[maxInd].vecX,
+                           vecXdif,
                            (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
