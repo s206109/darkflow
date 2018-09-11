@@ -68,7 +68,8 @@ def loss(self, net_out):
     if m['name'].find('3d')>-1 : print('++++++++++++++++3次元で学習します+++++++++++++++')
     if self.FLAGS.alpha:
         anchors = np.reshape(anchors, [1, 1, B, 5]) #他に合うようにリシェイプ
-        net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１
+        #net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１
+        net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 )])
     else:
         anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
         net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
