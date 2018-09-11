@@ -79,7 +79,9 @@ def loss(self, net_out):
     if self.FLAGS.alpha:
          #alpha = net_out_reshape[:, :, :, :, 8]# alpha
          vecX = net_out_reshape[:, :, :, :, 8]
-         vecY = net_out_reshape[:, :, :, :, 9]
+         #vecY = net_out_reshape[:, :, :, :, 9]
+         vecY = np.cos(vecX)
+         vecX = np.sin(vecX)
          #alpha = tf.reshape(alpha, [-1, H*W, B, 1])
          vecX = tf.reshape(vecX, [-1, H*W, B, 1])
          vecY = tf.reshape(vecY, [-1, H*W, B, 1])
