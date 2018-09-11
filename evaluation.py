@@ -145,13 +145,13 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
-                           predBox.alpha,
+                           predBox.alpha-gtBox[maxInd].alpha,
                            (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 
 
-
+"""
 #-----------------------------
 #ALPHATEST
 import pdb; pdb.set_trace()
@@ -178,7 +178,7 @@ plt.show()
 #-----------------------------
 
 
-"""
+
 #-----------------------------
 #TEST
 
@@ -204,7 +204,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-
+"""
 
 # compute error
 import pdb; pdb.set_trace()
@@ -271,7 +271,7 @@ plt.show()
 pdb.set_trace()
 
 
-
+"""
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
