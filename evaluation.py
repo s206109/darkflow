@@ -121,7 +121,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
             #gtBox[gInd-1].vecX = gtBoxes[dInd][gInd][6]
             #gtBox[gInd-1].vecY = gtBoxes[dInd][gInd][7]
-            gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][6]
+            gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][8]
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
         if len(ious) == 0: continue
