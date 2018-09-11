@@ -32,7 +32,7 @@ def _save_ckpt(self, step, loss_profile):
 def train(self):
     loss_ph = self.framework.placeholders #lossのPlace Holderの略
     loss_mva = None; profile = list() #
-
+    import pdb; pdb.set_trace()
     batches = self.framework.shuffle() #ここで入力画像とアノテーションを取得
     loss_op = self.framework.loss
     for i, (x_batch, datum) in enumerate(batches):
