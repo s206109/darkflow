@@ -52,7 +52,8 @@ def _batch(self, chunk):
         if obj[6] >  math.pi:
             obj[6] = math.pi
         if obj[6] < -math.pi:
-            obj[6] = -math.pi 
+            obj[6] = -math.pi
+        obj[6] = obj[6] / math.pi #piに対するalphaの比率
         obj[3] = np.sqrt(obj[3]) #　そのルート
         obj[4] = np.sqrt(obj[4]) #　そのルート
         obj[5] = np.sqrt(obj[5]) #　そのルート
