@@ -73,8 +73,9 @@ for i, file in enumerate(jsonFiles):
            cdBox[j][3] = js[j]["bottomright"]["x"]
            cdBox[j][4] = js[j]["bottomright"]["y"]
            cdBox[j][5] = js[j]["dist"]
-           cdBox[j][7] = js[j]["vecX"]
-           cdBox[j][8] = js[j]["vecY"]
+           cdBox[j][7] = js[j]["alph"]
+           #cdBox[j][7] = js[j]["vecX"]
+           #cdBox[j][8] = js[j]["vecY"]
        cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
     predBoxes[i] = cdBox
 
@@ -89,7 +90,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','px-gx','py-gy','ad','pz-gz','ga','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','ad','pz-gz','ga','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -99,9 +100,10 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         predBox.w = predBoxes[dInd][pInd][3] - predBoxes[dInd][pInd][1]
         predBox.h = predBoxes[dInd][pInd][4] - predBoxes[dInd][pInd][2]
         predBox.z = predBoxes[dInd][pInd][5]
-        predBox.vecX = predBoxes[dInd][pInd][7]
+        predBox.alpha = predBoxes[dInd][pInd][7]
+        #predBox.vecX = predBoxes[dInd][pInd][7]
         #if predBoxes[dInd][pInd][7] > 0.5:import pdb; pdb.set_trace()
-        predBox.vecY = predBoxes[dInd][pInd][8]
+        #predBox.vecY = predBoxes[dInd][pInd][8]
         predBox.filenum = predBoxes[dInd][0] #filename取得
         ious = []
         gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))] #物体の数だけgt入れる箱を作る
@@ -117,39 +119,39 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
             gtBox[gInd-1].w = gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1]
             gtBox[gInd-1].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
-            gtBox[gInd-1].vecX = gtBoxes[dInd][gInd][6]
-            gtBox[gInd-1].vecY = gtBoxes[dInd][gInd][7]
-            gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][8]
+            #gtBox[gInd-1].vecX = gtBoxes[dInd][gInd][6]
+            #gtBox[gInd-1].vecY = gtBoxes[dInd][gInd][7]
+            gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][6]
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
         if len(ious) == 0: continue
 
         ious = np.array(ious)
         maxInd = np.argmax(ious) #iouが最大になっているインデックスを返す
-        vecX_pr= 2*(predBox.vecX)-1
-        vecY_pr= 2*(predBox.vecY)-1
-        alp_pr = math.atan2( vecY_pr, vecX_pr  )
-        alp_gt = math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
-        alphadif = alp_pr - alp_gt
+        #vecX_pr= 2*(predBox.vecX)-1
+        #vecY_pr= 2*(predBox.vecY)-1
+        #alp_pr = math.atan2( vecY_pr, vecX_pr  )
+        #alp_gt = math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
+        #alphadif = alp_pr - alp_gt
         #vecXdif = vecX_pr - gtBox[maxInd].vecX
         #vecYdif = vecY_pr - gtBox[maxInd].vecY
-        vecXdif = vecX_pr
-        vecYdif = vecY_pr
-        if alphadif > math.pi:
+        #vecXdif = vecX_pr
+        #vecYdif = vecY_pr
+        #if alphadif > math.pi:
 
-            alphadif =  2 * math.pi - alphadif
-        elif alphadif < -1 * math.pi:
-            alphadif = -2 * math.pi - alphadif
+            #alphadif =  2 * math.pi - alphadif
+        #elif alphadif < -1 * math.pi:
+            #alphadif = -2 * math.pi - alphadif
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
-                           (2*(predBox.vecX)-1 - gtBox[maxInd].vecX), (2*(predBox.vecY)-1 - gtBox[maxInd].vecY),
-                           vecXdif,
+                           predBpx.alpha,
                            (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 
 
+"""
 #-----------------------------
 #ALPHATEST
 import pdb; pdb.set_trace()
@@ -175,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-"""
+
 
 #-----------------------------
 #TEST
@@ -202,7 +204,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-
+"""
 
 # compute error
 import pdb; pdb.set_trace()
@@ -227,6 +229,7 @@ error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).value
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 #-----------------------------
+
 # alpha ga umakudekiteiru mono
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -268,7 +271,7 @@ plt.show()
 pdb.set_trace()
 
 
-
+"""
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
