@@ -33,10 +33,10 @@ def process_box(self, b, h, w, threshold):
 		bot   = int ((b.y + b.h/2.) * h)
 		dis   = b.z
 		alpha = b.alpha
-		if  alpha < -math.pi:
-			alpha = -math.pi
-		elif alpha > math.pi:
-			alpha =  math.pi
+		#if  alpha < -math.pi:
+		#	alpha = -math.pi
+		#elif alpha > math.pi:
+		#	alpha =  math.pi
 		#veX   = b.vecX
 		#veY   = b.vecY
 		#if veY <  0     :  veY =  0
