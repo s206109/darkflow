@@ -5,6 +5,7 @@ import cv2
 import os
 import json
 from ...cython_utils.cy_yolo_findboxes import yolo_box_constructor
+import math
 
 def _fix(obj, dims, scale, offs):
 	#import pdb; pdb.set_trace()
@@ -31,8 +32,13 @@ def process_box(self, b, h, w, threshold):
 		top   = int ((b.y - b.h/2.) * h)
 		bot   = int ((b.y + b.h/2.) * h)
 		dis   = b.z
-		veX   = b.vecX
-		veY   = b.vecY
+		alpha = b.alpha
+		if  alpha < -math.pi:
+			alpha = -math.pi
+		elif alpha > math.pi:
+			alpha =  math.pi
+		#veX   = b.vecX
+		#veY   = b.vecY
 		#if veY <  0     :  veY =  0
 		#if veY >  1     :  veY =  1
 		#if veX <  0     :  veX =  0
@@ -43,7 +49,8 @@ def process_box(self, b, h, w, threshold):
 		if bot   > h - 1:   bot = h - 1
 		mess = '{}'.format(label)
 		if self.FLAGS.alpha:
-			return (left, right, top, bot, mess, max_indx, max_prob, dis, veX, veY)
+			#return (left, right, top, bot, mess, max_indx, max_prob, dis, veX, veY)
+			return (left, right, top, bot, mess, max_indx, max_prob, dis, alpha)
 		else:
 			return (left, right, top, bot, mess, max_indx, max_prob, dis)
 	return None
