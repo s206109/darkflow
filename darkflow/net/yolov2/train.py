@@ -161,7 +161,7 @@ def loss(self, net_out):
 
 
 
-         difal              = tf.div(vec_dot, tf.multiply(adjusted_vec_abs,_vec_abs))
+         difal              = tf.subtract(1., tf.div(vec_dot, tf.multiply(adjusted_vec_abs,_vec_abs)))
 
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
