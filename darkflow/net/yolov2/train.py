@@ -157,6 +157,7 @@ def loss(self, net_out):
          adjusted_vec_abs   = tf.reshape(adjusted_vec_abs,[-1, H*W, B, 1])
          vec_dot            = tf.matmul(adjusted_vec , _vec, transpose_b=True)
          vec_dot            = tf.reduce_sum(vec_dot,axis = 3)
+         vec_dot            = tf.reshape(vec_dot,[-1, H*W, B, 1])
 
 
 
