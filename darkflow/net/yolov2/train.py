@@ -145,29 +145,31 @@ def loss(self, net_out):
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
          #adjusted_vecX      = tf.sqrt(tf.exp(   vecX[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
 		 #adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
-         anchor_vec         = anchors[:,:,:,3:5] / np.reshape([W, H], [1, 1, 1, 2])
 
-         adjusted_vec       = tf.concat( [vecX, vecY], 3)
-         adjusted_vec       = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #もしかしたらtfどうしじゃないからむりかも
+
+         anchor_vec         = anchors[:,:,:,3:5] / np.reshape([W, H], [1, 1, 1, 2]) #ベクトル用のアンカーを２次元分用意
+
+         adjusted_vec       = tf.concat( [vecX, vecY], 3)#出力のうちのベクトルを用意
+         adjusted_vec       = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #残差を学習するようにアンカーと足す
          #trueを整理
-         _vec               = tf.concat([_vecX, _vecY], 3)
-         _vec_abs           = tf.norm(_vec,axis=3)
-         _vec_abs           = tf.reshape(_vec_abs,[-1, H*W, B, 1])
-         adjusted_vec_abs   = tf.norm(adjusted_vec,axis=3)
-         adjusted_vec_abs   = tf.reshape(adjusted_vec_abs,[-1, H*W, B, 1])
-         vec_dot            = tf.matmul(adjusted_vec , _vec, transpose_b=True)
-         vec_dot            = tf.reduce_sum(vec_dot,axis = 3)
-         vec_dot            = tf.reshape(vec_dot,[-1, H*W, B, 1])
+         _vec               = tf.concat([_vecX, _vecY], 3)#真の値の分を用意
+         _vec_abs           = tf.norm(_vec,axis=3)#真の値のベクトルの絶対値を
+         _vec_abs           = tf.reshape(_vec_abs,[-1, H*W, B, 1])#型を整える
+         adjusted_vec_abs   = tf.norm(adjusted_vec,axis=3)#推定値にも同じように
+         adjusted_vec_abs   = tf.reshape(adjusted_vec_abs,[-1, H*W, B, 1])#
+         vec_dot            = tf.matmul(adjusted_vec , _vec, transpose_b=True)#内積を計算するので要素ごとに掛け算して
+         vec_dot            = tf.reduce_sum(vec_dot,axis = 3)#そのようをを３次元目で合算して内積を出す
+         vec_dot            = tf.reshape(vec_dot,[-1, H*W, B, 1])#それを型があうようにする
 
 
 
-         difal              = tf.subtract(1., tf.div(vec_dot, tf.multiply(adjusted_vec_abs,_vec_abs)))
+         difal              = tf.subtract(1., tf.div(vec_dot, tf.multiply(adjusted_vec_abs,_vec_abs)))  #1から内積/絶対値の積を引いたもの
 
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
 
          #self.fetch += [alpid, _alpha]
-         #self.fetch += [veXid, _vecX, veYid, _vecY]
+         self.fetch += [veXid, _vecX]
          #true = tf.concat([true, _alpha], 3)
          #wght = tf.concat([wght, alpid], 3)
          #true = tf.concat([true, _vecX, _vecY], 3)
