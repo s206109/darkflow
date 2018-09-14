@@ -145,19 +145,22 @@ def loss(self, net_out):
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
          #adjusted_vecX      = tf.sqrt(tf.exp(   vecX[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
 		 #adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
-         anchor_vec           = anchors[:,:,:,3:5] / np.reshape([W, H], [1, 1, 1, 2])
+         anchor_vec         = anchors[:,:,:,3:5] / np.reshape([W, H], [1, 1, 1, 2])
 
-         adjusted_vec      = tf.concat( [vecX, vecY], 3)
-         adjusted_vec     = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #もしかしたらtfどうしじゃないからむりかも
+         adjusted_vec       = tf.concat( [vecX, vecY], 3)
+         adjusted_vec       = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #もしかしたらtfどうしじゃないからむりかも
          #trueを整理
-         _vec             = tf.concat([_vecX, _vecY], 3)
-         _vec_abs         = tf.norm(_vec,axis=3)
-         _vec_abs         = tf.reshape(_vec_abs,[-1, H*W, B, 1])
-         adjusted_vec_abs         = tf.norm(adjusted_vec,axis=3)
-         adjusted_vec_abs         = tf.reshape(adjusted_vec_abs,[-1, H*W, B, 1])
+         _vec               = tf.concat([_vecX, _vecY], 3)
+         _vec_abs           = tf.norm(_vec,axis=3)
+         _vec_abs           = tf.reshape(_vec_abs,[-1, H*W, B, 1])
+         adjusted_vec_abs   = tf.norm(adjusted_vec,axis=3)
+         adjusted_vec_abs   = tf.reshape(adjusted_vec_abs,[-1, H*W, B, 1])
+         vec_dot            = tf.matmul(adjusted_vec , _vec, transpose_b=True)
+         vec_dot            = tf.reduce_sum(vec_dot,axis = 3)
 
 
-         difal              = tf.div(tf.matmul(adjusted_vec , _vec, transpose_b=True), tf.multiply(adjusted_vec_abs,_vec_abs))
+
+         difal              = tf.div(vec_dot, tf.multiply(adjusted_vec_abs,_vec_abs))
 
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
