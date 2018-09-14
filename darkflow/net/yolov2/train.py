@@ -166,7 +166,7 @@ def loss(self, net_out):
          #true = tf.concat([true, _vecX, _vecY], 3)
          #wght = tf.concat([wght, veXid, veYid], 3)
 
-
+    import pdb; pdb.set_trace()
     print('Building {} loss'.format(m['model']))
     loss = tf.pow(adjusted_net_out - true, 2)
     loss = tf.add(loss,difal)
