@@ -163,8 +163,8 @@ def loss(self, net_out):
 
 
 
-         difal              = tf.subtract(1., tf.divide(vec_dot, tf.multiply(adjusted_vec_abs,_vec_abs)))  #1から内積/絶対値の積を引いたもの
-         difal               = tf.abs(vec_dot)
+         difal              = tf.subtract(1., tf.truediv(vec_dot, tf.multiply(adjusted_vec_abs,_vec_abs)))  #1から内積/絶対値の積を引いたもの
+         #difal               = tf.abs(vec_dot)
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
 
