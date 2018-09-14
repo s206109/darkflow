@@ -154,7 +154,7 @@ def loss(self, net_out):
          _vec_abs         = tf.sqrt(tf.matmul(_vec, _vec, transpose_b=True))
          adjusted_vec_abs = tf.sqrt(tf.matmul(adjusted_vec, adjusted_vec, transpose_b=True))
 
-         difal              = tf.div(tf.matmul(adjusted_vec , _vec, transpose_b=True), tf.mul(adjusted_vec_abs,_vec_abs))
+         difal              = tf.div(tf.matmul(adjusted_vec , _vec, transpose_b=True), tf.multiply(adjusted_vec_abs,_vec_abs))
 
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
