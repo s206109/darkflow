@@ -143,21 +143,33 @@ def loss(self, net_out):
     if self.FLAGS.alpha: #alphaを使う場合
          #adjusted_alpha      = tf.sqrt(tf.exp(   alpha[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
-         adjusted_vecX      = tf.sqrt(tf.exp(   vecX[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
-         adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
-         adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
+         #adjusted_vecX      = tf.sqrt(tf.exp(   vecX[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
+		 #adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
+         anchor_vec           = anchors[:,:,:,3:5] / np.reshape([W], [1, 1, 1, 2])
+
+         adjusted_vec      = tf.concat( vecX, vecY, 3)
+         adjusted_vec     = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #もしかしたらtfどうしじゃないからむりかも
+         #trueを整理
+         _vec             = tf.concat(_vecX, _vecY, 3)
+         _vec_abs         = tf.sqrt(tf.matmul(_vec, _vec, transpose_b=True))
+         adjusted_vec_abs = tf.sqrt(tf.matmul(adjusted_vec, adjusted_vec, transpose_b=True))
+
+         difal              = tf.div(tf.matmul(adjusted_vec , _vec, transpose_b=True), tf.mul(adjusted_vec_abs,_vec_abs))
+
+         #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
 
          #self.fetch += [alpid, _alpha]
-         self.fetch += [veXid, _vecX, veYid, _vecY]
+         #self.fetch += [veXid, _vecX, veYid, _vecY]
          #true = tf.concat([true, _alpha], 3)
          #wght = tf.concat([wght, alpid], 3)
-         true = tf.concat([true, _vecX, _vecY], 3)
-         wght = tf.concat([wght, veXid, veYid], 3)
+         #true = tf.concat([true, _vecX, _vecY], 3)
+         #wght = tf.concat([wght, veXid, veYid], 3)
 
 
     print('Building {} loss'.format(m['model']))
     loss = tf.pow(adjusted_net_out - true, 2)
+    loss = tf.add(loss,difal)
     loss = tf.multiply(loss, wght)
     if self.FLAGS.alpha:
         loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 +1+ C)])
