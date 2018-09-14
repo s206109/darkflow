@@ -151,7 +151,8 @@ def loss(self, net_out):
          adjusted_vec     = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #もしかしたらtfどうしじゃないからむりかも
          #trueを整理
          _vec             = tf.concat([_vecX, _vecY], 3)
-         _vec_abs         = tf.sqrt(tf.matmul(_vec, _vec, transpose_b=True))
+         _vec_abs         = tf.norm(_vec,axis=3)
+		 _vec_abs         = tf.reshape(_vec_abs,[-1, H*W, B, 1])
          adjusted_vec_abs = tf.sqrt(tf.matmul(adjusted_vec, adjusted_vec, transpose_b=True))
 
          difal              = tf.div(tf.matmul(adjusted_vec , _vec, transpose_b=True), tf.multiply(adjusted_vec_abs,_vec_abs))
