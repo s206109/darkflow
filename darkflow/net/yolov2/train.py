@@ -145,7 +145,7 @@ def loss(self, net_out):
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
          #adjusted_vecX      = tf.sqrt(tf.exp(   vecX[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
 		 #adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
-         anchor_vec           = anchors[:,:,:,3:5] / np.reshape([W], [1, 1, 1, 2])
+         anchor_vec           = anchors[:,:,:,3:5] / np.reshape([W, H], [1, 1, 1, 2])
 
          adjusted_vec      = tf.concat( vecX, vecY, 3)
          adjusted_vec     = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #もしかしたらtfどうしじゃないからむりかも
