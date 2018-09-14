@@ -162,7 +162,7 @@ def loss(self, net_out):
          #self.fetch += [alpid, _alpha]
          #self.fetch += [veXid, _vecX, veYid, _vecY]
          #true = tf.concat([true, _alpha], 3)
-         wght = tf.concat([wght, alpid], 3)
+         #wght = tf.concat([wght, alpid], 3)
          #true = tf.concat([true, _vecX, _vecY], 3)
          wght = tf.concat([wght, veXid, veYid], 3)
 
