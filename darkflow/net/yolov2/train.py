@@ -169,7 +169,7 @@ def loss(self, net_out):
 
 
          #self.fetch += [alpid, _alpha]
-         self.fetch += [veXid, _vecX]
+         self.fetch += [veXid, _vec,]
          #true = tf.concat([true, _alpha], 3)
          #wght = tf.concat([wght, alpid], 3)
          #true = tf.concat([true, _vecX, _vecY], 3)
@@ -181,7 +181,7 @@ def loss(self, net_out):
     loss = tf.concat([loss,difal], 3)
     loss = tf.multiply(loss, wght)
     if self.FLAGS.alpha:
-        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 +1+ C)])
+        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 + C)])
     else:
         loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
     loss = tf.reduce_sum(loss, 1)
