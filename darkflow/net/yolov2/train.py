@@ -159,11 +159,13 @@ def loss(self, net_out):
          adjusted_vec_abs   = tf.reshape(adjusted_vec_abs,[-1, H*W, B, 1])#
          vec_dot            = tf.matmul(adjusted_vec , _vec, transpose_b=True)#内積を計算するので要素ごとに掛け算して
          vec_dot            = tf.reduce_sum(vec_dot,axis = 3)#そのようをを３次元目で合算して内積を出す
-         vec_dot            = tf.reshape(vec_dot,[-1, H*W, B, 1])#それを型があうようにする
+         vec_dot            = tf.reshape(vec_dot,[-1, H*W, B, 1])#それを型があうようにする¥
+         vec_abs_fin        = tf.multiply(adjusted_vec_abs,_vec_abs)
+         vec_abs_fin        = tf.add(vec_abs_fin, 0.001)
 
 
 
-         difal              = tf.subtract(1., tf.truediv(vec_dot, tf.multiply(adjusted_vec_abs,_vec_abs)))  #1から内積/絶対値の積を引いたもの
+         difal              = tf.subtract(1., tf.divide(vec_dot, vec_abs_fin))  #1から内積/絶対値の積を引いたもの
          #difal               = tf.abs(vec_dot)
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_vecX, adjusted_vecY], 3)
 
