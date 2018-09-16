@@ -63,7 +63,8 @@ def loss(self, net_out):
         'probs':_probs, 'confs':_confs, 'coord':_coord, 'proid':_proid,
         'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'vecX':_vecX, 'vecY':_vecY
     }
-
+    sasaki  = np.reshape(np.eye(10,10), [1, 1, B, 10])
+    #sasaki = np.reshape(np.array([np.eye(10,10) for i in range(169)]),[13,13,10,10])
     # Extract the coordinate prediction from net.out
     if m['name'].find('3d')>-1 : print('++++++++++++++++3次元で学習します+++++++++++++++')
     if self.FLAGS.alpha:
@@ -158,8 +159,9 @@ def loss(self, net_out):
          adjusted_vec_abs   = tf.norm(adjusted_vec,axis=3)#推定値にも同じように
          adjusted_vec_abs   = tf.reshape(adjusted_vec_abs,[-1, H*W, B, 1])#
          vec_dot            = tf.matmul(adjusted_vec , _vec, transpose_b=True)#内積を計算するので要素ごとに掛け算して
-         vec_dot            = vec_dot[:,:,:,:1]#それの１要素目だけを内積につかう（あってるか微妙）
-         #vec_dot            = tf.reduce_sum(vec_dot,axis = 3)#そのようをを３次元目で合算して内積を出す
+         #vec_dot            = vec_dot[:,:,:,:1]
+         vec_dot            = vec_dot * sasaki #10x10で用意しておいた単位行列を掛け合わせて対角成分のみつかう
+         vec_dot            = tf.reduce_sum(vec_dot,axis = 3)#そのようをを３次元目で合算して内積を出す
          vec_dot            = tf.reshape(vec_dot,[-1, H*W, B, 1])#それを型があうようにする¥
          vec_abs_fin        = tf.multiply(adjusted_vec_abs,_vec_abs)
          vec_abs_fin        = tf.add(vec_abs_fin, 0.001)
