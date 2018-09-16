@@ -151,7 +151,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 
 
-
+"""
 #-----------------------------
 #ALPHATEST
 import pdb; pdb.set_trace()
@@ -177,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-"""
+
 
 #-----------------------------
 #TEST
@@ -205,7 +205,7 @@ plt.show()
 #-----------------------------
 
 
-
+"""
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -271,7 +271,7 @@ plt.show()
 pdb.set_trace()
 
 
-
+"""
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
