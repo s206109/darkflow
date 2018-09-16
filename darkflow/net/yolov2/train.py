@@ -158,7 +158,7 @@ def loss(self, net_out):
          adjusted_vec_abs   = tf.norm(adjusted_vec,axis=3)#推定値にも同じように
          adjusted_vec_abs   = tf.reshape(adjusted_vec_abs,[-1, H*W, B, 1])#
          vec_dot            = tf.matmul(adjusted_vec , _vec, transpose_b=True)#内積を計算するので要素ごとに掛け算して
-         vec_dot            = vec_dot[:,:,:,:1]
+         vec_dot            = vec_dot[:,:,:,:1]#それの１要素目だけを内積につかう（あってるか微妙）
          #vec_dot            = tf.reduce_sum(vec_dot,axis = 3)#そのようをを３次元目で合算して内積を出す
          vec_dot            = tf.reshape(vec_dot,[-1, H*W, B, 1])#それを型があうようにする¥
          vec_abs_fin        = tf.multiply(adjusted_vec_abs,_vec_abs)
