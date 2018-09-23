@@ -68,7 +68,7 @@ def loss(self, net_out):
     # Extract the coordinate prediction from net.out
     if m['name'].find('3d')>-1 : print('++++++++++++++++3次元で学習します+++++++++++++++')
     if self.FLAGS.alpha:
-        anchors = np.reshape(anchors, [1, 1, B, 5]) #他に合うようにリシェイプ
+        anchors = np.reshape(anchors, [1, 1, B, 4]) #他に合うようにリシェイプ
         #net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１
         net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 )])
     else:
@@ -148,8 +148,10 @@ def loss(self, net_out):
 		 #adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
 
 
-         anchor_vec         = anchors[:,:,:,3:5] / np.reshape([W, H], [1, 1, 1, 2]) #ベクトル用のアンカーを２次元分用意
-
+         anchor_vec         = anchors[:,:,:,3:4] / np.reshape([W, H], [1, 1, 1, 2]) #ベクトル用のアンカーを２次元分用意
+         anchor_vec_x       = np.cos(anchor)
+         anchor_vec_y       = np.sin(anchor)
+		 anchor_vec         = np.concatenate([anchor_vec_x, anchor_vec_y], 3)
          adjusted_vec       = tf.concat( [vecX, vecY], 3)#出力のうちのベクトルを用意
          adjusted_vec       = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #残差を学習するようにアンカーと足す
          #trueを整理
