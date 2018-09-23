@@ -33,7 +33,7 @@ def generate_random_color():
     
 visualPath = 'visualization3d'
 imgPath = 'image_2'
-nCluster = 10
+nCluster = 20
 nData = 1000
 nSubAnchors = 1
 
@@ -120,12 +120,17 @@ for file in files[:nData]:
 # normalization
 x3d_max = np.max(np.abs(x3d))
 x3d_norm = x3d/np.max(x3d_max)
+width2d_max = np.max(np.abs(width2d))
+width2d_norm = width2d/np.max(width2d_max)
+height2d_max = np.max(np.abs(height2d))
+height2d_norm = height2d/np.max(height2d_max)
 z3d_max = np.max(np.abs(z3d))
 z3d_norm = z3d/z3d_max
 alpha_max = np.max(np.abs(alpha))
 alpha_norm = alpha/alpha_max
 
-X3d = np.vstack([x3d_norm,z3d_norm,alpha_norm]).T
+#X3d = np.vstack([x3d_norm,z3d_norm,alpha_norm]).T
+X3d = np.vstack([width2d_norm,height2d_norm,z3d_norm,alpha_norm]).T
 X2d = np.vstack([minx,miny,maxx,maxy]).T
 kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(X3d)
 #----------------------
@@ -133,12 +138,13 @@ kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(X3d)
 #----------------------
 # save cluster coordinates for anchors
 ccs_norm = kmeans.cluster_centers_
-x3d_c = ccs_norm[:,0] * x3d_max
-z3d_c = ccs_norm[:,1] * z3d_max
-alpha_c = ccs_norm[:,2] * alpha_max
+width2d_c = ccs_norm[:,0] * width2d_max
+height2d_c = ccs_norm[:,1] * height2d_max
+z3d_c = ccs_norm[:,2] * z3d_max
+alpha_c = ccs_norm[:,3] * alpha_max
 
 # cluster centers
-ccs = np.vstack([x3d_c,z3d_c,alpha_c]).T
+ccs = np.vstack([width2d_c,height2d_c,z3d_c,alpha_c]).T
 
 # anchors
 anchors_std = np.zeros([nCluster,4])
@@ -158,7 +164,8 @@ for c in np.arange(nCluster):
 with open("cluster.pkl","wb") as fp:
 	pickle.dump(anchors,fp)
 	pickle.dump(anchors_std,fp)
-	pickle.dump(x3d_c,fp)
+	pickle.dump(width2d_c,fp)
+	pickle.dump(height2d_c,fp)
 	pickle.dump(z3d_c,fp)
 	pickle.dump(alpha_c,fp)
 	pickle.dump(ccs,fp)
@@ -167,150 +174,6 @@ with open("cluster.pkl","wb") as fp:
 im = Image.open(os.path.join(imgPath,'{}.png'.format(fnames[0])))
 print("img width:{}, height:{}".format(im.width,im.height))
 print(ccs)
-#----------------------
-
-#----------------------
-# plot cluster centers
-plt.plot(ccs[:,0],ccs[:,1],'o')
-
-# plot alpha by arrows
-dx_alpha = np.cos(alpha_c) 
-dy_alpha = np.sin(alpha_c)
-
-for c in np.arange(nCluster):
-	#splt.arrow(x3d_c[c],z3d_c[c],dx_alpha[c],dy_alpha[c],fc="k",ec="k",head_width=0.5,head_length=0.2)
-	
-	if x3d_c[c]>=0:
-		dx = np.cos(-alpha_c[c] + np.arctan(z3d_c[c]/x3d_c[c]) - np.pi/2)
-		dy = np.sin(-alpha_c[c] + np.arctan(z3d_c[c]/x3d_c[c]) - np.pi/2)
-	else:
-		dx = np.cos(-alpha_c[c] + np.arctan(z3d_c[c]/x3d_c[c]) + np.pi/2)
-		dy = np.sin(-alpha_c[c] + np.arctan(z3d_c[c]/x3d_c[c]) + np.pi/2)
-
-	plt.arrow(x3d_c[c],z3d_c[c],dx,dy,fc="r",ec="r",head_width=0.5,head_length=0.2)
-	plt.text(x3d_c[c]+0.5,z3d_c[c]+0.5,c.astype(str))
-	plt.xlabel('x camera coordinate')
-	plt.ylabel('z camera coordinate')
-
-plt.savefig(os.path.join(visualPath,"cluster.png"))
-#----------------------
-
-
-#----------------------
-fig = plt.figure()
-ax = plt.axes()
-
-x1 = anchors[:,0].astype(int)
-y1 = 375-anchors[:,3].astype(int)
-x2 = anchors[:,2].astype(int)
-y2 = 375-anchors[:,1].astype(int)
-
-for c in np.arange(len(anchors)):
-	if c % nSubAnchors == 0:
-		color = generate_random_color()
-
-	r = patches.Rectangle(xy=(x1[c], y1[c]), width=x2[c]-x1[c], height=y2[c]-y1[c], ec=color, fill=False)
-	ax.add_patch(r)
-	plt.text(x1[c],y1[c],np.floor(c/nSubAnchors).astype(int).astype(str),size=6,color=color)
-
-plt.axis('scaled')
-ax.set_aspect('equal')
-plt.xlim(0,1242)
-plt.ylim(-10,385)
-plt.yticks([1,187,375])
-
-plt.savefig(os.path.join(visualPath,"anchors.png"))
-#----------------------
-
-#----------------------
-# histogram of alpha and ry 
-for c in np.arange(nCluster):
-	print("{}:{},{}".format(c,ccs[c][0],ccs[c][1]))
-
-	inds = np.where(kmeans.labels_==c)[0]
-	fig, figInd=plt.subplots(ncols=5,sharex=False)
-	
-	# rotation and coordinate
-	figInd[0].plot(np.cos(alpha[inds]),np.sin(alpha[inds]),'.')
-	figInd[0].set_title('alpha')
-	figInd[0].set_xlim([-1,1])
-	
-	figInd[1].plot(np.cos(ry[inds]),np.sin(ry[inds]),'.')
-	figInd[1].set_title('ry')
-	figInd[1].set_xlim([-1,1])
-
-	'''
-	figInd[0].hist(alpha[inds])
-	figInd[0].set_title('alpha')
-	figInd[0].set_xlim([-3.14,3.14])
-	
-	figInd[1].hist(ry[inds])
-	figInd[1].set_title('ry')
-	figInd[1].set_xlim([-3.14,3.14])	
-	'''
-
-	# coordinate
-	figInd[2].hist(x3d[inds])
-	figInd[2].set_title('x')
-	figInd[2].set_xlim([-50,50])
-
-	figInd[3].hist(y3d[inds])
-	figInd[3].set_title('y')
-	figInd[3].set_xlim([-5,5])
-
-	figInd[4].hist(z3d[inds])
-	figInd[4].set_title('z')
-	figInd[4].set_xlim([-70,70])
-	
-	plt.savefig(os.path.join(visualPath,"alpha_ry_coodinate_hist_{}.png".format(c)))
-
-	# dimension
-	plt.clf()
-	fig, figInd=plt.subplots(ncols=3,sharex=True)
-	figInd[0].hist(height3d[inds])
-	figInd[0].set_title('height')
-	figInd[0].set_xlim([0,6])
-	
-	figInd[1].hist(width3d[inds])
-	figInd[1].set_title('width')
-	figInd[1].set_xlim([0,6])
-
-	figInd[2].hist(length3d[inds])
-	figInd[2].set_title('length')
-	figInd[1].set_xlim([0,6])
-	
-	plt.savefig(os.path.join(visualPath,"dimension_hist_{}.png".format(c)))
-
-	#----------------------
-	# image crop
-	for ind in np.arange(len(inds)):
-		tmp_ind = inds[ind]
-		im = Image.open(os.path.join(imgPath,'{}.png'.format(fnames[tmp_ind])))
-		im_crop = im.crop((minx[tmp_ind], miny[tmp_ind], maxx[tmp_ind], maxy[tmp_ind]))
-		imgVisualPath = os.path.join(visualPath,str(c))
-		if not os.path.exists(imgVisualPath): os.mkdir(imgVisualPath)
-		
-		im_crop.save(os.path.join(imgVisualPath,"{}_{}.png".format(fnames[tmp_ind],ind)), quality=95)
-	#----------------------
-#----------------------
-
-#----------------------
-with open(os.path.join(visualPath,'log.pkl'),'wb') as fp:
-	pickle.dump(kmeans,fp)
-	pickle.dump(fnames,fp)
-	pickle.dump(minx,fp)
-	pickle.dump(miny,fp)
-	pickle.dump(maxx,fp)
-	pickle.dump(maxy,fp)
-	pickle.dump(width2d,fp)
-	pickle.dump(height2d,fp)
-	pickle.dump(alpha,fp)
-	pickle.dump(ry,fp)
-	pickle.dump(height3d,fp)
-	pickle.dump(width3d,fp)
-	pickle.dump(length3d,fp)
-	pickle.dump(x3d,fp)
-	pickle.dump(y3d,fp)
-	pickle.dump(z3d,fp)
+pdb.set_trace()
 #----------------------
 
