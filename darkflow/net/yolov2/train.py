@@ -151,7 +151,7 @@ def loss(self, net_out):
          anchor_vec         = anchors[:,:,:,3:4] / np.reshape([W, H], [1, 1, 1, 2]) #ベクトル用のアンカーを２次元分用意
          anchor_vec_x       = np.cos(anchor)
          anchor_vec_y       = np.sin(anchor)
-		 anchor_vec         = np.concatenate([anchor_vec_x, anchor_vec_y], 3)
+         anchor_vec         = np.concatenate([anchor_vec_x, anchor_vec_y], 3)
          adjusted_vec       = tf.concat( [vecX, vecY], 3)#出力のうちのベクトルを用意
          adjusted_vec       = tf.add( adjusted_vec[:,:,:,:], anchor_vec) #残差を学習するようにアンカーと足す
          #trueを整理
