@@ -190,7 +190,7 @@ for c in np.arange(nCluster):
 	round(cluster_centers[c,2]*distRatio,1),
 	#round(cluster_centers[c,3]*vecRatio,1),
 	#round(cluster_centers[c,4]*vecRatio,1)))
-	round(cluster_centers[c,4]*vecRatio,1)))
+	round(cluster_centers[c,3]*vecRatio,1)))
 	#print("{},{},  ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1)))
 
 #print(cluster_centers)
