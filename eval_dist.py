@@ -73,7 +73,7 @@ for i, file in enumerate(jsonFiles):
            cdBox[j][3] = js[j]["bottomright"]["x"]
            cdBox[j][4] = js[j]["bottomright"]["y"]
            cdBox[j][5] = js[j]["dist"]
-           cdBox[j][7] = js[j]["alph"]
+           #cdBox[j][7] = js[j]["alph"]
            #cdBox[j][7] = js[j]["vecX"]
            #cdBox[j][8] = js[j]["vecY"]
        cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
@@ -90,7 +90,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','ad','pz-gz','ga','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','pz-gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -121,7 +121,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
             #gtBox[gInd-1].vecX = gtBoxes[dInd][gInd][6]
             #gtBox[gInd-1].vecY = gtBoxes[dInd][gInd][7]
-            gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][8]
+            #gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][8]
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
         if len(ious) == 0: continue
@@ -145,8 +145,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
-                           math.cos(predBox.alpha)-math.cos(gtBox[maxInd].alpha),
-                           (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, predBox.filenum],
+                           (predBox.z   - gtBox[maxInd].z) , predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 
