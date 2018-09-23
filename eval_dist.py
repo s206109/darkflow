@@ -150,6 +150,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 
 
+import pdb; pdb.set_trace()
 """
 #-----------------------------
 #ALPHATEST
