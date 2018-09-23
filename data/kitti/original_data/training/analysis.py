@@ -32,7 +32,7 @@ nCluster = 10
 nData = 1000
 widthRatio = 13/1242
 heightRatio = 13/370
-distRatio = 13/100
+distRatio = 1#3/100
 vecRatio = 1
 
 
