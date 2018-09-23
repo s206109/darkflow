@@ -189,18 +189,18 @@ surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
 mejirushiy = [0, 0, 0, 0, 0]
 mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
-plt.scatter(surveyx, surveyy,   c='b', s = 5, label = 'test_data')
+plt.scatter(surveyx, surveyy,   c='b', s = 5, label = 'test　data',fontsize = 18)
 for ssk in mejirushi:
      plt.vlines([ssk], -15, 15, "red", linestyles='dashed')
 #plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
 # 凡例を表示する
 plt.legend()
-plt.xlabel('object angle')
-plt.ylabel('distance error')
+plt.xlabel('object angle',fontsize = 18)
+plt.ylabel('distance error',fontsize = 18)
 
 # グラフのタイトルを設定する
-plt.title("test datas")
+plt.title("Distribution of distance error",fontsize = 18)
 
 # 表示する
 plt.show()
