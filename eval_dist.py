@@ -196,9 +196,11 @@ for ssk in mejirushi:
 
 # 凡例を表示する
 plt.legend()
+plt.xlabel('object angle')
+plt.ylabel('distance error')
 
 # グラフのタイトルを設定する
-plt.title("test_datas")
+plt.title("test datas")
 
 # 表示する
 plt.show()
