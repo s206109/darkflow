@@ -32,8 +32,8 @@ nCluster = 10
 nData = 1000
 widthRatio = 13/1242
 heightRatio = 13/370
-distRatio = 1#3/100
-vecRatio = 1
+distRatio = 13/100
+alphaRatio = 1
 
 
 #----------------------
@@ -61,10 +61,6 @@ for file in files[:nData]:
 	tmp_maxy = df[7][inds].values
 	tmp_width2d = (df[6][inds] - df[4][inds]).values
 	tmp_height2d = (df[7][inds] - df[5][inds]).values
-	#tmp_alpha = np.cos(df[3][inds].values)
-    #もし負の数のデータの場合、πを足して向うむきに強制的に変える
-
-	#import pdb; pdb.set_trace()
 	negInds = np.where(df[3][inds].values  < 0)[0]
 	plaInds = np.where(df[3][inds].values >= 0)[0]
 	'''
@@ -76,15 +72,12 @@ for file in files[:nData]:
 	'''
 
 	tmp_alpha = df[3][inds].values
+
 	"""
 	tmp_vecX = np.cos(df[3][inds].values)
 	tmp_vecY = np.sin(df[3][inds].values)
-	"""
-	#import pdb; pdb.set_trace()
-	#for vind in range(len(tmp_alpha)):
-          #tmp_vecX[vind] = (tmp_vecX[vind] + 1)/2
-          #tmp_vecY[vind] = (tmp_vecY[vind] + 1)/2
 
+	"""
 
 	#tmp_ry = np.cos(df[14][inds].values)
 	tmp_ry = df[14][inds].values
@@ -190,7 +183,7 @@ for c in np.arange(nCluster):
 	round(cluster_centers[c,2]*distRatio,1),
 	#round(cluster_centers[c,3]*vecRatio,1),
 	#round(cluster_centers[c,4]*vecRatio,1)))
-	round(cluster_centers[c,3]*vecRatio,1)))
+	round(cluster_centers[c,3]*alphaRatio,1)))
 	#print("{},{},  ".format(round(cluster_centers[c,0]*widthRatio,1),round(cluster_centers[c,1]*heightRatio,1)))
 
 #print(cluster_centers)
