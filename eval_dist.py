@@ -90,7 +90,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','pz-gz','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','ga,''pz-gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
         predBox = box.BoundBox(2)
@@ -121,7 +121,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
             #gtBox[gInd-1].vecX = gtBoxes[dInd][gInd][6]
             #gtBox[gInd-1].vecY = gtBoxes[dInd][gInd][7]
-            #gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][8]
+            gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][8]
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
         if len(ious) == 0: continue
@@ -145,7 +145,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
-                           (predBox.z   - gtBox[maxInd].z) , predBox.filenum],
+                           gtBox[maxInd].alpha, (predBox.z   - gtBox[maxInd].z) , predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 
@@ -178,7 +178,7 @@ plt.show()
 #-----------------------------
 
 
-
+"""
 #-----------------------------
 #TEST
 
@@ -271,7 +271,7 @@ plt.show()
 pdb.set_trace()
 
 
-"""
+
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
