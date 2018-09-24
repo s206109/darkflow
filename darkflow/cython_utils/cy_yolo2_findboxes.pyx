@@ -65,7 +65,7 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
     C = meta['classes']
     B = meta['num']
     ###########################
-    ANC = 5
+    ANC = 4
     ###########################
     cdef:
         float[:, :, :, ::1] net_out = net_out_in.reshape([H, W, B, net_out_in.shape[2]/B])
@@ -89,7 +89,7 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
                 Bbox_pred[row, col, box_loop, 3] = exp(Bbox_pred[row, col, box_loop, 3]) * anchors[ANC * box_loop + 1] / H
                 DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * maxz * anchors[ANC * box_loop + 2] / W
                 #ALPHA [row, col, box_loop]       = exp(ALPHA[row, col, box_loop]) * anchors[ANC * box_loop + 3] / W
-                ALPHA [row, col, box_loop]       = ALPHA[row, col, box_loop]
+                ALPHA [row, col, box_loop]       = ALPHA[row, col, box_loop] + anchors[ANC * box_loop + 3] / W
                 #VECX [row, col, box_loop]       = exp(VECX[row, col, box_loop]) * anchors[ANC * box_loop + 3] / W
                 #VECY [row, col, box_loop]       = exp(VECY[row, col, box_loop]) * anchors[ANC * box_loop + 4] / W
                 #SOFTMAX BLOCK, no more pointer juggling
