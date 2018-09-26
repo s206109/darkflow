@@ -187,7 +187,7 @@ def loss(self, net_out):
     print('Building {} loss'.format(m['model']))
     loss = tf.pow(adjusted_net_out - true, 2)
     #loss = tf.concat([loss,difal], 3)
-    #loss = tf.multiply(loss, wght)
+    loss = tf.multiply(loss, wght)
     if self.FLAGS.alpha:
         loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 + C)])
     else:
