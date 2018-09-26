@@ -55,7 +55,7 @@ gtBoxes.sort()
 # load predicted boxes as predBoxes
 # jsonの読み込み
 cur_dir = os.getcwd()
-os.chdir('data/kitti/set1/PNGImagesTest/out-20000-alpha-ex')
+os.chdir('data/kitti/set1/PNGImagesTest/out_20000_orientation')
 jsonFiles = glob.glob('*.json')
 
 predBoxes = [0 for re2 in range(len(jsonFiles))]
@@ -261,7 +261,7 @@ plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20,
 #plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
 #plt.plot(['10','20','30','40','40 over'],[1.3878909524222403, 1.7428688349630319, 2.771728648535813, 3.5718634061115546, 3.5744018749480553])
 
-#plt.plot(['10','20','30','40','40 over'],[error10_a, error20_a, error30_a, error40_a, error40over_a])
+plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.2775419670104979, 1.5536206423574024, 3.3295523603638606, 3.9544111429850255, 5.2242221323649085])
 plt.xlabel('true distance')
 plt.ylabel('absolute error')
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
