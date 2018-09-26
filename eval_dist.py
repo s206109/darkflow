@@ -184,12 +184,14 @@ plt.show()
 
 surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['ga']
-surveyy = resultDF.ix[surveyInd]['pz-gz']
+surveyy = float(resultDF.ix[surveyInd]['pz-gz'])
 surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
 mejirushiy = [0, 0, 0, 0, 0]
 mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
-plt.scatter(surveyx, surveyy,   c='b')
+
+
+plt.scatter(surveyx, surveyy,   c='b', s = 5)
 for ssk in mejirushi:
      plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
 #plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
