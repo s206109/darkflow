@@ -178,7 +178,7 @@ plt.show()
 #-----------------------------
 
 
-
+"""
 #-----------------------------
 #TEST
 
@@ -273,7 +273,7 @@ plt.show()
 pdb.set_trace()
 
 
-"""
+
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
