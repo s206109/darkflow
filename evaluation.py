@@ -263,7 +263,7 @@ plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20,
 
 
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.2775419670104979, 1.5536206423574024, 3.3295523603638606, 3.9544111429850255, 5.2242221323649085],label = 'estimation with 2.5D anchor')
-plt.legend(fontsize = 18)
+plt.legend(fontsize = 10)
 plt.xlabel('true distance',fontsize = 18)
 plt.ylabel('absolute error',fontsize = 18)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
