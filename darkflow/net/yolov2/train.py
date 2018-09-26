@@ -148,7 +148,7 @@ def loss(self, net_out):
 		 #adjusted_vecY      = tf.sqrt(tf.exp(   vecY[:,:,:,:1]) * anchors[:,:,:,4:5] / np.reshape([W], [1, 1, 1, 1]))
 
          #import pdb; pdb.set_trace()
-         anchor_vec          = anchors[:,:,:,3:5] / np.reshape([W], [1, 1, 1, 2])
+         anchor_vec          = anchors[:,:,:,3:5] / np.reshape([W,H], [1, 1, 1, 2])
          #anchor_            = anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]) * np.reshape([math.pi], [1, 1, 1, 1]) #ベクトル用のアンカーを２次元分用意
          #anchor_vec_x       = np.cos(anchor_)
          #anchor_vec_y       = np.sin(anchor_)
