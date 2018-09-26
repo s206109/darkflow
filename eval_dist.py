@@ -195,7 +195,7 @@ for ssk in mejirushi:
 #plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
 # 凡例を表示する
-plt.legend(prop = {'size':18,})
+plt.legend()
 plt.xlabel('object orientation[rad]',fontsize = 18)
 plt.ylabel('distance error',fontsize = 18)
 
