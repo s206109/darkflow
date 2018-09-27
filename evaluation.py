@@ -177,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-"""
+
 import pdb; pdb.set_trace()
 
 #-----------------------------
@@ -213,6 +213,7 @@ plt.show()
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
 error10 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+disp10  = np.mean((np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error10)*(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error10))
 std10 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 10) & (resultDF['gz'] <= 20) & (resultDF['gh'] > 25))[0]
@@ -232,7 +233,7 @@ error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).value
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 #-----------------------------
-
+"""
 # alpha ga umakudekiteiru mono
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -257,7 +258,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 
 #-----------------------------
 #-----------------------------
-
+"""
 #-----------------------------
 # plot distance prediction error
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor')
@@ -276,7 +277,7 @@ plt.show()
 pdb.set_trace()
 
 
-
+"""
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
