@@ -179,7 +179,7 @@ plt.show()
 
 
 import pdb; pdb.set_trace()
-"""
+
 #-----------------------------
 #TEST
 
@@ -232,23 +232,7 @@ error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).value
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 
-#-----------------------------
-# plot distance prediction error
-plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor')
-#plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[error1, error2, error3, error4, error5],label = 'estimation with 2.5D + orientation anchor')
-#plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[bunsan1, bunsan2, bunsan3, bunsan4, bunsan5],label = 'bunsan with 2.5D + orientation anchor')
-#plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
-#plt.plot(['10','20','30','40','40 over'],[1.3878909524222403, 1.7428688349630319, 2.771728648535813, 3.5718634061115546, 3.5744018749480553])
 
-
-plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor')
-plt.legend(fontsize = 10)
-#plt.xlabel('true distance',fontsize = 18)
-plt.xlabel('true distance',fontsize = 18)
-#plt.ylabel('absolute error',fontsize = 18)
-plt.ylabel('absolute error',fontsize = 18)
-plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
-plt.show()
 #-----------------------------
 
 pdb.set_trace()
@@ -282,6 +266,26 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 #-----------------------------
 
 
+#-----------------------------
+# plot distance prediction error
+plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor')
+plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10_a, error20_a, error30_a, error40_a, error40over_a],label = 'orientation with 2.5D + orientation anchor')
+#plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[error1, error2, error3, error4, error5],label = 'estimation with 2.5D + orientation anchor')
+#plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[bunsan1, bunsan2, bunsan3, bunsan4, bunsan5],label = 'bunsan with 2.5D + orientation anchor')
+#plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
+#plt.plot(['10','20','30','40','40 over'],[1.3878909524222403, 1.7428688349630319, 2.771728648535813, 3.5718634061115546, 3.5744018749480553])
+
+
+plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor')
+plt.legend(fontsize = 10)
+#plt.xlabel('true distance',fontsize = 18)
+plt.xlabel('true distance',fontsize = 18)
+#plt.ylabel('absolute error',fontsize = 18)
+plt.ylabel('absolute error',fontsize = 18)
+plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
+plt.show()
+
+"""
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
@@ -338,31 +342,4 @@ plt.show()
 
 pdb.set_trace()
 
-
-
-#img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
-img = cv2.imread('test.jpg')
-# 解析を行う
-items = tfnet.return_predict(img)
-# 検出できたものを確認
-import pdb; pdb.set_trace()
-print(items)
-
-for item in items:
-    # 四角を描くのに必要な情報とラベルを取り出す
-    tlx = item['topleft']['x']
-    tly = item['topleft']['y']
-    brx = item['bottomright']['x']
-    bry = item['bottomright']['y']
-    label = item['label']
-    conf = item['confidence']
-    dist = item['distance']
-    print(item)
-    # 自信のあるものを表示
-    if conf > 0.05:
-
-        for i in labels:
-            if label == i:
-                class_num = labels.index(i)
-                break
 """
