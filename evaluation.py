@@ -218,18 +218,22 @@ std10 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 10) & (resultDF['gz'] <= 20) & (resultDF['gh'] > 25))[0]
 error20 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+disp20  = np.mean((np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error20)*(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error20))
 std20 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 20) & (resultDF['gz'] <= 30) & (resultDF['gh'] > 25))[0]
 error30 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+disp30  = np.mean((np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error30)*(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error30))
 std30 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 30) & (resultDF['gz'] <= 40) & (resultDF['gh'] > 25))[0]
 error40 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+disp40  = np.mean((np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error40)*(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error40))
 std40 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40) & (resultDF['gh'] > 25))[0]
 error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+disp40over  = np.mean((np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error40over)*(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)-error40over))
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 #-----------------------------
@@ -267,6 +271,7 @@ plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20,
 
 
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor')
+plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[disp10, disp20, disp30, disp40, disp40over],label = 'bunsan with 2.5D + Orientation anchor')
 plt.legend(fontsize = 10)
 plt.xlabel('true distance',fontsize = 18)
 plt.ylabel('absolute error',fontsize = 18)
