@@ -290,33 +290,39 @@ plt.show()
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error1 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
-ave1   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
-bunsan1 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave1)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave1))
+#ave1   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+#bunsan1 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave1)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave1))
+bunsan1 = np.var((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
 std10 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga']  >  -3 * math.pi/ 4) & (resultDF['ga'] <= -math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error2 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
-ave2   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
-bunsan2 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave2)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave2))
+#ave2   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+#bunsan2 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave2)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave2))
+bunsan2 = np.var((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
 std20 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga']  >     -math.pi / 4) & (resultDF['ga'] <=  math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error3 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
-ave3   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
-bunsan3 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave3)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave3))
+#ave3   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+#bunsan3 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave3)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave3))
+bunsan3 = np.var((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
 std30 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] >       math.pi / 4) & (resultDF['ga'] <= 3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error4 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
-ave4   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
-bunsan4 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave4)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave4))
+#ave4   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+#bunsan4 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave4)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave4))
+bunsan4 = np.var((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
 std40 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] > 3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error5 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
-ave5   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
-bunsan5 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave5)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave5))
+#ave5   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+#bunsan5 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave5)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave5))
+bunsan5 = np.var((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+
 
 
 
