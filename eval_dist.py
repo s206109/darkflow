@@ -177,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-"""
+
 
 #-----------------------------
 #TEST
@@ -249,7 +249,7 @@ plt.show()
 
 #-----------------------------
 
-
+"""
 # alpha ga umakudekiteiru mono
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
