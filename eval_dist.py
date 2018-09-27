@@ -207,7 +207,7 @@ plt.show()
 #-----------------------------
 
 
-
+"""
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -231,10 +231,27 @@ error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).value
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 #-----------------------------
+# plot distance prediction error
+plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D anchor')
+#plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[error1, error2, error3, error4, error5],label = 'estimation with 2.5D anchor')
+#plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[bunsan1, bunsan2, bunsan3, bunsan4, bunsan5],label = 'bunsan with 2.5D anchor')
+#plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
+#plt.plot(['10','20','30','40','40 over'],[1.3878909524222403, 1.7428688349630319, 2.771728648535813, 3.5718634061115546, 3.5744018749480553])
+#print([error10, error20, error30, error40, error40over])
+#plt.plot(['10','20','30','40','40 over'],[error10_a, error20_a, error30_a, error40_a, error40over_a])
+plt.legend(fontsize = 18)
+plt.xlabel('true distance',fontsize = 18)
+plt.ylabel('absolute error',fontsize = 18)
+plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
+plt.show()
+#-----------------------------
+
+
+#-----------------------------
 
 
 # alpha ga umakudekiteiru mono
-
+"""
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
 error10_a = np.mean(np.abs((resultDF.ix[inds].ad).values))
 std10_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
@@ -257,7 +274,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 
 #-----------------------------
 #-----------------------------
-"""
+
 
 # compute error
 import pdb; pdb.set_trace()
@@ -311,7 +328,7 @@ plt.ylabel('absolute error',fontsize = 18)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
 #-----------------------------
-"""
+
 pdb.set_trace()
 
 
