@@ -55,7 +55,7 @@ gtBoxes.sort()
 # load predicted boxes as predBoxes
 # jsonの読み込み
 cur_dir = os.getcwd()
-os.chdir('data/kitti/set1/PNGImagesTest/out')
+os.chdir('data/kitti/set1/PNGImagesTest/out-52000')
 jsonFiles = glob.glob('*.json')
 
 predBoxes = [0 for re2 in range(len(jsonFiles))]
@@ -177,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-
+"""
 
 #-----------------------------
 #TEST
@@ -231,7 +231,7 @@ error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).value
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 #-----------------------------
-"""
+
 
 # alpha ga umakudekiteiru mono
 
@@ -257,7 +257,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 
 #-----------------------------
 #-----------------------------
-"""
+
 #-----------------------------
 # plot distance prediction error
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D anchor')
@@ -271,7 +271,7 @@ plt.ylabel('absolute error',fontsize = 18)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
 #-----------------------------
-"""
+
 pdb.set_trace()
 
 
