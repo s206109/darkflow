@@ -55,7 +55,7 @@ gtBoxes.sort()
 # load predicted boxes as predBoxes
 # jsonの読み込み
 cur_dir = os.getcwd()
-os.chdir('data/kitti/set1/PNGImagesTest/out_52000_orientation')
+os.chdir('data/kitti/set1/PNGImagesTest/out')
 jsonFiles = glob.glob('*.json')
 
 predBoxes = [0 for re2 in range(len(jsonFiles))]
@@ -177,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-
+"""
 
 #-----------------------------
 #TEST
@@ -189,16 +189,18 @@ surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
 mejirushiy = [0, 0, 0, 0, 0]
 mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
-plt.scatter(surveyx, surveyy,   c='b', s = 5, label = 'test_data')
+plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
 for ssk in mejirushi:
-     plt.vlines([ssk], -15, 15, "red", linestyles='dashed')
+     plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
 #plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
 # 凡例を表示する
 plt.legend()
+plt.xlabel('object orientation[rad]',fontsize = 18)
+plt.ylabel('distance error',fontsize = 18)
 
 # グラフのタイトルを設定する
-plt.title("test_datas")
+plt.title("Distribution of distance error",fontsize = 18)
 
 # 表示する
 plt.show()
@@ -273,7 +275,7 @@ plt.show()
 pdb.set_trace()
 
 
-"""
+
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
