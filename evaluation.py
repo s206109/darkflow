@@ -207,7 +207,7 @@ plt.title("Distribution of distance error",fontsize = 18)
 plt.show()
 #-----------------------------
 
-
+"""
 
 # compute error
 import pdb; pdb.set_trace()
@@ -237,7 +237,7 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 pdb.set_trace()
 
-
+"""
 #-----------------------------
 
 # alpha ga umakudekiteiru mono
@@ -265,7 +265,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 #-----------------------------
 #-----------------------------
 
-
+"""
 #-----------------------------
 # plot distance prediction error
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor')
@@ -279,13 +279,14 @@ plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10_a, error2
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor')
 plt.legend(fontsize = 10)
 #plt.xlabel('true distance',fontsize = 18)
+errorbar(x, y, yerr=None, xerr=None,fmt='', ecolor=None)
 plt.xlabel('true distance',fontsize = 18)
 #plt.ylabel('absolute error',fontsize = 18)
 plt.ylabel('absolute error',fontsize = 18)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
 
-"""
+
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
@@ -347,3 +348,4 @@ plt.show()
 #-----------------------------
 
 pdb.set_trace()
+"""
