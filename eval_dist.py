@@ -177,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-""”
+"""
 
 #-----------------------------
 #TEST
@@ -206,8 +206,8 @@ plt.title("Distribution of distance error",fontsize = 18)
 plt.show()
 #-----------------------------
 
-
 """
+
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -251,7 +251,7 @@ plt.show()
 
 
 # alpha ga umakudekiteiru mono
-"""
+
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
 error10_a = np.mean(np.abs((resultDF.ix[inds].ad).values))
 std10_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
