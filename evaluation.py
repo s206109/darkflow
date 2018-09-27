@@ -292,9 +292,11 @@ plt.plot(['[-3pi/4<]','[-3pi/4:-pi/4]','[-pi/4:pi/4]','[pi/4:3pi/4]','[<3pi/4]']
 #plt.plot(['10','20','30','40','40 over'],[1.3878909524222403, 1.7428688349630319, 2.771728648535813, 3.5718634061115546, 3.5744018749480553])
 
 
-plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor')
+#plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor')
 plt.legend(fontsize = 10)
-plt.xlabel('true distance',fontsize = 18)
+#plt.xlabel('true distance',fontsize = 18)
+plt.xlabel('true orientation',fontsize = 18)
+#plt.ylabel('absolute error',fontsize = 18)
 plt.ylabel('absolute error',fontsize = 18)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
