@@ -177,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-
+"""
 
 #-----------------------------
 #TEST
@@ -196,7 +196,7 @@ for ssk in mejirushi:
 
 # 凡例を表示する
 plt.legend()
-plt.xlabel('object orientation[rad]',fontsize = 18)
+plt.xlabel('object orientation α [rad]',fontsize = 18)
 plt.ylabel('distance error',fontsize = 18)
 
 # グラフのタイトルを設定する
@@ -249,7 +249,7 @@ plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror
 plt.show()
 #-----------------------------
 
-"""
+
 #-----------------------------
 
 

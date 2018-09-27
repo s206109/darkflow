@@ -177,7 +177,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-
+"""
 import pdb; pdb.set_trace()
 
 #-----------------------------
@@ -197,7 +197,7 @@ for ssk in mejirushi:
 
 # 凡例を表示する
 plt.legend()
-plt.xlabel('object orientation[rad]',fontsize = 18)
+plt.xlabel('object orientation α [rad]',fontsize = 18)
 plt.ylabel('distance error',fontsize = 18)
 
 # グラフのタイトルを設定する
@@ -237,7 +237,7 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 pdb.set_trace()
 
-"""
+
 #-----------------------------
 
 # alpha ga umakudekiteiru mono
@@ -265,7 +265,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 #-----------------------------
 #-----------------------------
 
-"""
+
 #-----------------------------
 # plot distance prediction error
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor',color = 'blue')
@@ -291,7 +291,7 @@ plt.ylabel('absolute error',fontsize = 16)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
 
-"""
+
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
