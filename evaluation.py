@@ -263,22 +263,32 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error1 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+ave1   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+bunsan1 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave1)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave1))
 std10 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga']  >  -3 * math.pi/ 4) & (resultDF['ga'] <= -math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error2 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+ave2   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+bunsan2 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave2)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave2))
 std20 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga']  >     -math.pi / 4) & (resultDF['ga'] <=  math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error3 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+ave3   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+bunsan3 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave3)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave3))
 std30 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] >       math.pi / 4) & (resultDF['ga'] <= 3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error4 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+ave4   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+bunsan4 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave4)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave4))
 std40 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] > 3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
 error5 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
+ave5   = np.mean((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values)
+bunsan5 = np.mean(((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave5)*((resultDF.ix[inds].pz - resultDF.ix[inds].pz).values - ave5))
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 
@@ -288,6 +298,7 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 # plot distance prediction error
 #plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor')
 plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[error1, error2, error3, error4, error5],label = 'estimation with 2.5D + orientation anchor')
+plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[bunsan1, bunsan2, bunsan3, bunsan4, bunsan5],label = 'bunsan with 2.5D + orientation anchor')
 #plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
 #plt.plot(['10','20','30','40','40 over'],[1.3878909524222403, 1.7428688349630319, 2.771728648535813, 3.5718634061115546, 3.5744018749480553])
 
