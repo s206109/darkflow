@@ -277,13 +277,14 @@ plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20,
 
 
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor',color = 'red')
-plt.legend(fontsize = 10)
+
 #plt.xlabel('true distance',fontsize = 18)
 std_error = [std10/10,std20/10 ,std30/10, std40/10, std40over/10]
 std_error2 = [0.088569044128493188, 0.1430281019268857, 0.29578555799245304, 0.36913817919553921, 0.33677865394882478]
 
 plt.errorbar(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'], [error10, error20, error30, error40, error40over], std_error,ecolor = 'b')
 plt.errorbar(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'], [1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741], std_error2,ecolor = 'r')
+plt.legend(fontsize = 10)
 plt.xlabel('true distance[m]',fontsize = 18)
 #plt.ylabel('absolute error',fontsize = 18)
 plt.ylabel('absolute error',fontsize = 18)
