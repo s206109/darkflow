@@ -286,7 +286,7 @@ plt.ylabel('absolute error',fontsize = 18)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
 
-
+"""
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
