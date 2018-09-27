@@ -206,7 +206,7 @@ plt.title("Distribution of distance error",fontsize = 18)
 plt.show()
 #-----------------------------
 
-"""
+
 
 # compute error
 import pdb; pdb.set_trace()
@@ -249,7 +249,7 @@ plt.show()
 
 #-----------------------------
 
-"""
+
 # alpha ga umakudekiteiru mono
 
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -275,7 +275,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 #-----------------------------
 #-----------------------------
 
-
+"""
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
@@ -330,32 +330,3 @@ plt.show()
 #-----------------------------
 
 pdb.set_trace()
-
-
-
-#img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
-img = cv2.imread('test.jpg')
-# 解析を行う
-items = tfnet.return_predict(img)
-# 検出できたものを確認
-import pdb; pdb.set_trace()
-print(items)
-
-for item in items:
-    # 四角を描くのに必要な情報とラベルを取り出す
-    tlx = item['topleft']['x']
-    tly = item['topleft']['y']
-    brx = item['bottomright']['x']
-    bry = item['bottomright']['y']
-    label = item['label']
-    conf = item['confidence']
-    dist = item['distance']
-    print(item)
-    # 自信のあるものを表示
-    if conf > 0.05:
-
-        for i in labels:
-            if label == i:
-                class_num = labels.index(i)
-                break
-"""
