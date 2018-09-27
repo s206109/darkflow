@@ -268,7 +268,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 """
 #-----------------------------
 # plot distance prediction error
-plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor',color = 'b')
+plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor',color = 'blue')
 #plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10_a, error20_a, error30_a, error40_a, error40over_a],label = 'orientation with 2.5D + orientation anchor')
 #plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[error1, error2, error3, error4, error5],label = 'estimation with 2.5D + orientation anchor')
 #plt.plot(['1:[-3pi/4<]','2:[-3pi/4:-pi/4]','3:[-pi/4:pi/4]','4:pi/4:3pi/4]','5:[<3pi/4]'],[bunsan1, bunsan2, bunsan3, bunsan4, bunsan5],label = 'bunsan with 2.5D + orientation anchor')
@@ -276,7 +276,7 @@ plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20,
 #plt.plot(['10','20','30','40','40 over'],[1.3878909524222403, 1.7428688349630319, 2.771728648535813, 3.5718634061115546, 3.5744018749480553])
 
 
-plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor',color = 'r')
+plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor',color = 'red')
 plt.legend(fontsize = 10)
 #plt.xlabel('true distance',fontsize = 18)
 std_error = [std10/10,std20/10 ,std30/10, std40/10, std40over/10]
