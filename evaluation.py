@@ -132,20 +132,20 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         #vecY_pr= 2*(predBox.vecY)-1
         #alp_pr = math.atan2( vecY_pr, vecX_pr  )
         #alp_gt = math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
-        #alphadif = alp_pr - alp_gt
+        alphadif = predBox.alpha - gtBox[maxInd].alpha
         #vecXdif = vecX_pr - gtBox[maxInd].vecX
         #vecYdif = vecY_pr - gtBox[maxInd].vecY
         #vecXdif = vecX_pr
         #vecYdif = vecY_pr
-        #if alphadif > math.pi:
+        if alphadif > math.pi:
 
-            #alphadif =  2 * math.pi - alphadif
-        #elif alphadif < -1 * math.pi:
-            #alphadif = -2 * math.pi - alphadif
+            alphadif =  2 * math.pi - alphadif
+        elif alphadif < -1 * math.pi:
+            alphadif = -2 * math.pi - alphadif
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
-                           predBox.alpha - gtBox[maxInd].alpha,
+                           alphadif,
                            (predBox.z   - gtBox[maxInd].z) ,gtBox[maxInd].alpha, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
