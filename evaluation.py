@@ -279,7 +279,7 @@ plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20,
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[1.1577788484456362, 1.6437140840763669, 3.6163843362981618, 5.0210139905144189, 3.9699841791788741],label = 'estimation with 2.5D anchor')
 plt.legend(fontsize = 10)
 #plt.xlabel('true distance',fontsize = 18)
-plt.errorbar(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'], [error10, error20, error30, error40, error40over], yerr=[std10 ,std20 ,std30, std40, std40over]/10, xerr=None,fmt='ro', ecolor='')
+plt.errorbar(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'], [error10, error20, error30, error40, error40over], yerr=[std10 /10,std20/10 ,std30/10, std40/10, std40over/10], xerr=None,fmt='ro', ecolor='')
 
 plt.xlabel('true distance',fontsize = 18)
 #plt.ylabel('absolute error',fontsize = 18)

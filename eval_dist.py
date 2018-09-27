@@ -207,7 +207,7 @@ plt.show()
 #-----------------------------
 
 
-
+"""
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
@@ -240,13 +240,14 @@ plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20,
 #print([error10, error20, error30, error40, error40over])
 #plt.plot(['10','20','30','40','40 over'],[error10_a, error20_a, error30_a, error40_a, error40over_a])
 plt.legend(fontsize = 12)
+plt.errorbar(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'], [error10, error20, error30, error40, error40over], yerr=[std10 /10,std20/10 ,std30/10, std40/10, std40over/10], xerr=None,fmt='ro', ecolor='')
 plt.xlabel('true distance',fontsize = 18)
 plt.ylabel('absolute error',fontsize = 18)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
 #-----------------------------
 
-
+"""
 #-----------------------------
 
 
@@ -275,7 +276,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 #-----------------------------
 #-----------------------------
 
-"""
+
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
@@ -335,3 +336,4 @@ plt.show()
 #-----------------------------
 
 pdb.set_trace()
+"""
