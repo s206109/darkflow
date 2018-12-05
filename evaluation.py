@@ -83,6 +83,9 @@ predBoxes.sort()
 #import pdb; pdb.set_trace()
 os.chdir(cur_dir)
 #-----------------------------
+subarasii = [   15,    49,   334,   383,   788,  2181,  2466,  2846,  2948,
+        3473,  4325,  4343,  5151,  5645,  6325,  6913,  7313,  8005,
+        8053,  8531,  8667,  9131,  9903, 10169]
 bugid = [    1,    75,   738,  1755,  1829,  1839,  2036,  2130,  2554,3529,  3943,  4454,  4826,  4875,  4888,  4926,  5302,  5428, 5532,  5652,  7285,  7633,  7953,  8349,  8419,  8546,  8882, 9218,  9305,  9505, 10015, 10258, 10472]
 bugname = []
 #-----------------------------
@@ -137,11 +140,11 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         #vecYdif = vecY_pr - gtBox[maxInd].vecY
         #vecXdif = vecX_pr
         #vecYdif = vecY_pr
-        if alphadif > math.pi:
+        #if alphadif > math.pi:
 
-            alphadif =  2 * math.pi - alphadif
-        elif alphadif < -1 * math.pi:
-            alphadif = -2 * math.pi - alphadif
+        #    alphadif =  2 * math.pi - alphadif
+        #elif alphadif < -1 * math.pi:
+        #    alphadif = -2 * math.pi - alphadif
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
                            gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,
