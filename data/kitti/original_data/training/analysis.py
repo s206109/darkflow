@@ -28,8 +28,8 @@ import math
 
 visualPath = 'visualization'
 imgPath = 'image_2'
-nCluster = 10
-#nCluster = 20
+#nCluster = 10
+nCluster = 20
 #nCluster = 50
 nData = 1000
 widthRatio = 13/1242
