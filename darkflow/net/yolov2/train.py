@@ -67,10 +67,16 @@ def loss(self, net_out):
     #sasaki = np.reshape(np.array([np.eye(10,10) for i in range(169)]),[13,13,10,10])
     # Extract the coordinate prediction from net.out
     if m['name'].find('3d')>-1 : print('++++++++++++++++3次元で学習します+++++++++++++++')
+	#
+	#
+	#caliculate alpha's value
     if self.FLAGS.alpha:
         anchors = np.reshape(anchors, [1, 1, B, 5]) #他に合うようにリシェイプ
         #net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 + 1)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１
         net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 )])
+    #
+	#
+	#
     else:
         anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
         net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
@@ -141,6 +147,7 @@ def loss(self, net_out):
     true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista], 3)
     wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid], 3)
 
+    '''
     if self.FLAGS.alpha: #alphaを使う場合
          #adjusted_alpha      = tf.sqrt(tf.exp(   alpha[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
          #adjusted_net_out = tf.concat([adjusted_net_out, adjusted_alpha], 3)
@@ -182,11 +189,10 @@ def loss(self, net_out):
          #wght = tf.concat([wght, alpid], 3)
          #true = tf.concat([true, _vecX, _vecY], 3)
          wght = tf.concat([wght, veXid], 3)
+    '''
 
-    import pdb; pdb.set_trace()
     print('Building {} loss'.format(m['model']))
     loss = tf.pow(adjusted_net_out - true, 2)
-    loss = tf.concat([loss,difal], 3)
     loss = tf.multiply(loss, wght)
     if self.FLAGS.alpha:
         loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 + C)])
