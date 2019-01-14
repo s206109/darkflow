@@ -65,6 +65,9 @@ def _batch(self, chunk):
     # Calculate placeholders' values
     # 値を入れるために特定の和の要素の配列を確保
     probs = np.zeros([H*W,B,C]) #169x5x2セルごとの各クラスへの所属確率
+
+    look  = np.zeros([H*W,B,2])#見た目が横向きか縦向きかの所属確率
+
     confs = np.zeros([H*W,B]) #169x5 セルごとの各BBの信頼度
     coord = np.zeros([H*W,B,4]) #169x5x4  セルごとのBBの座標
     proid = np.zeros([H*W,B,C]) #169x5x2
@@ -73,9 +76,20 @@ def _batch(self, chunk):
     vecX  = np.zeros([H*W,B,1])
     vecY  = np.zeros([H*W,B,1])
     #alpha = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体の角度
+    #import pdb; pdb.set_trace()
     for obj in allobj: #全て物体が存在するセル番号にあてはめて値を入れ込んでいる
         probs[obj[7], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
         probs[obj[7], :, labels.index(obj[0])] = 1.   #そのうち入力された物体の方の確率を１とする
+
+        look[obj[7], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
+        if abs(obj[6]) > math.pi / 4 and abs(obj[6]) > 3 * math.pi / 4:
+            probs[obj[7], :,0] = 1. #縦向きのばあい要素１つ目を１とする
+        else:
+            probs[obj[7], :,1] = 1. #横向きのばあい要素２つ目を１とする
+
+
+
+
         proid[obj[7], :, :] = [[1.]*C] * B #なぜかここは物体があるセルのクラスにかかわらず１を代入
         coord[obj[7], :, :] = [obj[1:5]] * B #中心ずれと幅高さ比率を、アンカーの数だけそれぞれに同じものを代入
         prear[obj[7],0] = obj[1] - obj[3]**2 * .5 * W # xleft BBの中心座標とBBの比率でそれぞれの座標を逆算
@@ -84,6 +98,9 @@ def _batch(self, chunk):
         prear[obj[7],3] = obj[2] + obj[4]**2 * .5 * H # ybot　BBの中心座標とBBの比率でそれぞれの座標を逆算
         confs[obj[7], :] = [1.] * B #物体が存在するセルの各BBの信頼度を１とする
         dista[obj[7], :, :] = [[obj[5]]] * B # 距離の比率をアンカーの数だけそれぞれに同じものを代入
+
+
+
         #vecX[obj[7], :, :] = [[(math.cos(obj[6])+1)/2]] * B # cosαをアンカーの数だけそれぞれに同じものを代入
         vecX[obj[7], :, :] = [[math.cos(obj[6])]] * B # cosαをアンカーの数だけそれぞれに同じものを代入
         #vecY[obj[7], :, :] = [[(math.sin(obj[6])+1)/2]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
@@ -106,6 +123,7 @@ def _batch(self, chunk):
         'coord': coord, 'proid': proid,
         'areas': areas, 'upleft': upleft,
         'botright': botright, 'dista':dista,
-        'vecX':vecX , 'vecY':vecY
+        'vecX':vecX , 'vecY':vecY ,
+        'look':look
     }
     return inp_feed_val, loss_feed_val
