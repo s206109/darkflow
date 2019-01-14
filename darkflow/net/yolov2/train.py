@@ -25,6 +25,7 @@ def loss(self, net_out):
     scoor = float(m['coord_scale'])
     sdist = float(m['dist_scale'])
     salph = float(m['alpha_scale'])
+    slook = float(m['alpha_scale'])
 
     H, W, _ = m['out_size']
     B, C = m['num'], m['classes']
@@ -41,11 +42,14 @@ def loss(self, net_out):
     size1 = [None, HW, B, C]
     size2 = [None, HW, B]
     size3 = [None, HW, B, 1]
-
+    size4 = [None, HW, B, 2]
     # return the below placeholders
     constm = tf.constant(-1)
     constp = tf.constant(1)
     _probs = tf.placeholder(tf.float32, size1)
+	############
+    _look = tf.placeholder(tf.float32, size4)
+	############
     _confs = tf.placeholder(tf.float32, size2)
     _coord = tf.placeholder(tf.float32, size2 + [4])
     # weights term for L2 loss
@@ -61,7 +65,7 @@ def loss(self, net_out):
 
     self.placeholders = {
         'probs':_probs, 'confs':_confs, 'coord':_coord, 'proid':_proid,
-        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'vecX':_vecX, 'vecY':_vecY
+        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'vecX':_vecX, 'vecY':_vecY, 'look':_look
     }
     sasaki  = np.reshape(np.eye(B,B), [1, 1, B, B])
     #sasaki = np.reshape(np.array([np.eye(10,10) for i in range(169)]),[13,13,10,10])
@@ -79,7 +83,10 @@ def loss(self, net_out):
 	#
     else:
         anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
-        net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
+        net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 2)])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２ ＋向きの見た目２
+
+
+
     coords = net_out_reshape[:, :, :, :, :4]# 座標の４まで.-1を指定した次元は削除される
     coords = tf.reshape(coords, [-1, H*W, B, 4]) #セルxセルをセル番号
     distance = net_out_reshape[:, :, :, :, 7]# distance
@@ -94,7 +101,7 @@ def loss(self, net_out):
          #alpha = tf.reshape(alpha, [-1, H*W, B, 1])
          vecX = tf.reshape(vecX, [-1, H*W, B, 1])
          vecY = tf.reshape(vecY, [-1, H*W, B, 1])
-    #import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
     adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:3] / np.reshape([W], [1, 1, 1, 1]))
@@ -104,8 +111,10 @@ def loss(self, net_out):
 
     adjusted_prob = tf.nn.softmax(net_out_reshape[:, :, :, :, 5:7])
     adjusted_prob = tf.reshape(adjusted_prob, [-1, H*W, B, C])
+    adjusted_look = tf.nn.softmax(net_out_reshape[:, :, :, :, 8:10])
+    adjusted_look = tf.reshape(adjusted_look, [-1, H*W, B, 2])
     adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, adjusted_prob], 3)
-    adjusted_net_out = tf.concat([adjusted_net_out, adjusted_distance_z], 3)
+    adjusted_net_out = tf.concat([adjusted_net_out, adjusted_distance_z, adjusted_look], 3)
 	#↓coordsの要素を二乗xセルの数(13)
     wh = tf.pow(coords[:,:,:,2:4], 2) * np.reshape([W, H], [1, 1, 1, 2])
     area_pred = wh[:,:,:,0] * wh[:,:,:,1]
@@ -141,11 +150,13 @@ def loss(self, net_out):
     veXid =  salph * weight_veX
     weight_veY = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
     veYid =  salph * weight_veY
+    weight_loo = tf.concat(2 * [tf.expand_dims(confs, -1)], 3)
+    looid = slook * weight_loo
 
 
     self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista]
-    true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista], 3)
-    wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid], 3)
+    true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista, _look], 3)
+    wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid, looid], 3)
 
     '''
     if self.FLAGS.alpha: #alphaを使う場合
@@ -197,7 +208,7 @@ def loss(self, net_out):
     if self.FLAGS.alpha:
         loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 + C)])
     else:
-        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
+        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C + 2)])
     loss = tf.reduce_sum(loss, 1)
     self.loss = .5 * tf.reduce_mean(loss)
     tf.summary.scalar('{} loss'.format(m['model']), self.loss)
