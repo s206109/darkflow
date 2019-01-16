@@ -154,7 +154,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 
 
-
+"""
 #-----------------------------
 #ALPHATEST
 import pdb; pdb.set_trace()
@@ -180,9 +180,9 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-"""
-import pdb; pdb.set_trace()
 
+import pdb; pdb.set_trace()
+"""
 #-----------------------------
 #TEST
 
