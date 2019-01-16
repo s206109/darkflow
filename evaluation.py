@@ -57,7 +57,7 @@ gtBoxes.sort()
 cur_dir = os.getcwd()
 os.chdir('data/kitti/set1/PNGImagesTest/out_53000_final')
 jsonFiles = glob.glob('*.json')
-
+import pdb; pdb.set_trace()
 predBoxes = [0 for re2 in range(len(jsonFiles))]
 for i, file in enumerate(jsonFiles):
     with open(file) as f:
