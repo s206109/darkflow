@@ -185,7 +185,7 @@ import pdb; pdb.set_trace()
 
 #-----------------------------
 #TEST
-"""
+
 surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
 surveyx = resultDF.ix[surveyInd]['ga']
 surveyy = resultDF.ix[surveyInd]['pz-gz']
@@ -294,7 +294,7 @@ plt.xlabel('true distance[m]',fontsize = 16)
 plt.ylabel('absolute error',fontsize = 16)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
-
+"""
 
 # compute error
 import pdb; pdb.set_trace()
