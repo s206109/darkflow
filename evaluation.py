@@ -154,7 +154,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 
 
-"""
+
 #-----------------------------
 #ALPHATEST
 import pdb; pdb.set_trace()
@@ -237,7 +237,7 @@ std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
 
 #-----------------------------
-"""
+
 
 pdb.set_trace()
 
@@ -269,7 +269,7 @@ std40over_a = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values
 #-----------------------------
 #-----------------------------
 
-"""
+
 #-----------------------------
 # plot distance prediction error
 plt.plot(['[0-10]','[10-20]','[20-30]','[30-40]','[40 over]'],[error10, error20, error30, error40, error40over],label = 'estimation with 2.5D + orientation anchor',color = 'blue')
@@ -295,7 +295,7 @@ plt.ylabel('absolute error',fontsize = 16)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
 
-"""
+
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] <=  -3 * math.pi/ 4) & (resultDF['gh'] > 25))[0]
