@@ -112,9 +112,9 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         gtBox = [box.BoundBox(2) for i in np.arange(1,len(gtBoxes[dInd]))] #物体の数だけgt入れる箱を作る
 
         for gInd in np.arange(1,len(gtBoxes[dInd])):
-            if predBox.c != gtBoxes[dInd][gInd][0]:
-                 ious.append(0.0) #classが違えば　iouをアペンドしてから飛ばす
-                 continue #classが違えば飛ばす
+            #if predBox.c != gtBoxes[dInd][gInd][0]:
+                 #ious.append(0.0) #classが違えば　iouをアペンドしてから飛ばす
+                 #continue #classが違えば飛ばす
 
             gtBox[gInd-1].c = gtBoxes[dInd][gInd][0]
             gtBox[gInd-1].x = gtBoxes[dInd][gInd][1]
