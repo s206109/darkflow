@@ -180,7 +180,7 @@ plt.title("test_datas")
 plt.show()
 #-----------------------------
 
-
+"""
 import pdb; pdb.set_trace()
 
 #-----------------------------
@@ -210,7 +210,7 @@ plt.title("Distribution of distance error",fontsize = 18)
 plt.show()
 #-----------------------------
 
-"""
+
 
 # compute error
 import pdb; pdb.set_trace()
