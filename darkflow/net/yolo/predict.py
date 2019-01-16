@@ -23,6 +23,7 @@ def resize_input(self, im):
 	return imsz
 
 def process_box(self, b, h, w, threshold):
+	import pdb; pdb.set_trace()
 	max_indx = np.argmax(b.probs)
 	max_prob = b.probs[max_indx]
 	label = self.meta['labels'][max_indx]
