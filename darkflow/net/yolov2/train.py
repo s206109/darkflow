@@ -137,11 +137,11 @@ def loss(self, net_out):
     confs = tf.multiply(best_box, _confs)
 
     # take care of the weight terms
-    conid = snoob * (1. - confs) + sconf * confs
+    conid =  snoob * (1. - confs) + sconf * confs
     weight_coo = tf.concat(4 * [tf.expand_dims(confs, -1)], 3)
-    cooid = scoor * weight_coo
+    cooid =  scoor * weight_coo
     weight_pro = tf.concat(C * [tf.expand_dims(confs, -1)], 3)
-    proid = sprob * weight_pro
+    proid =  sprob * weight_pro
     weight_dis = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
     disid =  sdist * weight_dis
     weight_alp = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
@@ -151,7 +151,7 @@ def loss(self, net_out):
     weight_veY = tf.concat(1 * [tf.expand_dims(confs, -1)], 3)
     veYid =  salph * weight_veY
     weight_loo = tf.concat(2 * [tf.expand_dims(confs, -1)], 3)
-    looid = slook * weight_loo
+    looid =  slook * weight_loo
 
 
     self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista]
