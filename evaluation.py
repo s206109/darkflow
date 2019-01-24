@@ -55,7 +55,7 @@ gtBoxes.sort()
 # load predicted boxes as predBoxes
 # jsonの読み込み
 cur_dir = os.getcwd()
-os.chdir('data/kitti/set1/PNGImagesTest/out_53000_orientation')
+os.chdir('data/kitti/set1/PNGImagesTest/out_53000_orientation_20')
 jsonFiles = glob.glob('*.json')
 
 predBoxes = [0 for re2 in range(len(jsonFiles))]
