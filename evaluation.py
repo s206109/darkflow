@@ -179,7 +179,7 @@ plt.title("test_datas")
 # 表示する
 plt.show()
 #-----------------------------
-
+"""
 
 import pdb; pdb.set_trace()
 
@@ -294,7 +294,6 @@ plt.xlabel('true distance[m]',fontsize = 16)
 plt.ylabel('absolute error',fontsize = 16)
 plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
 plt.show()
-"""
 
 # compute error
 import pdb; pdb.set_trace()
