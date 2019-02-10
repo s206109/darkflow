@@ -49,8 +49,8 @@ def loss(self, net_out):
     _probs = tf.placeholder(tf.float32, size1)
 	############
     _look = tf.placeholder(tf.float32, size4)
-	_looid = tf.placeholder(tf.float32, size4)
-	############
+    _looid = tf.placeholder(tf.float32, size4)
+    ############
     _confs = tf.placeholder(tf.float32, size2)
     _coord = tf.placeholder(tf.float32, size2 + [4])
     # weights term for L2 loss
