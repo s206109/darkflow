@@ -49,6 +49,7 @@ def loss(self, net_out):
     _probs = tf.placeholder(tf.float32, size1)
 	############
     _look = tf.placeholder(tf.float32, size4)
+	_looid = tf.placeholder(tf.float32, size4)
 	############
     _confs = tf.placeholder(tf.float32, size2)
     _coord = tf.placeholder(tf.float32, size2 + [4])
@@ -65,7 +66,7 @@ def loss(self, net_out):
 
     self.placeholders = {
         'probs':_probs, 'confs':_confs, 'coord':_coord, 'proid':_proid,
-        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'vecX':_vecX, 'vecY':_vecY, 'look':_look
+        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'vecX':_vecX, 'vecY':_vecY, 'look':_look, 'looid':_looid
     }
     sasaki  = np.reshape(np.eye(B,B), [1, 1, B, B])
     #sasaki = np.reshape(np.array([np.eye(10,10) for i in range(169)]),[13,13,10,10])

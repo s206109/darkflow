@@ -71,6 +71,7 @@ def _batch(self, chunk):
     confs = np.zeros([H*W,B]) #169x5 セルごとの各BBの信頼度
     coord = np.zeros([H*W,B,4]) #169x5x4  セルごとのBBの座標
     proid = np.zeros([H*W,B,C]) #169x5x2
+    looid = np.zeros([H*W,B,2]) #169x5x2
     prear = np.zeros([H*W,4]) #169x4
     dista = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体との距離
     vecX  = np.zeros([H*W,B,1])
@@ -91,6 +92,7 @@ def _batch(self, chunk):
 
 
         proid[obj[7], :, :] = [[1.]*C] * B #なぜかここは物体があるセルのクラスにかかわらず１を代入
+        looid[obj[7], :, :] = [[1.]*2] * B #なぜかここは物体があるセルのクラスにかかわらず１を代入
         coord[obj[7], :, :] = [obj[1:5]] * B #中心ずれと幅高さ比率を、アンカーの数だけそれぞれに同じものを代入
         prear[obj[7],0] = obj[1] - obj[3]**2 * .5 * W # xleft BBの中心座標とBBの比率でそれぞれの座標を逆算
         prear[obj[7],1] = obj[2] - obj[4]**2 * .5 * H # yup　BBの中心座標とBBの比率でそれぞれの座標を逆算
@@ -124,6 +126,6 @@ def _batch(self, chunk):
         'areas': areas, 'upleft': upleft,
         'botright': botright, 'dista':dista,
         'vecX':vecX , 'vecY':vecY ,
-        'look':look
+        'look':look , 'looid':looid
     }
     return inp_feed_val, loss_feed_val
