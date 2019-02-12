@@ -154,7 +154,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
 import pdb; pdb.set_trace()
 
-
+"""
 #-----------------------------
 #ALPHATEST
 import pdb; pdb.set_trace()
@@ -211,7 +211,7 @@ plt.show()
 #-----------------------------
 
 
-
+"""
 # compute error
 import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
