@@ -32,9 +32,9 @@ def _batch(self, chunk):
     # Calculate regression target
     cellx = 1. * w / W #画像の横幅を１グリッドあたりのピクセル数
     celly = 1. * h / H #画像の縦幅１グリッドあたりのピクセル数
-
     #
     for obj in allobj:
+        if obj[0] == "Truck": continue
         centerx = .5*(obj[1]+obj[3]) #xmin, xmax 物体の中心座標
         centery = .5*(obj[2]+obj[4]) #ymin, ymax 物体の中心座標
         cx = centerx / cellx #どこのセルにあるかの番号
@@ -73,7 +73,10 @@ def _batch(self, chunk):
     vecX  = np.zeros([H*W,B,1])
     vecY  = np.zeros([H*W,B,1])
     #alpha = np.zeros([H*W,B,1])#169x5x1 セルごとの各BBの物体の角度
+    #import pdb; pdb.set_trace()
     for obj in allobj: #全て物体が存在するセル番号にあてはめて値を入れ込んでいる
+        if obj[0] == "Truck": continue
+        #import pdb; pdb.set_trace()
         probs[obj[7], :, :] = [[0.]*C] * B #物体があるセルにクラスの数だけ要素を設けている
         probs[obj[7], :, labels.index(obj[0])] = 1.   #そのうち入力された物体の方の確率を１とする
         proid[obj[7], :, :] = [[1.]*C] * B #なぜかここは物体があるセルのクラスにかかわらず１を代入
@@ -88,12 +91,12 @@ def _batch(self, chunk):
         vecX[obj[7], :, :] = [[math.cos(obj[6])]] * B # cosαをアンカーの数だけそれぞれに同じものを代入
         #vecY[obj[7], :, :] = [[(math.sin(obj[6])+1)/2]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
         vecY[obj[7], :, :] = [[math.sin(obj[6])]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
-
+    #import pdb; pdb.set_trace()
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
     botright = np.expand_dims(prear[:,2:4], 1) #単純にBBの左上の座標
     wh = botright - upleft; #BBの縦横の幅
-
+    #import pdb; pdb.set_trace()
     area = wh[:,:,0] * wh[:,:,1] #セルに物体があった場合のBBの面積
     upleft   = np.concatenate([upleft] * B, 1) #これをBBの数（５）分だけ用意する
     botright = np.concatenate([botright] * B, 1)#これをBBの数（５）分だけ用意する
@@ -101,6 +104,7 @@ def _batch(self, chunk):
     # value for placeholder at input layer
     inp_feed_val = img
     # value for placeholder at loss layer
+
     loss_feed_val = {
         'probs': probs, 'confs': confs,
         'coord': coord, 'proid': proid,
@@ -108,4 +112,5 @@ def _batch(self, chunk):
         'botright': botright, 'dista':dista,
         'vecX':vecX , 'vecY':vecY
     }
+
     return inp_feed_val, loss_feed_val
