@@ -80,6 +80,7 @@ def return_predict(self, im):
     feed_dict = {self.inp : this_inp}
 
     out = self.sess.run(self.out, feed_dict)[0]
+    import pdb; pdb.set_trace()
     boxes = self.framework.findboxes(out)
     import pdb; pdb.set_trace()
     threshold = self.FLAGS.threshold
