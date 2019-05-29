@@ -80,7 +80,6 @@ def return_predict(self, im):
     feed_dict = {self.inp : this_inp}
 
     out = self.sess.run(self.out, feed_dict)[0]
-    import pdb; pdb.set_trace()
     boxes = self.framework.findboxes(out)
     import pdb; pdb.set_trace()
     threshold = self.FLAGS.threshold
@@ -132,6 +131,7 @@ def predict(self):
         self.say('Forwarding {} inputs ...'.format(len(inp_feed)))
         start = time.time()
         out = self.sess.run(self.out, feed_dict)
+        import pdb; pdb.set_trace()
         stop = time.time(); last = stop - start
         self.say('Total time = {}s / {} inps = {} ips'.format(
             last, len(inp_feed), len(inp_feed) / last))
