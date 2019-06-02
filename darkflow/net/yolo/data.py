@@ -108,10 +108,11 @@ def shuffle(self):
             x_batch = list()
             feed_batch = dict()
 
-            for j in range(b*batch, b*batch+batch):
+            for j in range(b*batch, b*batch+batch): #10回分（ミニバッチ法）画像とアノテーション取得を繰り返す
                 train_instance = data[shuffle_idx[j]] #ミニバッチ法でランダムで取り出したデータの画像とアノテーション情報を入れ込んだもの
                 try:
                     inp, new_feed = self._batch(train_instance) #yolov2_batchで入力を整理
+                                                                #inp=416x416x3 new_feed=169x10x? アノテーション？
                     #import pdb; pdb.set_trace()
                 except ZeroDivisionError:
                     print("This image's width or height are zeros: ", train_instance[0])
@@ -119,7 +120,7 @@ def shuffle(self):
                     print('Please remove or fix it then try again.')
                     raise
 
-
+                #この辺で十回分入力画像とアノテーションをまとめる
                 if inp is None:
                      continue
                 x_batch += [np.expand_dims(inp, 0)]

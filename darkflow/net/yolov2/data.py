@@ -34,7 +34,7 @@ def _batch(self, chunk):
     celly = 1. * h / H #画像の縦幅１グリッドあたりのピクセル数
     #
     for obj in allobj:
-        if obj[0] == "Truck": continue
+        #if obj[0] == "Truck": continue
         centerx = .5*(obj[1]+obj[3]) #xmin, xmax 物体の中心座標
         centery = .5*(obj[2]+obj[4]) #ymin, ymax 物体の中心座標
         cx = centerx / cellx #どこのセルにあるかの番号
