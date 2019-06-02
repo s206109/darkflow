@@ -32,7 +32,6 @@ def _save_ckpt(self, step, loss_profile):
 def train(self):
     loss_ph = self.framework.placeholders #lossのPlace Holderの略
     loss_mva = None; profile = list() #
-    import pdb; pdb.set_trace()
     batches = self.framework.shuffle() #ここで入力画像とアノテーションを取得
     loss_op = self.framework.loss
     for i, (x_batch, datum) in enumerate(batches):
@@ -44,7 +43,7 @@ def train(self):
         feed_dict = {
             loss_ph[key]: datum[key]
                 for key in loss_ph }
-        feed_dict[self.inp] = x_batch
+        feed_dict[self.inp] = x_batch #x_batch = input画像
         feed_dict.update(self.feed)
 
         fetches = [self.train_op, loss_op]
@@ -53,7 +52,7 @@ def train(self):
             fetches.append(self.summary_op)
         fetched = self.sess.run(fetches, feed_dict) #ここでロスがもとまる
         loss = fetched[1]
-
+        import pdb; pdb.set_trace()
         if loss_mva is None: loss_mva = loss
         loss_mva = .9 * loss_mva + .1 * loss
         step_now = self.FLAGS.load + i + 1

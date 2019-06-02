@@ -94,8 +94,8 @@ def _batch(self, chunk):
     return inp_feed_val, loss_feed_val
 
 def shuffle(self):
-    batch = self.FLAGS.batch #初期設定値のバッチサイズ　ここでは１６
-    data = self.parse() #ここで純データを取得
+    batch = self.FLAGS.batch #初期設定値のバッチサイズ　ここでは10
+    data = self.parse() #ここで純データを取得(10個x画像名、画像サイズ、物体)
     size = len(data)
     print('Dataset of {} instance(s)'.format(size))
     if batch > size: self.FLAGS.batch = batch = size #ミニバッチ法による
@@ -112,6 +112,7 @@ def shuffle(self):
                 train_instance = data[shuffle_idx[j]] #ミニバッチ法でランダムで取り出したデータの画像とアノテーション情報を入れ込んだもの
                 try:
                     inp, new_feed = self._batch(train_instance) #yolov2_batchで入力を整理
+                    #import pdb; pdb.set_trace()
                 except ZeroDivisionError:
                     print("This image's width or height are zeros: ", train_instance[0])
                     print('train_instance:', train_instance)
@@ -130,6 +131,7 @@ def shuffle(self):
                     feed_batch[key] = np.concatenate([
                         old_feed, [new]
                     ])
+            import pdb; pdb.set_trace()
             x_batch = np.concatenate(x_batch, 0) #複数の画像のために入力画像を一次元増やしている。
             yield x_batch, feed_batch
 
