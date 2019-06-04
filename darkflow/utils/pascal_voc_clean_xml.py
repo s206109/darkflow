@@ -16,7 +16,7 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
     print('Parsing for {} {}'.format(
             pick, 'exclusively' * int(exclusive)))
 
-    dumps = list()
+    dumps = list() #全入力画像、全オブジェクトのデータセット
     cur_dir = os.getcwd()
     os.chdir(ANN)
     annotations = os.listdir('.')
@@ -24,7 +24,7 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
     size = len(annotations)
 
     for i, file in enumerate(annotations):
-        # progress bar
+        # progress bar 進行状況のバーの表示
         sys.stdout.write('\r')
         percentage = 1. * (i+1) / size
         progress = int(percentage * 20)
@@ -60,11 +60,14 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
                 xmlbox = obj.find('position')
                 z = float(xmlbox.find('z').text)
 
-                # get rotation alpha, sasaki
-                xmlbox = obj.find('rotation')
-                alpha = float(xmlbox.find('object_angle').text)
-                current = [name,xn,yn,xx,yx,z,alpha]
+                current = [name,xn,yn,xx,yx,z]
                 all += [current]
+
+                # get rotation alpha, sasaki
+                #xmlbox = obj.find('rotation')
+                #alpha = float(xmlbox.find('object_angle').text)
+                #current = [name,xn,yn,xx,yx,z,alpha]
+                #all += [current]
 
         add = [[jpg, [w, h, all]]]
         dumps += add
