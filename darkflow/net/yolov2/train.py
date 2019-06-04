@@ -60,10 +60,11 @@ def loss(self, net_out):
     _areas = tf.placeholder(tf.float32, size2)
     _upleft = tf.placeholder(tf.float32, size2 + [2])
     _botright = tf.placeholder(tf.float32, size2 + [2])
+    _kayu = tf.placeholder(tf.float32, size3)
 
     self.placeholders = {
         'probs':_probs, 'confs':_confs, 'coord':_coord, 'proid':_proid,
-        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'vecX':_vecX, 'vecY':_vecY
+        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'kayu':_kayu
     }
     #sasaki  = np.reshape(np.eye(B,B), [1, 1, B, B])
     #sasaki = np.reshape(np.array([np.eye(10,10) for i in range(169)]),[13,13,10,10])
@@ -75,13 +76,14 @@ def loss(self, net_out):
         net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 + 1 )])
     else:
         anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
-        #net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
-        net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
+        net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + C + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
+        #net_out_reshape = tf.reshape(net_out, [-1, H, W, B, (4 + 1 + 1 )])#１３x１３x１０x８ 座標４＋信頼度１＋距離１＋角度１＋クラス２
         #net_out_reshape = net_out_reshape[:, :, :, :, :6]
     coords = net_out_reshape[:, :, :, :, :4]# 座標の４まで.-1を指定した次元は削除される
     coords = tf.reshape(coords, [-1, H*W, B, 4]) #セルxセルをセル番号
     distance = net_out_reshape[:, :, :, :, 5]# distance
     distance = tf.reshape(distance, [-1, H*W, B, 1])
+
     if self.FLAGS.alpha:
          #alpha = net_out_reshape[:, :, :, :, 8]# alpha
          vecX = net_out_reshape[:, :, :, :, 8]
@@ -95,20 +97,38 @@ def loss(self, net_out):
 
 
 
-    #import pdb; pdb.set_trace()
+
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
+    import pdb; pdb.set_trace()
+    #adjusted_coords_xy = adjusted_coords_xy * _kayu
+    #adjusted_coords_wh = adjusted_coords_wh * _kayu
+
     adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:3] / np.reshape([W], [1, 1, 1, 1]))
+
     coords = tf.concat([adjusted_coords_xy, adjusted_coords_wh], 3) #こいつらを繋げる
     adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4]) #
     adjusted_c = tf.reshape(adjusted_c, [-1, H*W, B, 1])
 
-    #adjusted_prob = tf.nn.softmax(net_out_reshape[:, :, :, :, 5:7])
-    #adjusted_prob = tf.reshape(adjusted_prob, [-1, H*W, B, C])
+    adjusted_prob = tf.nn.softmax(net_out_reshape[:, :, :, :, 5])
+    adjusted_prob = tf.reshape(adjusted_prob, [-1, H*W, B, C])
 
-    adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, ], 3)
+    #adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, ], 3)
 
-    #adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, adjusted_prob], 3)
+
+    ########################################
+    #
+    #
+    adjusted_coords_xy = adjusted_coords_xy * _kayu
+    adjusted_coords_wh = adjusted_coords_wh * _kayu
+    _coord             = _coord * _kayu	
+    #
+    #
+	########################################
+
+
+
+    adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, adjusted_prob], 3)
     adjusted_net_out = tf.concat([adjusted_net_out, adjusted_distance_z], 3)
 	#↓coordsの要素を二乗xセルの数(13)
     wh = tf.pow(coords[:,:,:,2:4], 2) * np.reshape([W, H], [1, 1, 1, 2])
@@ -125,25 +145,22 @@ def loss(self, net_out):
     intersect = tf.multiply(intersect_wh[:,:,:,0], intersect_wh[:,:,:,1])
 
     # calculate the best IOU, set 0.0 confidence for worse boxes
+    #import pdb; pdb.set_trace()
+    iou = tf.truediv(intersect, _areas + area_pred - intersect) #要素ごとの商
+    best_box = tf.equal(iou, tf.reduce_max(iou, [2], True)) #アンカーの中でベストをTrue
+    best_box = tf.to_float(best_box) #float型に
+    confs = tf.multiply(best_box, _confs) #それぞれかけてベストなボックス以外０に（アンカーの中の１つだけ使う）
+    confs2= tf.multiply(best_box, _confs)
+    self.confs2 = confs2
+    #                                      この0の部分について、noobの信頼度誤差（正解が０）が行われる
 
-    iou = tf.truediv(intersect, _areas + area_pred - intersect)
-    best_box = tf.equal(iou, tf.reduce_max(iou, [2], True))
-    best_box = tf.to_float(best_box)
-    confs = tf.multiply(best_box, _confs)
-    pos    = tf.maximum(iou , conspo)
-    neg    = tf.maximum(iou , consne)
 
-    add_op = tf.add(conspo, conspo)
 
-    with tf.Session() as sess:
-        sassa = sess.run(add_op)
-        print(sassa)
+    #import pdb; pdb.set_trace()
 
-    import pdb; pdb.set_trace()
-    rmd = 1
-    y = tf.cond(iou[1][1][0] > 0, lambda: rmd * 0, lambda: rmd * 1)
+
     # take care of the weight terms
-    conid = snoob * (1. - confs) + sconf * confs
+    conid = snoob * (1. - confs) + sconf * confs #(物体が存在しない確率)＋ 5*(存在する確率)
     weight_coo = tf.concat(4 * [tf.expand_dims(confs, -1)], 3)
     cooid = scoor * weight_coo
     weight_pro = tf.concat(C * [tf.expand_dims(confs, -1)], 3)
@@ -160,13 +177,13 @@ def loss(self, net_out):
     veYid =  salph * weight_veY
 
 
-    #self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista]
-    #true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista], 3)
-    #wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid], 3)
+    self.fetch += [_probs, confs, conid, cooid, proid, disid, _dista]
+    true = tf.concat([_coord, tf.expand_dims(confs, 3), _probs, _dista], 3)
+    wght = tf.concat([cooid, tf.expand_dims(conid, 3), proid, disid], 3)
 
-    self.fetch += [confs, conid, cooid, disid, _dista]
-    true = tf.concat([_coord, tf.expand_dims(confs, 3), _dista], 3)
-    wght = tf.concat([cooid, tf.expand_dims(conid, 3),  disid], 3)
+    #self.fetch += [confs, conid, cooid, disid, _dista]
+    #true = tf.concat([_coord, tf.expand_dims(confs, 3), _dista], 3)
+    #wght = tf.concat([cooid, tf.expand_dims(conid, 3),  disid], 3)
 
     if self.FLAGS.alpha: #alphaを使う場合
          #adjusted_alpha      = tf.sqrt(tf.exp(   alpha[:,:,:,:1]) * anchors[:,:,:,3:4] / np.reshape([W], [1, 1, 1, 1]))
@@ -212,14 +229,22 @@ def loss(self, net_out):
 
     import pdb; pdb.set_trace()
     print('Building {} loss'.format(m['model']))
+    #loss = tf.pow(tf.multiply(_kayu , adjusted_net_out - true), 2)
     loss = tf.pow(adjusted_net_out - true, 2)
     #loss = tf.concat([loss,difal], 3)
     loss = tf.multiply(loss, wght)
-    #if self.FLAGS.alpha:
-    #    loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 + C)])
-    #else:
-    #    loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
-    loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 )])
+    if self.FLAGS.alpha:
+        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 +1 + C)])
+    else:
+        loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 + C)])
+    #loss = tf.reshape(loss, [-1, H*W*B*(4 + 1 + 1 )])
     loss = tf.reduce_sum(loss, 1)
     self.loss = .5 * tf.reduce_mean(loss)
     tf.summary.scalar('{} loss'.format(m['model']), self.loss)
+
+
+
+def hoge(sassa):
+    hiro = sassa * 99
+
+    return hiro

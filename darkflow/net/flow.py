@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 import pickle
 from multiprocessing.pool import ThreadPool
-
+from .yolov2.train import hoge
 train_stats = (
     'Training statistics: \n'
     '\tLearning rate : {}\n'
@@ -33,24 +33,58 @@ def train(self):
     loss_ph = self.framework.placeholders #lossのPlace Holderの略
     loss_mva = None; profile = list() #
     batches = self.framework.shuffle() #ここで入力画像とアノテーションを取得
-    loss_op = self.framework.loss
-    for i, (x_batch, datum) in enumerate(batches):
+    loss_op = self.framework.loss #tensorflow
+    #import pdb; pdb.set_trace()
+    for i, (x_batch, datum) in enumerate(batches):#このiが学習回数　x_batchが画像,datumがアノ
+        #import pdb; pdb.set_trace()
         if not i: self.say(train_stats.format(
             self.FLAGS.lr, self.FLAGS.batch,
             self.FLAGS.epoch, self.FLAGS.save
         ))
-
-        feed_dict = {
+        kayu = np.ones([1 ,169 , 10, 1]) #全て1で初期化
+        datum['kayu'] = kayu
+        #import pdb; pdb.set_trace()
+        feed_dict = { #train.pyで用意したPHにdata.pyでアノテーションを割り当てる
             loss_ph[key]: datum[key]
                 for key in loss_ph }
-        feed_dict[self.inp] = x_batch #x_batch = input画像
+        feed_dict[self.inp] = x_batch #x_batch = input画像　を割り当てる
+        feed_dict.update(self.feed)
+        die = self.sess.run(self.framework.confs2, feed_dict)
+        die = np.array(die)
+        #の比率のネガティヴのみもちいるように学習する（それ以外は用いないようにする。）
+        wao = np.zeros((0,169,10))
+        imgnum = np.array(die.shape[0])
+        #import pdb; pdb.set_trace()
+        for inde in range( imgnum ): #画像の枚数分
+            mou = die[inde]
+            mou = np.sort(mou, axis = 0)
+            thr = np.amax(mou[125]) #169/4番目を基準とする
+            sinu = np.where(die[inde] >= thr, 1., 0.) #基準値以上を１、基準値以下を０の配列
+            #import pdb; pdb.set_trace()
+            wao = np.r_[wao,np.reshape(sinu, [1,169,10])]
+        #import pdb; pdb.set_trace()
+
+
+
+        #信頼度＝（?x169x10)
+        #for 画像　すべてにかんして
+        #      for 169個
+        #
+        fetches = [self.train_op, loss_op] #trainの設定、　lossの設定
+        import pdb; pdb.set_trace()
+        kayu = wao
+        kayu = np.reshape(kayu , [imgnum, 169, 10, 1])
+        datum['kayu'] = kayu
+        feed_dict = { #train.pyで用意したPHにdata.pyでアノテーションを割り当てる
+            loss_ph[key]: datum[key]
+                for key in loss_ph }
+        feed_dict[self.inp] = x_batch #x_batch = input画像　を割り当てる
         feed_dict.update(self.feed)
 
-        fetches = [self.train_op, loss_op]
-
-        if self.FLAGS.summary:
+        if self.FLAGS.summary: #TensorBoardのやつ（無視）
             fetches.append(self.summary_op)
         fetched = self.sess.run(fetches, feed_dict) #ここでロスがもとまる
+        #                                          fetchesがロス、feed_dictがあてはめた値
         loss = fetched[1]
         import pdb; pdb.set_trace()
         if loss_mva is None: loss_mva = loss
