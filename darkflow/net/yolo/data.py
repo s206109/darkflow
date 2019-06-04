@@ -132,7 +132,7 @@ def shuffle(self):
                     feed_batch[key] = np.concatenate([
                         old_feed, [new]
                     ])
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
             x_batch = np.concatenate(x_batch, 0) #複数の画像のために入力画像を一次元増やしている。
             yield x_batch, feed_batch
 
