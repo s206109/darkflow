@@ -71,7 +71,7 @@ def train(self):
         #      for 169個
         #
         fetches = [self.train_op, loss_op] #trainの設定、　lossの設定
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         kayu = wao
         kayu = np.reshape(kayu , [imgnum, 169, 10, 1])
         datum['kayu'] = kayu
@@ -86,7 +86,7 @@ def train(self):
         fetched = self.sess.run(fetches, feed_dict) #ここでロスがもとまる
         #                                          fetchesがロス、feed_dictがあてはめた値
         loss = fetched[1]
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         if loss_mva is None: loss_mva = loss
         loss_mva = .9 * loss_mva + .1 * loss
         step_now = self.FLAGS.load + i + 1
