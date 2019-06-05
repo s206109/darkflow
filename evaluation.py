@@ -13,6 +13,7 @@ import matplotlib.pylab as plt
 from darkflow.utils import box
 from darkflow.utils.pascal_voc_clean_xml_evaluation import pascal_voc_clean_xml
 from darkflow.utils import process
+import math
 
 
 #-----------------------------
