@@ -65,16 +65,13 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
     C = meta['classes']
     B = meta['num']
     ###########################
-    ANC = 5
+    ANC = 3
     ###########################
     cdef:
-        float[:, :, :, ::1] net_out = net_out_in.reshape([H, W, B, net_out_in.shape[2]/B])
-        float[:, :, :, ::1] Classes = net_out[:, :, :, 5:6]
-        float[:, :, :, ::1] Bbox_pred =  net_out[:, :, :, :5]
-        float[:, :, :] DISTANCE       = net_out[:, :, :, 7]
-        #float[:, :, :] ALPHA         = net_out[:, :, :, 8]
-        #float[:, :, :] VECX         = net_out[:, :, :, 8]
-        #float[:, :, :] VECY         = net_out[:, :, :, 9]
+        float[:, :, :, ::1] net_out   = net_out_in.reshape([H, W, B, net_out_in.shape[2]/B])
+        float[:, :, :, ::1] Classes   = net_out[:, :, :, 5:7]
+        float[:, :, :, ::1] Bbox_pred = net_out[:, :, :, :5]
+        float[:, :, :]      DISTANCE  = net_out[:, :, :, 7]
         float[:, :, :, ::1] probs = np.zeros((H, W, B, C), dtype=np.float32)
 
     for row in range(H):
@@ -88,10 +85,6 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
                 Bbox_pred[row, col, box_loop, 2] = exp(Bbox_pred[row, col, box_loop, 2]) * anchors[ANC * box_loop + 0] / W
                 Bbox_pred[row, col, box_loop, 3] = exp(Bbox_pred[row, col, box_loop, 3]) * anchors[ANC * box_loop + 1] / H
                 DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * maxz * anchors[ANC * box_loop + 2] / W
-                #ALPHA [row, col, box_loop]       = exp(ALPHA[row, col, box_loop]) * anchors[ANC * box_loop + 3] / W
-                #ALPHA [row, col, box_loop]       = ALPHA[row, col, box_loop]
-                #VECX [row, col, box_loop]       = exp(VECX[row, col, box_loop]) * anchors[ANC * box_loop + 3] / W
-                #VECY [row, col, box_loop]       = exp(VECY[row, col, box_loop]) * anchors[ANC * box_loop + 4] / W
                 #SOFTMAX BLOCK, no more pointer juggling
                 for class_loop in range(C):
                     arr_max=max_c(arr_max,Classes[row,col,box_loop,class_loop])
