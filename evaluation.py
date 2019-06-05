@@ -45,14 +45,14 @@ cur_dir = os.getcwd()
 os.chdir(meta['json_path'])
 jsonFiles = glob.glob('*.json')
 
-predBoxes = [0 for re2 in range(len(jsonFiles))]
+predBoxes = [0 for re2 in range(len(jsonFiles))] #jsonfileの数だけ要素を儲ける
 for i, file in enumerate(jsonFiles):
     with open(file) as f:
        js = json.load(f)
        jnum = len(js)
        cdBox = [[0 for ii in range(7)] for iii in range(jnum)]
        for j in range(jnum):
-           import pdb; pdb.set_trace()
+           #import pdb; pdb.set_trace()
            cdBox[j][0] = js[j]["label"]
            cdBox[j][6] = js[j]["confidence"]
            cdBox[j][1] = js[j]["topleft"]["x"]
@@ -73,6 +73,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
+import pdb; pdb.set_trace()
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     print("======")
