@@ -118,7 +118,7 @@ def return_predict(self, im):
     threshold = self.FLAGS.threshold
     boxesInfo = list()
     for box in boxes:
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         tmpBox = self.framework.process_box(box, h, w, threshold)
         if tmpBox is None:
             continue
