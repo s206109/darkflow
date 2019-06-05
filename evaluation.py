@@ -73,7 +73,7 @@ for i, file in enumerate(jsonFiles):
            cdBox[j][3] = js[j]["bottomright"]["x"]
            cdBox[j][4] = js[j]["bottomright"]["y"]
            cdBox[j][5] = js[j]["dist"]
-           cdBox[j][7] = js[j]["alph"]
+           #cdBox[j][7] = js[j]["alph"]
            #cdBox[j][7] = js[j]["vecX"]
            #cdBox[j][8] = js[j]["vecY"]
        cdBox.insert(0,int(re.sub(r'\D', '',file))) # ファイル名からどのファイルかインデックスとして抽出
@@ -103,7 +103,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         predBox.w = predBoxes[dInd][pInd][3] - predBoxes[dInd][pInd][1]
         predBox.h = predBoxes[dInd][pInd][4] - predBoxes[dInd][pInd][2]
         predBox.z = predBoxes[dInd][pInd][5]
-        predBox.alpha = predBoxes[dInd][pInd][7]
+        #predBox.alpha = predBoxes[dInd][pInd][7]
         #predBox.vecX = predBoxes[dInd][pInd][7]
         #if predBoxes[dInd][pInd][7] > 0.5:import pdb; pdb.set_trace()
         #predBox.vecY = predBoxes[dInd][pInd][8]
@@ -136,7 +136,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
         #vecY_pr= 2*(predBox.vecY)-1
         #alp_pr = math.atan2( vecY_pr, vecX_pr  )
         #alp_gt = math.atan2(gtBox[maxInd].vecY,gtBox[maxInd].vecX)
-        alphadif = predBox.alpha - gtBox[maxInd].alpha
+        #alphadif = predBox.alpha - gtBox[maxInd].alpha
         #vecXdif = vecX_pr - gtBox[maxInd].vecX
         #vecYdif = vecY_pr - gtBox[maxInd].vecY
         #vecXdif = vecX_pr
