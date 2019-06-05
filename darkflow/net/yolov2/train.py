@@ -88,7 +88,7 @@ def loss(self, net_out):
         #net_out_reshape = net_out_reshape[:, :, :, :, :6]
     coords = net_out_reshape[:, :, :, :, :4]# 座標の４まで.-1を指定した次元は削除される
     coords = tf.reshape(coords, [-1, H*W, B, 4]) #セルxセルをセル番号
-    distance = net_out_reshape[:, :, :, :, 5]# distance
+    distance = net_out_reshape[:, :, :, :, 7]# distance
     distance = tf.reshape(distance, [-1, H*W, B, 1])
 
     if self.FLAGS.alpha:
