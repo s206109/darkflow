@@ -114,10 +114,11 @@ def return_predict(self, im):
 
     out = self.sess.run(self.out, feed_dict)[0]
     boxes = self.framework.findboxes(out)
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     threshold = self.FLAGS.threshold
     boxesInfo = list()
     for box in boxes:
+        import pdb; pdb.set_trace()
         tmpBox = self.framework.process_box(box, h, w, threshold)
         if tmpBox is None:
             continue
