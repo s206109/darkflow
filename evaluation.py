@@ -33,13 +33,13 @@ def MUKI(arg):
 # parameters
 visualPath = 'visualization'
 
-labels = ['car','Truck']
+labels = ['car','negative']
 threshold = 0.7
 #-----------------------------
 
 #-----------------------------
 # load config values
-_, meta = process.parser('cfg/tiny-yolo-kitti-3d.cfg')
+_, meta = process.parser('cfg/tiny-yolo-kitti-3d-10.cfg')
 #-----------------------------
 
 #-----------------------------
@@ -55,7 +55,7 @@ gtBoxes.sort()
 # load predicted boxes as predBoxes
 # jsonの読み込み
 cur_dir = os.getcwd()
-os.chdir('data/kitti/set1/PNGImagesTest/out_53000_orientation_20')
+os.chdir('data/kitti/set1/PNGImagesTest/out')
 jsonFiles = glob.glob('*.json')
 
 predBoxes = [0 for re2 in range(len(jsonFiles))]
