@@ -60,12 +60,19 @@ def loss(self, net_out):
     _areas = tf.placeholder(tf.float32, size2)
     _upleft = tf.placeholder(tf.float32, size2 + [2])
     _botright = tf.placeholder(tf.float32, size2 + [2])
-    _kayu = tf.placeholder(tf.float32, size3)
+    #_kayu = tf.placeholder(tf.float32, size3)
+
 
     self.placeholders = {
         'probs':_probs, 'confs':_confs, 'coord':_coord, 'proid':_proid,
-        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'kayu':_kayu
+        'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista
     }
+
+
+    #self.placeholders = {
+    #    'probs':_probs, 'confs':_confs, 'coord':_coord, 'proid':_proid,
+    #    'areas':_areas, 'upleft':_upleft, 'botright':_botright, 'dista':_dista, 'kayu':_kayu
+    #}
     #sasaki  = np.reshape(np.eye(B,B), [1, 1, B, B])
     #sasaki = np.reshape(np.array([np.eye(10,10) for i in range(169)]),[13,13,10,10])
     # Extract the coordinate prediction from net.out
@@ -110,7 +117,7 @@ def loss(self, net_out):
     adjusted_c = expit_tensor(net_out_reshape[:, :, :, :, 4]) #
     adjusted_c = tf.reshape(adjusted_c, [-1, H*W, B, 1])
 
-    adjusted_prob = tf.nn.softmax(net_out_reshape[:, :, :, :, 5])
+    adjusted_prob = tf.nn.softmax(net_out_reshape[:, :, :, :, 5:7])
     adjusted_prob = tf.reshape(adjusted_prob, [-1, H*W, B, C])
 
     #adjusted_net_out = tf.concat([adjusted_coords_xy, adjusted_coords_wh, adjusted_c, ], 3)
@@ -119,9 +126,9 @@ def loss(self, net_out):
     ########################################
     #
     #
-    adjusted_coords_xy = adjusted_coords_xy * _kayu
-    adjusted_coords_wh = adjusted_coords_wh * _kayu
-    _coord             = _coord * _kayu	
+    #adjusted_coords_xy = adjusted_coords_xy * _kayu
+    #adjusted_coords_wh = adjusted_coords_wh * _kayu
+    #_coord             = _coord * _kayu
     #
     #
 	########################################
@@ -150,8 +157,8 @@ def loss(self, net_out):
     best_box = tf.equal(iou, tf.reduce_max(iou, [2], True)) #アンカーの中でベストをTrue
     best_box = tf.to_float(best_box) #float型に
     confs = tf.multiply(best_box, _confs) #それぞれかけてベストなボックス以外０に（アンカーの中の１つだけ使う）
-    confs2= tf.multiply(best_box, _confs)
-    self.confs2 = confs2
+    #confs2= tf.multiply(best_box, _confs)
+    #self.confs2 = confs2
     #                                      この0の部分について、noobの信頼度誤差（正解が０）が行われる
 
 
