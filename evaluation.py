@@ -118,7 +118,33 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
+#TEST
+import pdb; pdb.set_trace()
+surveyInd = np.where(resultDF['iou'] > 0.3)[0] #iou0.7のものを用意
+surveyx = resultDF.ix[surveyInd]['iou']
+surveyy = resultDF.ix[surveyInd]['pz-gz']
+surveyy_g = resultDF.ix[surveyInd]['gz']
+surveyx_g = resultDF.ix[surveyInd]['ga']
+mejirushiy = [0, 0, 0, 0, 0]
+mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
+plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
+#for ssk in mejirushi:
+#     plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
+#plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
+# 凡例を表示する
+plt.legend()
+plt.xlabel('object orientation α [rad]',fontsize = 18)
+plt.ylabel('distance error',fontsize = 18)
+
+# グラフのタイトルを設定する
+plt.title("Distribution of distance error",fontsize = 18)
+plt.savefig(os.path.join(visualPath,'cont_new.png'))
+# 表示する
+plt.show()
+#-----------------------------
+
+"""
 #-----------------------------
 #TEST
 import pdb; pdb.set_trace()
@@ -147,7 +173,7 @@ plt.show()
 #-----------------------------
 
 #-----------------------------
-"""
+
 # compute error
 print(bugname)
 #import pdb; pdb.set_trace()
