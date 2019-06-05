@@ -41,7 +41,7 @@ def postprocess(self, net_out, im, save = True):
 	h, w, _ = imgcv.shape
 
 	resultsForJSON = []
-	import pdb; pdb.set_trace()
+	#import pdb; pdb.set_trace()
 	for b in boxes:
 		boxResults = self.process_box(b, h, w, threshold)
 		#import pdb; pdb.set_trace()
