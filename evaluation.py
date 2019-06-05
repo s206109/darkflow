@@ -76,7 +76,7 @@ bugname = []
 
 # dataframe for result records
 import pdb; pdb.set_trace()
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','ga','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     #print("======")
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
@@ -102,6 +102,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
             gtBox[gInd-1].w = gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1]
             gtBox[gInd-1].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
+            gtBox[gInd-1].alpha = gtBoxes[dInd][gInd][6]
 
             ious.append(box.box_iou(predBox, gtBox[gInd-1]))
 
@@ -112,12 +113,40 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
-                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z, predBox.filenum],
+                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,gtBox[maxInd].alpha, predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
 
 #-----------------------------
+#TEST
+
+surveyInd = np.where(resultDF['iou'] > 0.7)[0] #iou0.7のものを用意
+surveyx = resultDF.ix[surveyInd]['ga']
+surveyy = resultDF.ix[surveyInd]['pz-gz']
+surveyy_g = resultDF.ix[surveyInd]['gz']
+surveyx_g = resultDF.ix[surveyInd]['ga']
+mejirushiy = [0, 0, 0, 0, 0]
+mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
+plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
+for ssk in mejirushi:
+     plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
+#plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
+
+# 凡例を表示する
+plt.legend()
+plt.xlabel('object orientation α [rad]',fontsize = 18)
+plt.ylabel('distance error',fontsize = 18)
+
+# グラフのタイトルを設定する
+plt.title("Distribution of distance error",fontsize = 18)
+plt.savefig(os.path.join(visualPath,'cont_test.png'))
+# 表示する
+plt.show()
+#-----------------------------
+
+#-----------------------------
+"""
 # compute error
 print(bugname)
 #import pdb; pdb.set_trace()
@@ -156,7 +185,7 @@ plt.show()
 pdb.set_trace()
 
 
-"""
+
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
