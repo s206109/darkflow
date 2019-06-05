@@ -118,7 +118,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 #-----------------------------
 # compute error
 print(bugname)
-import pdb; pdb.set_trace()
+#import pdb; pdb.set_trace()
 inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] <= 10) & (resultDF['gh'] > 25))[0]
 error10 = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 std10 = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
@@ -139,7 +139,7 @@ inds = np.where((resultDF['iou'] > 0.7) & (resultDF['gz'] > 40) & (resultDF['gh'
 error40over = np.mean(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 std40over = np.std(np.abs((resultDF.ix[inds].gz - resultDF.ix[inds].pz).values))
 
-
+import pdb; pdb.set_trace()
 #-----------------------------
 
 #-----------------------------
@@ -148,7 +148,7 @@ plt.plot(['10','20','30','40','40 over'],[error10, error20, error30, error40, er
 plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
 plt.xlabel('true distance')
 plt.ylabel('absolute error')
-plt.savefig(os.path.join(visualPath,'true_distance_vs_estimation_absolute_errror.png'))
+plt.savefig(os.path.join(visualPath,'error_test.png'))
 plt.show()
 #-----------------------------
 pdb.set_trace()
