@@ -78,8 +78,8 @@ def _batch(self, chunk):
     #import pdb; pdb.set_trace()
     for obj in allobj: #[classs, xセル番号, yセル番号, w幅比率のルート,　h幅比率のルート, 距離比率のルート, セル番号]
         #if obj[0] == "Truck": continue
-        import pdb; pdb.set_trace()
-        #obj[7] = ラスタースキャンで数えたセル番号
+        #import pdb; pdb.set_trace()
+        #obj[6] = ラスタースキャンで数えたセル番号
         probs[obj[6], :, :] = [[0.]*C] * B #169セルのうちの物体があるセルにクラスの数だけ要素を設けている
         #############################################################################################
         #分類タスクの場合
@@ -101,7 +101,7 @@ def _batch(self, chunk):
         #vecX[obj[7], :, :] = [[math.cos(obj[6])]] * B # cosαをアンカーの数だけそれぞれに同じものを代入
         #vecY[obj[7], :, :] = [[(math.sin(obj[6])+1)/2]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
         #vecY[obj[7], :, :] = [[math.sin(obj[6])]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
-    #import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
     botright = np.expand_dims(prear[:,2:4], 1) #単純にBBの右下の座標
