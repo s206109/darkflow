@@ -122,16 +122,22 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 import pdb; pdb.set_trace()
 surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] >= (-1*math.pi)/2 - (math.pi)/16)&(resultDF['ga'] <= (-1*math.pi)/2 + (math.pi)/16)  & (resultDF['gh'] > 25))[0] #iou0.7のものを用意
 surveyInd2 = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] >= (math.pi/2 - math.pi/16))&(resultDF['ga'] <= (math.pi/2 + math.pi/16))  & (resultDF['gh'] > 25))[0] #iou0.7のものを用意
+
 surveyx = resultDF.ix[surveyInd]['ga']
+surveyx2 = resultDF.ix[surveyInd2]['ga']
+
 surveyy = resultDF.ix[surveyInd]['pz-gz']
+surveyy2 = resultDF.ix[surveyInd2]['pz-gz']
+
 surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
 mejirushiy = [0, 0, 0, 0, 0]
 mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
 plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
+plt.scatter(surveyx2, surveyy2,   c='b', s = 5,label = None)
 for ssk in mejirushi:
      plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
-plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
+#plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
 
 # 凡例を表示する
 plt.legend()
