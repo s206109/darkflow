@@ -77,7 +77,7 @@ bugname = []
 
 # dataframe for result records
 import pdb; pdb.set_trace()
-resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','ga','pz-gz','fn'])
+resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','ga','pz-gz','p_area-g_area','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     #print("======")
     for pInd in np.arange(1,len(predBoxes[dInd])): #1つ目はファイル名なので。物体の数だけまわす
@@ -114,15 +114,15 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 
         resultDF = resultDF.append(pd.Series([np.max(ious),
                            predBox.c, predBox.x, predBox.y, predBox.w, predBox.h, predBox.z,
-                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,gtBox[maxInd].alpha,(predBox.z   - gtBox[maxInd].z) , predBox.filenum],
+                           gtBox[maxInd].c, gtBox[maxInd].x, gtBox[maxInd].y, gtBox[maxInd].w, gtBox[maxInd].h, gtBox[maxInd].z,gtBox[maxInd].alpha,(predBox.z   - gtBox[maxInd].z) ,(predBox.w * predBox.h  - gtBox[maxInd].w * gtBox[maxInd].h), predBox.filenum],
                            index=resultDF.columns),ignore_index=True)
 
 #-----------------------------
 #TEST
 #import pdb; pdb.set_trace()
-surveyInd  = np.where((resultDF['iou'] > 0.9) & ( resultDF['pz-gz'] > 5 ) & (resultDF['gh'] > 25))[0]
+surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
 
-surveyx = resultDF.ix[surveyInd]['gz']
+surveyx = resultDF.ix[surveyInd]['p_area-g_area']
 #surveyx2 = resultDF.ix[surveyInd2]['gz']
 
 surveyy = resultDF.ix[surveyInd]['pz-gz']
