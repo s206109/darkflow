@@ -123,10 +123,10 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
 
 surveyx = resultDF.ix[surveyInd]['p_area-g_area']
-surveyx2 = resultDF.ix[surveyInd]['p_area-g_area']
+#surveyx2 = resultDF.ix[surveyInd2]['p_area-g_area']
 
-surveyy = resultDF.ix[surveyInd]['pz-gz']
-surveyy2 = resultDF.ix[surveyInd]['iou']
+surveyy = resultDF.ix[surveyInd]['iou']
+#surveyy2 = resultDF.ix[surveyInd2]['iou']
 
 surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
@@ -134,7 +134,7 @@ import pdb; pdb.set_trace()
 mejirushiy = [0, 0, 0, 0, 0]
 mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
 plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
-plt.scatter(surveyx2, surveyy2,   c='r', s = 5,label = None)
+#plt.scatter(surveyx2, surveyy2,   c='r', s = 5,label = None)
 #for ssk in mejirushi:
      #plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
 #plt.scatter(surveyx_g, surveyy_g,   c='r', label = 'test_data')
