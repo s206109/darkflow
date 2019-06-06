@@ -123,8 +123,8 @@ import pdb; pdb.set_trace()
 surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] >= (-1*math.pi)/2 - (math.pi)/16)&(resultDF['ga'] <= (-1*math.pi)/2 + (math.pi)/16)  & (resultDF['gh'] > 25))[0] #iou0.7のものを用意
 surveyInd2 = np.where((resultDF['iou'] > 0.7) & (resultDF['ga'] >= (math.pi/2 - math.pi/16))&(resultDF['ga'] <= (math.pi/2 + math.pi/16))  & (resultDF['gh'] > 25))[0] #iou0.7のものを用意
 
-surveyx = resultDF.ix[surveyInd]['ga']
-surveyx2 = resultDF.ix[surveyInd2]['ga']
+surveyx = resultDF.ix[surveyInd]['gz']
+surveyx2 = resultDF.ix[surveyInd2]['gz']
 
 surveyy = resultDF.ix[surveyInd]['pz-gz']
 surveyy2 = resultDF.ix[surveyInd2]['pz-gz']
