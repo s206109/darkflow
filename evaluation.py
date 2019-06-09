@@ -122,10 +122,10 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 #import pdb; pdb.set_trace()
 surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
 
-surveyx = 0.0005 *resultDF.ix[surveyInd]['garea']
+surveyx = resultDF.ix[surveyInd]['gw']
 #surveyx2 = resultDF.ix[surveyInd2]['p_area-g_area']
 
-surveyy = resultDF.ix[surveyInd]['gz']
+surveyy = resultDF.ix[surveyInd]['gh']
 #surveyy2 = resultDF.ix[surveyInd2]['iou']
 
 surveyy_g = resultDF.ix[surveyInd]['gz']
@@ -141,11 +141,11 @@ plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
 
 # 凡例を表示する
 plt.legend()
-plt.xlabel('GT object area [$\mathrm{m^{2}}$]',fontsize = 20)
-plt.ylabel('GT distance [m] ',fontsize = 24)
+plt.xlabel('GT object height [m]',fontsize = 20)
+plt.ylabel('GT object width [m] ',fontsize = 24)
 
 # グラフのタイトルを設定する
-plt.title("Distribution of distance",fontsize = 20)
+plt.title("Distribution of height and width",fontsize = 20)
 plt.savefig(os.path.join(visualPath,'cont_new.png'))
 # 表示する
 plt.show()
