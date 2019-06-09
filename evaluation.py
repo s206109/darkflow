@@ -131,6 +131,8 @@ surveyy = resultDF.ix[surveyInd]['gh']
 surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
 import pdb; pdb.set_trace()
+mejirushi  = []
+mejirushiy = []
 for inda in range(10):
     np.append(mejirushi,  meta['anchors'][3*inda])
     np.append(mejirushiy, meta['anchors'][3*inda + 1])
