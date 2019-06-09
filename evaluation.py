@@ -122,7 +122,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 #import pdb; pdb.set_trace()
 surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
 
-surveyx = resultDF.ix[surveyInd]['garea']
+surveyx = 0.0005 *resultDF.ix[surveyInd]['garea']
 #surveyx2 = resultDF.ix[surveyInd2]['p_area-g_area']
 
 surveyy = resultDF.ix[surveyInd]['gz']
@@ -141,11 +141,11 @@ plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
 
 # 凡例を表示する
 plt.legend()
-plt.xlabel('object orientation α [rad]',fontsize = 18)
-plt.ylabel('distance error',fontsize = 18)
+plt.xlabel('GT object area [m^2]',fontsize = 42)
+plt.ylabel('GT distance [m] ',fontsize = 42)
 
 # グラフのタイトルを設定する
-plt.title("Distribution of distance error",fontsize = 18)
+plt.title("Distribution of distance",fontsize = 18)
 plt.savefig(os.path.join(visualPath,'cont_new.png'))
 # 表示する
 plt.show()
