@@ -141,7 +141,7 @@ for inda in range(10):
 
 
 plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
-plt.scatter(mejirushi, mejirushiy,   c='r', s = 8,label = None)
+plt.scatter(mejirushi, mejirushiy,   c='r', s = 15,label = None)
 #plt.scatter(surveyx2, surveyy2,   c='r', s = 5,label = None)
 #for ssk in mejirushi:
      #plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
