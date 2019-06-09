@@ -133,9 +133,11 @@ surveyx_g = resultDF.ix[surveyInd]['ga']
 import pdb; pdb.set_trace()
 mejirushi  = np.zeros(10)
 mejirushiy = np.zeros(10)
+widthRatio = 1242/13
+heightRatio = 370/13
 for inda in range(10):
-    mejirushi[inda]  = meta['anchors'][3*inda]
-    mejirushiy[inda] = meta['anchors'][3*inda + 1]
+    mejirushi[inda]  = widthRatio  * meta['anchors'][3*inda]
+    mejirushiy[inda] = heightRatio * meta['anchors'][3*inda + 1]
 
 
 plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
@@ -147,8 +149,8 @@ plt.scatter(mejirushi, mejirushiy,   c='r', s = 8,label = None)
 
 # 凡例を表示する
 plt.legend()
-plt.xlabel('GT object height [m]',fontsize = 20)
-plt.ylabel('GT object width [m] ',fontsize = 24)
+plt.xlabel('GT object height [pixel]',fontsize = 20)
+plt.ylabel('GT object width [pixel] ',fontsize = 24)
 
 # グラフのタイトルを設定する
 plt.title("Distribution of height and width",fontsize = 20)
