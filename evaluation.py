@@ -141,11 +141,11 @@ plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
 
 # 凡例を表示する
 plt.legend()
-plt.xlabel('GT object area [m^2]',fontsize = 24)
+plt.xlabel('GT object area [m^{2}]',fontsize = 20)
 plt.ylabel('GT distance [m] ',fontsize = 24)
 
 # グラフのタイトルを設定する
-plt.title("Distribution of distance",fontsize = 24)
+plt.title("Distribution of distance",fontsize = 20)
 plt.savefig(os.path.join(visualPath,'cont_new.png'))
 # 表示する
 plt.show()
