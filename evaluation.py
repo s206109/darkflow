@@ -134,8 +134,8 @@ import pdb; pdb.set_trace()
 mejirushi  = np.zeros(10)
 mejirushiy = np.zeros(10)
 for inda in range(10):
-    mejirushi[inda]  = meta['anchors'][3*inda])
-    mejirushiy[inda] = meta['anchors'][3*inda + 1])
+    mejirushi[inda]  = meta['anchors'][3*inda]
+    mejirushiy[inda] = meta['anchors'][3*inda + 1]
 
 
 plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
