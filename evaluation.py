@@ -131,9 +131,13 @@ surveyy = resultDF.ix[surveyInd]['gh']
 surveyy_g = resultDF.ix[surveyInd]['gz']
 surveyx_g = resultDF.ix[surveyInd]['ga']
 import pdb; pdb.set_trace()
-mejirushiy = [0, 0, 0, 0, 0]
-mejirushi = [-1*math.pi,(-1*math.pi)/2, 0 ,math.pi/2,math.pi]
+for inda in range(10):
+    np.append(mejirushi,  meta['anchors'][3*inda])
+    np.append(mejirushiy, meta['anchors'][3*inda + 1])
+
+
 plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
+plt.scatter(surveyx, surveyy,   c='r', s = 8,label = None)
 #plt.scatter(surveyx2, surveyy2,   c='r', s = 5,label = None)
 #for ssk in mejirushi:
      #plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
