@@ -149,8 +149,8 @@ plt.scatter(mejirushi, mejirushiy,   c='r', s = 15,label = None)
 
 # 凡例を表示する
 plt.legend()
-plt.xlabel('GT object height [pixel]',fontsize = 20)
-plt.ylabel('GT object width [pixel] ',fontsize = 24)
+plt.xlabel('GT object width [pixel]',fontsize = 20)
+plt.ylabel('GT object height [pixel] ',fontsize = 20)
 
 # グラフのタイトルを設定する
 plt.title("Distribution of height and width",fontsize = 20)
