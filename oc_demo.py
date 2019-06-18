@@ -6,7 +6,7 @@ import random
 import time
 
 # options = {"model": "cfg/tiny-yolo-voc.cfg", "load": "bin/tiny-yolo-voc.weights", "threshold": 0.1, "gpu": 0.8}
-options = {"model": "cfg/tiny-yolo-kitti-3d-10.cfg", "load": "33000", "threshold": 0.1, "gpu": 0.8, "labels":"labels_kitti.txt"}
+options = {"model": "cfg/tiny-yolo-kitti-3d-10.cfg", "load": 33000, "threshold": 0.1, "gpu": 0.8, "labels":"labels_kitti.txt"}
 tfnet = TFNet(options)
 
 # 動画の読み込み
