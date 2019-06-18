@@ -47,7 +47,6 @@ while True:
         print('FrameRate:' + str(1.0 / (sum(periods)/count)))
 
     periods.append(period)
-    import pdb; pdb.set_trace()
     for item in items:
         tlx = item['topleft']['x']
         tly = item['topleft']['y']
@@ -55,7 +54,7 @@ while True:
         bry = item['bottomright']['y']
         label = item['label']
         conf = item['confidence']
-        #dist = item['dist']
+        dist = item['distance']
 
         # 自信のあるものを表示
         if conf > 0.4:
@@ -67,7 +66,7 @@ while True:
 
             # 検出位置の表示
             cv2.rectangle(frame, (tlx, tly), (brx, bry), colors[class_num], 2)
-            text =  label + " " + ('%.2f' % conf)
+            text = dist + label + " " + ('%.2f' % conf)
             cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, colors[class_num], 2)
 
 
