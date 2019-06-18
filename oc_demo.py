@@ -15,9 +15,9 @@ cap = cv2.VideoCapture('visual_video/sample000.mp4')
 # 動画保存の設定
 fps = 30
 size = (1920, 1080)
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+fourcc = cv2.VideoWriter_fourcc(*'H264')
 # out = cv2.VideoWriter('output_tiny_yolo_voc.mp4', fourcc, fps,size)
-out = cv2.VideoWriter('output_yolo.mp4', fourcc, fps,size)
+out = cv2.VideoWriter('output_yolo.avi', fourcc, fps,size)
 
 class_names = ['car', 'negative']
 
