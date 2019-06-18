@@ -1,6 +1,6 @@
 import cv2
 
-fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
+fourcc = cv2.VideoWriter_fourcc('m','p','4','s')
 video = cv2.VideoWriter('video.mp4', fourcc, 20.0, (1242, 375))
 image_path = "training/image_2/"
 j = 0
