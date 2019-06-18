@@ -68,13 +68,10 @@ while True:
             text = label + " " + ('%.2f' % conf)
             cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, colors[class_num], 2)
 
-    # 表示
-    cv2.imshow("View", frame)
+
     # 保存
     out.write(frame)
     # qで終了
-    k = cv2.waitKey(10);
-    if k == ord('q'):  break;
 
 cap.release()
 out.release()
