@@ -1,9 +1,9 @@
 import cv2
 
-fourcc = cv2.VideoWriter_fourcc(*'H264')
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
 image_path = "training/image_2/"
-video = cv2.VideoWriter('movie.mp4', fourcc, 20.0, (1242, 375))
+video = cv2.VideoWriter('movie.avi', fourcc, 20.0, (1242, 375))
 for i in range(1, 20):
     img = cv2.imread(image_path + '000000_{0:02d}.png'.format(i))
     img = cv2.resize(img, (1242,375))
