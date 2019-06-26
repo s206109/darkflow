@@ -125,7 +125,7 @@ surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
 surveyx = resultDF.ix[surveyInd]['gw']
 #surveyx2 = resultDF.ix[surveyInd2]['p_area-g_area']
 
-surveyy = resultDF.ix[surveyInd]['gh']
+surveyy = resultDF.ix[surveyInd]['gz']
 #surveyy2 = resultDF.ix[surveyInd2]['iou']
 
 surveyy_g = resultDF.ix[surveyInd]['gz']
@@ -135,13 +135,13 @@ mejirushi  = np.zeros(10)
 mejirushiy = np.zeros(10)
 widthRatio = 1242/13
 heightRatio = 370/13
-for inda in range(10):
-    mejirushi[inda]  = widthRatio  * meta['anchors'][3*inda]
-    mejirushiy[inda] = heightRatio * meta['anchors'][3*inda + 1]
+#for inda in range(10):
+#    mejirushi[inda]  = widthRatio  * meta['anchors'][3*inda]
+#    mejirushiy[inda] = heightRatio * meta['anchors'][3*inda + 1]
 
 
 plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
-plt.scatter(mejirushi, mejirushiy,   c='r', s = 15,label = None)
+#plt.scatter(mejirushi, mejirushiy,   c='r', s = 15,label = None)
 #plt.scatter(surveyx2, surveyy2,   c='r', s = 5,label = None)
 #for ssk in mejirushi:
      #plt.vlines([ssk], -15, 15, "black", linestyles='dashed')
