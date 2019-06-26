@@ -125,7 +125,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 surveyInd  = np.where((resultDF['gh'] > 25))[0]
 
 
-surveyx = resultDF.ix[surveyInd]['gw']
+surveyx = resultDF.ix[surveyInd]['gh']
 #surveyx2 = resultDF.ix[surveyInd2]['p_area-g_area']
 
 surveyy = resultDF.ix[surveyInd]['gz']
