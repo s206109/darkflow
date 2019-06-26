@@ -120,12 +120,15 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 #-----------------------------
 #TEST
 #import pdb; pdb.set_trace()
-surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
 
-surveyx = resultDF.ix[surveyInd]['ga']
+#surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
+surveyInd  = np.where((resultDF['gh'] > 25))[0]
+
+
+surveyx = resultDF.ix[surveyInd]['gw']
 #surveyx2 = resultDF.ix[surveyInd2]['p_area-g_area']
 
-surveyy = resultDF.ix[surveyInd]['gw']
+surveyy = resultDF.ix[surveyInd]['gz']
 #surveyy2 = resultDF.ix[surveyInd2]['iou']
 
 surveyy_g = resultDF.ix[surveyInd]['gz']
