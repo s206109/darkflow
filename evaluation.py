@@ -125,7 +125,7 @@ surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
 surveyx = resultDF.ix[surveyInd]['gh']
 #surveyx2 = resultDF.ix[surveyInd2]['p_area-g_area']
 
-surveyy = resultDF.ix[surveyInd]['gz']
+surveyy = resultDF.ix[surveyInd]['ga']
 #surveyy2 = resultDF.ix[surveyInd2]['iou']
 
 surveyy_g = resultDF.ix[surveyInd]['gz']
