@@ -67,7 +67,7 @@ while True:
             # 検出位置の表示
             cv2.rectangle(frame, (tlx, tly), (brx, bry), colors[class_num], 2)
             text = label + " " + ('%.2f' % dist)
-            cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 15 / dist, colors[class_num], 2)
+            cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 15 / dist, dist, 2)
 
 
     # 保存
