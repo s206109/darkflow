@@ -6,7 +6,7 @@ import random
 import time
 
 # options = {"model": "cfg/tiny-yolo-voc.cfg", "load": "bin/tiny-yolo-voc.weights", "threshold": 0.1, "gpu": 0.8}
-options = {"model": "cfg/tiny-yolo-kitti-3d-10.cfg", "load": 33000, "threshold": 0.1, "gpu": 0.8, "labels":"labels_kitti.txt"}
+options = {"model": "cfg/tiny-yolo-kitti-3d-10.cfg", "load": 33000, "threshold": 0.1, "gpu": 1.0, "labels":"labels_kitti.txt"}
 tfnet = TFNet(options)
 
 # 動画の読み込み
@@ -65,9 +65,31 @@ while True:
                     break
 
             # 検出位置の表示
-            cv2.rectangle(frame, (tlx, tly), (brx, bry), colors[class_num], 2)
+            dist = dist/50
+            if   dist >= 0 or dist <= 0.25:
+                    heatmap1 = 255
+                    heatmap2 = 255 * math.sin(dist *2 * math.pi)
+                    heatmap3 = 0
+
+            elif dist > 0.25 or dist <= 0.5:
+                    heatmap1 = 255 * math.sin(dist * 2 * math.pi)
+                    heatmap2 = 255
+                    heatmap3 = 0
+
+            elif dist > 0.5 or dist <= 0.75:
+                    heatmap1 = 0
+                    heatmap2 = 255
+                    heatmap3 = 255 * math.sin(dist * 2 * math.pi)
+
+            else:
+                    heatmap1 = 0
+                    heatmap2 = 255 * math.sin(dist * 2 * math.pi)
+                    heatmap3 = 255
+
+
+            cv2.rectangle(frame, (tlx, tly), (brx, bry), (heatmap1,heatmap2,heatmap3), 2)
             text = label + " " + ('%.2f' % dist)
-            cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 15 / dist, dist, 2)
+            cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 15 / (heatmap1,heatmap2,heatmap3), dist, 2)
 
 
     # 保存
