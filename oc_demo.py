@@ -10,7 +10,7 @@ options = {"model": "cfg/tiny-yolo-kitti-3d-10.cfg", "load": 33000, "threshold":
 tfnet = TFNet(options)
 
 # 動画の読み込み
-cap = cv2.VideoCapture('visual_video/sample000.mp4')
+cap = cv2.VideoCapture('visual_video/sample001.avi')
 
 # 動画保存の設定
 fps = 20
