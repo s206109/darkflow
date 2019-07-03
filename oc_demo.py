@@ -65,7 +65,8 @@ while True:
                     break
 
             # 検出位置の表示
-            dis = dist/50
+            if dist > 5: dis = dist - 5
+            dis = dis/40
             if   dis >= 0 or dis <= 0.25:
                     heatmap1 = 255
                     heatmap2 = 255 * math.sin(dis *2 * math.pi)
@@ -91,9 +92,9 @@ while True:
                     heatmap3 = 255
 
 
-            cv2.rectangle(frame, (tlx, tly), (brx, bry), (heatmap3,heatmap2,heatmap1), 2)
+            cv2.rectangle(frame, (tlx, tly), (brx, bry), (heatmap1,heatmap2,heatmap3), 2)
             text = label + " " + ('%.2f' % dist)
-            cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (heatmap3,heatmap2,heatmap1), 2)
+            cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (heatmap1,heatmap2,heatmap3), 2)
 
 
     # 保存
