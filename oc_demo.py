@@ -65,25 +65,25 @@ while True:
                     break
 
             # 検出位置の表示
-            dist = dist/50
-            if   dist >= 0 or dist <= 0.25:
+            dis = dist/50
+            if   dis >= 0 or dis <= 0.25:
                     heatmap1 = 255
-                    heatmap2 = 255 * math.sin(dist *2 * math.pi)
+                    heatmap2 = 255 * math.sin(dis *2 * math.pi)
                     heatmap3 = 0
 
-            elif dist > 0.25 or dist <= 0.5:
-                    heatmap1 = 255 * math.sin(dist * 2 * math.pi)
+            elif dis > 0.25 or dis <= 0.5:
+                    heatmap1 = 255 * math.sin(dis * 2 * math.pi)
                     heatmap2 = 255
                     heatmap3 = 0
 
-            elif dist > 0.5 or dist <= 0.75:
+            elif dis > 0.5 or dis <= 0.75:
                     heatmap1 = 0
                     heatmap2 = 255
-                    heatmap3 = 255 * math.sin(dist * 2 * math.pi)
+                    heatmap3 = 255 * math.sin(dis * 2 * math.pi)
 
             else:
                     heatmap1 = 0
-                    heatmap2 = 255 * math.sin(dist * 2 * math.pi)
+                    heatmap2 = 255 * math.sin(dis * 2 * math.pi)
                     heatmap3 = 255
 
 
