@@ -89,7 +89,7 @@ while True:
 
             cv2.rectangle(frame, (tlx, tly), (brx, bry), (heatmap1,heatmap2,heatmap3), 2)
             text = label + " " + ('%.2f' % dist)
-            cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 15 / (heatmap1,heatmap2,heatmap3), dist, 2)
+            cv2.putText(frame, text, (tlx+10, tly-5), cv2.FONT_HERSHEY_SIMPLEX, 18, (heatmap1,heatmap2,heatmap3), 2)
 
 
     # 保存
