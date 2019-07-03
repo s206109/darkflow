@@ -65,8 +65,7 @@ while True:
                     break
 
             # 検出位置の表示
-            if dist > 5: dis = dist - 5
-            dis = dis/40
+            dis = dist/100
             if   dis >= 0 or dis <= 0.25:
                     heatmap1 = 255
                     heatmap2 = 255 * math.sin(dis *2 * math.pi)
