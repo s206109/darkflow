@@ -4,7 +4,7 @@ import numpy as np
 import colorsys
 import random
 import time
-
+import math
 # options = {"model": "cfg/tiny-yolo-voc.cfg", "load": "bin/tiny-yolo-voc.weights", "threshold": 0.1, "gpu": 0.8}
 options = {"model": "cfg/tiny-yolo-kitti-3d-10.cfg", "load": 33000, "threshold": 0.1, "gpu": 1.0, "labels":"labels_kitti.txt"}
 tfnet = TFNet(options)
