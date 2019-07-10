@@ -69,7 +69,7 @@ for inds in range(1 ,30):
 
                 # 検出位置の表示
                 if dist >= 50: dis = 50
-                else:  dis = dis
+                else:  dis = dist
                 dis = dist/50
                 if   dis >= 0 and dis <= 0.25:
                         heatmap1 = 255
