@@ -1,6 +1,6 @@
 import cv2
 
-for time in (1,30)
+for time in (1,30):
     fourcc = cv2.VideoWriter_fourcc(*'H264')
 
     image_path = "training/image_2/"
