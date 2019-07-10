@@ -1,15 +1,17 @@
 import cv2
 
-fourcc = cv2.VideoWriter_fourcc(*'H264')
+for time in (1,30)
+    fourcc = cv2.VideoWriter_fourcc(*'H264')
 
-image_path = "training/image_2/"
-video = cv2.VideoWriter('visual_video/sample003.avi', fourcc, 20.0, (1242, 375))
-for i in range(1, 20):
-    img = cv2.imread(image_path + '000003_{0:02d}.png'.format(i))
-    img = cv2.resize(img, (1242,375))
-    video.write(img)
+    image_path = "training/image_2/"
+    video = cv2.VideoWriter('visual_video/sample{0:06d}.avi'.format(time), fourcc, 20.0, (1242, 375))
+    for i in range(1, 20):
+        img = cv2.imread(image_path + '{0:06d}_'.format(time) + '{0:02d}.png'.format(i))
+        img = cv2.resize(img, (1242,375))
+        video.write(img)
 
-video.release()
+    video.release()
+
 """
 image_path = "training/image_2/"
 for j in range(0, 200):
