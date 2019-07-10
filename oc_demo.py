@@ -11,7 +11,7 @@ tfnet = TFNet(options)
 
 
 
-for inds in range(1 ,30):
+for inds in range(0 ,30):
     # 動画の読み込み
     cap = cv2.VideoCapture('visual_video/sample{0:06d}.avi'.format(inds))
 
@@ -20,7 +20,7 @@ for inds in range(1 ,30):
     size = (1242, 374)
     fourcc = cv2.VideoWriter_fourcc(*'H264')
     # out = cv2.VideoWriter('output_tiny_yolo_voc.mp4', fourcc, fps,size)
-    out = cv2.VideoWriter('output_yolo.avi{0:06d}.avi'.format(inds), fourcc, fps,size)
+    out = cv2.VideoWriter('out/output_yolo.avi{0:06d}.avi'.format(inds), fourcc, fps,size)
 
     class_names = ['car', 'negative']
 
