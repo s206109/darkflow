@@ -34,22 +34,14 @@ threshold = 0.7
 _, meta = process.parser('cfg/tiny-yolo-kitti-3d-10.cfg')
 
 print('extract annotations data')
-gtBoxes = pascal_voc_clean_xml(meta['annotation_path'], labels, exclusive = False)
+gtBoxes = pascal_voc_clean_xml(meta['data/kitti/set1/Annotations'], labels, exclusive = False)
 
-resultDF = pd.DataFrame(columns = ['gw','gh','gz'])
+resultDF = pd.DataFrame(columns = ['gw','gh','gz','ga'])
 for dInd in np.arange(0,len(gtBoxes)): #dInd = 何ファイル目なのかの数
         for gInd in np.arange(1,len(gtBoxes[dInd])):
-
-         resultDF = resultDF.append(pd.Series([gtBoxes[dInd][gInd][3],gtBoxes[dInd][gInd][4],gtBoxes[dInd][gInd][5]],
+            resultDF = resultDF.append(pd.Series([gtBoxes[dInd][gInd][3]/1242, gtBoxes[dInd][gInd][4]/375, gtBoxes[dInd][gInd][5]/100, gtBoxes[dInd][gInd][6]],
                            index=resultDF.columns),ignore_index=True)
 
-
-ann = np.zeros([1,3])
-ann[0][0]= gtBoxes[0][1][3]
-ann[0][1]= gtBoxes[0][1][4]
-ann[0][2]= gtBoxes[0][1][6]
-truedist = np.zeros([1,1])
-truedist[0] = gtBoxes[0][1][5]
 import pdb; pdb.set_trace()
 
 ################
@@ -109,26 +101,36 @@ sns.pairplot(bos)
 
 # Get the data
 total_features, total_prices = load_boston(True)
+total_features2 = resultDF[["gw","gh"]].as_matrix()
+total_prices2   = resultDF[["gz"]].as_matrix()
 
 # Keep 300 samples for training
 train_features = scale(total_features[:300])
+train_features2 = scale(total_features2[:100])
 train_prices = total_prices[:300]
+train_prices2 = total_prices2[:100]
+
 
 # Keep 100 samples for validation
 valid_features = scale(total_features[300:400])
+valid_features2 = scale(total_features2[100:110])
 valid_prices = total_prices[300:400]
+valid_prices2 = total_prices2[100:110]
 
 # Keep remaining samples as test set
 test_features = scale(total_features[400:])
+test_features2 = scale(total_features2[110:])
 test_prices = total_prices[400:]
+test_prices2 = total_prices2[110:]
 
 
-nb_obs = total_features.shape[0]
+nb_obs = total_features2.shape[0]
 print("There is {} observations in our dataset ".format(nb_obs))
 
-nb_feature = total_features.shape[1]
+nb_feature = total_features2.shape[1]
 print("There is {} features in our dataset ".format(nb_feature))
 
+import pdb; pdb.set_trace()
 # Set model weights - with random initialization
 W = tf.Variable(tf.truncated_normal([nb_feature, 1],
                                     mean=0.0,
@@ -154,7 +156,7 @@ def linear_reg(x,y):
     # Return values
     return([Ypred,error])
 
-y, cost = linear_reg(train_features, train_prices)
+y, cost = linear_reg(train_features2, train_prices2)
 
 
 
