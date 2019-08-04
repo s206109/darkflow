@@ -162,7 +162,7 @@ y, cost = linear_reg(train_features2, train_prices2)
 
 # Define your parameter :
 learning_rate = 0.01
-epochs = 200
+epochs = 2000
 cost_history = [[], []]
 
 # Use gradient descent to minimize loss
