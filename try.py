@@ -191,7 +191,7 @@ with tf.Session() as sess:
     plt.xlabel('Epochs')
     plt.show()
 
-    train_cost = linear_reg(train_features, train_prices)[1]
+    train_cost = linear_reg(train_features2, train_prices2)[1]
     print('Train error =', sess.run(train_cost))
-    valid_cost = linear_reg(valid_features, valid_prices)[1]
+    valid_cost = linear_reg(valid_features2, valid_prices2)[1]
     print('Validation error =', sess.run(valid_cost))
