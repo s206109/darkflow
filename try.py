@@ -189,6 +189,7 @@ with tf.Session() as sess:
     plt.plot(cost_history[0], cost_history[1], 'r--')
     plt.ylabel('Costs')
     plt.xlabel('Epochs')
+    plt.savefig(os.path.join(visualPath,'new.png'))
     plt.show()
 
     train_cost = linear_reg(train_features2, train_prices2)[1]
