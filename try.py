@@ -34,7 +34,7 @@ threshold = 0.7
 _, meta = process.parser('cfg/tiny-yolo-kitti-3d-10.cfg')
 
 print('extract annotations data')
-gtBoxes = pascal_voc_clean_xml(meta['data/kitti/set1/Annotations'], labels, exclusive = False)
+gtBoxes = pascal_voc_clean_xml('data/kitti/set1/Annotations', labels, exclusive = False)
 
 resultDF = pd.DataFrame(columns = ['gw','gh','gz','ga'])
 for dInd in np.arange(0,len(gtBoxes)): #dInd = 何ファイル目なのかの数
