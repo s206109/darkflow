@@ -101,7 +101,7 @@ sns.pairplot(bos)
 
 # Get the data
 #total_features, total_prices = load_boston(True)
-total_features2 = resultDF[["gx","gy","gw","gh"]].as_matrix()
+total_features2 = resultDF[["gx","gy","gw","gh","ga"]].as_matrix()
 total_prices2   = resultDF[["gz"]].as_matrix()
 
 # Keep 300 samples for training
