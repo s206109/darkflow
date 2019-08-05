@@ -155,7 +155,7 @@ def linear_reg(x,y):
 
     # Return values
     return([Ypred,error])
-
+import pdb; pdb.set_trace()
 y, cost = linear_reg(train_features2, train_prices2)
 
 
@@ -193,7 +193,7 @@ with tf.Session() as sess:
     plt.savefig(os.path.join(visualPath,'new.png'))
     plt.show()
     """
-    
+
     train_cost = linear_reg(train_features2, train_prices2)[1]
     print('Train error =', sess.run(train_cost))
     valid_cost = linear_reg(valid_features2, valid_prices2)[1]
