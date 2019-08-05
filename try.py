@@ -131,14 +131,12 @@ nb_feature = total_features2.shape[1]
 print("There is {} features in our dataset ".format(nb_feature))
 
 import pdb; pdb.set_trace()
+nb_hidden = 5
 # Set model weights - with random initialization
-W = tf.Variable(tf.truncated_normal([nb_feature, 1],
-                                    mean=0.0,
-                                    stddev=1.0,
-                                    dtype=tf.float64),
-                name="weight")
-# Set model biais - initialized to 0
-b = tf.Variable(tf.zeros(1, dtype = tf.float64), name="bias")
+W1 = tf.Variable(tf.truncated_normal([nb_feature, nb_hidden], mean=0.0, stddev=1.0, dtype=tf.float64), name="weight1")
+W2 = tf.Variable(tf.truncated_normal([nb_hidden, 1], mean=0.0, stddev=1.0, dtype=tf.float64), name="weight2")
+b1 = tf.Variable(tf.zeros(nb_hidden, dtype = tf.float64), name="bias1")
+b2 = tf.Variable(tf.zeros(1, dtype = tf.float64), name="bias2")
 
 
 # tf Graph Input
@@ -148,7 +146,10 @@ Y = tf.placeholder("float")
 
 def linear_reg(x,y):
     # Define your equation Ypred = X * W + b
-    Ypred = tf.add(b,tf.matmul(x,W))
+    hidden = tf.add(b1,tf.matmul(x,W1))
+    hidden = tf.nn.relu(hidden)
+    Ypred = tf.add(b2,tf.matmul(hidden,W2))
+    Ypred = tf.nn.sigmoid(Ypred)
 
     # Define your loss function
     error = tf.reduce_mean(tf.square(y - Ypred))
@@ -162,7 +163,7 @@ y, cost = linear_reg(train_features2, train_prices2)
 
 # Define your parameter :
 learning_rate = 0.01
-epochs = 2000
+epochs = 50000
 cost_history = [[], []]
 
 # Use gradient descent to minimize loss
