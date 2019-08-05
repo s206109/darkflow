@@ -100,27 +100,27 @@ sns.pairplot(bos)
 """
 
 # Get the data
-total_features, total_prices = load_boston(True)
+#total_features, total_prices = load_boston(True)
 total_features2 = resultDF[["gw","gh"]].as_matrix()
 total_prices2   = resultDF[["gz"]].as_matrix()
 
 # Keep 300 samples for training
-train_features = scale(total_features[:300])
-train_features2 = scale(total_features2[:20000])
-train_prices = total_prices[:300]
+#train_features = scale(total_features[:300])
+train_features2 = total_features2[:20000]
+#train_prices = total_prices[:300]
 train_prices2 = total_prices2[:20000]
 
 
 # Keep 100 samples for validation
-valid_features = scale(total_features[300:400])
-valid_features2 = scale(total_features2[20000:25000])
-valid_prices = total_prices[300:400]
+#valid_features = scale(total_features[300:400])
+valid_features2 = total_features2[20000:25000]
+#valid_prices = total_prices[300:400]
 valid_prices2 = total_prices2[20000:25000]
 
 # Keep remaining samples as test set
-test_features = scale(total_features[400:])
-test_features2 = scale(total_features2[25000:])
-test_prices = total_prices[400:]
+#test_features = scale(total_features[400:])
+test_features2 = total_features2[25000:]
+#test_prices = total_prices[400:]
 test_prices2 = total_prices2[25000:]
 
 
