@@ -202,7 +202,6 @@ sess.run(tf.global_variables_initializer())
 
 
 with tf.Session() as sess:
-    sess.run(init)
     for i in list(range(epochs)):
         _, loss_train = sess.run([train_optimaizer,loss],feed_dict={X:train_features, Y:train_dists}) # Execute the gradient descent, according our learning_rate and our cost function
 
