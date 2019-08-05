@@ -36,10 +36,10 @@ _, meta = process.parser('cfg/tiny-yolo-kitti-3d-10.cfg')
 print('extract annotations data')
 gtBoxes = pascal_voc_clean_xml('data/kitti/set1/Annotations', labels, exclusive = False)
 
-resultDF = pd.DataFrame(columns = ['gw','gh','gz','ga'])
+resultDF = pd.DataFrame(columns = ['gx','gy','gw','gh','gz','ga'])
 for dInd in np.arange(0,len(gtBoxes)): #dInd = 何ファイル目なのかの数
         for gInd in np.arange(1,len(gtBoxes[dInd])):
-            resultDF = resultDF.append(pd.Series([gtBoxes[dInd][gInd][3]/1242, gtBoxes[dInd][gInd][4]/375, gtBoxes[dInd][gInd][5]/100, gtBoxes[dInd][gInd][6]],
+            resultDF = resultDF.append(pd.Series([gtBoxes[dInd][gInd][1]/1242,gtBoxes[dInd][gInd][2]/375,gtBoxes[dInd][gInd][3]/1242, gtBoxes[dInd][gInd][4]/375, gtBoxes[dInd][gInd][5]/100, gtBoxes[dInd][gInd][6]],
                            index=resultDF.columns),ignore_index=True)
 
 import pdb; pdb.set_trace()
@@ -101,7 +101,7 @@ sns.pairplot(bos)
 
 # Get the data
 #total_features, total_prices = load_boston(True)
-total_features2 = resultDF[["gw","gh"]].as_matrix()
+total_features2 = resultDF[["gx","gy","gw","gh"]].as_matrix()
 total_prices2   = resultDF[["gz"]].as_matrix()
 
 # Keep 300 samples for training
