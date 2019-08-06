@@ -54,6 +54,9 @@ for dInd in np.arange(0,len(gtBoxes)): #dInd = 何ファイル目なのかの数
             centerX  = centerX / cellX
             centerY  = centerY / cellY
 
+            centerX  = centerX - np.floor(centerX)
+            centerY  = centerY - np.floor(centerY)
+
             Distance =  gtBoxes[dInd][gInd][5]/100
             Alpha    =  gtBoxes[dInd][gInd][6]
 
