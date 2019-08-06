@@ -45,8 +45,8 @@ for dInd in np.arange(0,len(gtBoxes)): #dInd = 何ファイル目なのかの数
             Width    = (gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1])/1242
             Height   = (gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2])/375
 
-            cellX = 1. * 13 / 1242 #画像の横幅を１グリッドあたりのピクセル数
-            cellY = 1. * 13 / 375 #画像の縦幅１グリッドあたりのピクセル数
+            cellX = 1. * 1242 / 13 #画像の横幅を１グリッドあたりのピクセル数
+            cellY = 1. * 375  / 13 #画像の縦幅１グリッドあたりのピクセル数
 
             centerX  =  .5*(gtBoxes[dInd][gInd][3] + gtBoxes[dInd][gInd][1])
             centerY  =  .5*(gtBoxes[dInd][gInd][4] + gtBoxes[dInd][gInd][2])
