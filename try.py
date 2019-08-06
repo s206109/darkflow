@@ -105,7 +105,7 @@ b2 = tf.Variable(tf.zeros(1, dtype = tf.float64), name="bias2")
 X = tf.placeholder("float")
 Y = tf.placeholder("float")
 
-
+import pdb; pdb.set_trace()
 def linear_reg(x,y):
     # Define your equation Ypred = X * W + b
     hidden = tf.add(b1,tf.matmul(x,W1))
