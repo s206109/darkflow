@@ -98,8 +98,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                  continue #classが違えば飛ばす
 
             gtBox[gInd-1].c = gtBoxes[dInd][gInd][0]
-            gtBox[gInd-1].x = gtBoxes[dInd][gInd][1]
-            gtBox[gInd-1].y = gtBoxes[dInd][gInd][2]
+            gtBox[gInd-1].x = .5*(gtBoxes[dInd][gInd][1]+gtBoxes[dInd][gInd][3])
+            gtBox[gInd-1].y = .5*(gtBoxes[dInd][gInd][1]+gtBoxes[dInd][gInd][3])
             gtBox[gInd-1].w = gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1]
             gtBox[gInd-1].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
