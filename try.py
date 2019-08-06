@@ -21,117 +21,70 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
-
-
-################
-
+################################################################
 # parameters
+################################################################
 visualPath = 'visualization'
 
 labels = ['car','negative']
 threshold = 0.7
 _, meta = process.parser('cfg/tiny-yolo-kitti-3d-10.cfg')
 
-print('extract annotations data')
-gtBoxes = pascal_voc_clean_xml('data/kitti/set1/Annotations', labels, exclusive = False)
 
-resultDF = pd.DataFrame(columns = ['gx','gy','gw','gh','gz','ga'])
+
+################################################################
+#extract annotations data
+################################################################
+print('extract annotations data')
+gtBoxes = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTrain', labels, exclusive = False)
+
+
+resultDF = pd.DataFrame(columns = ['gw','gh','gx','gy','gz','ga'])
 for dInd in np.arange(0,len(gtBoxes)): #dInd = 何ファイル目なのかの数
         for gInd in np.arange(1,len(gtBoxes[dInd])):
-            resultDF = resultDF.append(pd.Series([gtBoxes[dInd][gInd][1]/1242,gtBoxes[dInd][gInd][2]/375,gtBoxes[dInd][gInd][3]/1242, gtBoxes[dInd][gInd][4]/375, gtBoxes[dInd][gInd][5]/100, gtBoxes[dInd][gInd][6]],
-                           index=resultDF.columns),ignore_index=True)
+            Width    = (gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1])/1242
+            Height   = (gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2])/375
 
-import pdb; pdb.set_trace()
+            cellX = 1. * 13 / 1242 #画像の横幅を１グリッドあたりのピクセル数
+            cellY = 1. * 13 / 375 #画像の縦幅１グリッドあたりのピクセル数
 
-################
+            centerX  =  .5*(gtBoxes[dInd][gInd][3] + gtBoxes[dInd][gInd][1])
+            centerY  =  .5*(gtBoxes[dInd][gInd][4] + gtBoxes[dInd][gInd][2])
 
+            centerX  = centerX / cellX
+            centerY  = centerY / cellY
 
+            Distance =  gtBoxes[dInd][gInd][5]/100
+            Alpha    =  gtBoxes[dInd][gInd][6]
 
+            resultDF = resultDF.append(pd.Series([ Width, Height, centerX, centerY, Distance, Alpha],
+                       index=resultDF.columns),ignore_index=True)
 
-
-
-import os
-print(os.listdir("./data"))
-
-boston = load_boston()
-# The True passed to load_boston() lets it know that we want features and prices in separate numpy arrays.
-print("Shape of design (feature) matrix : \n ", boston.data.shape)
-print("List of features : \n ", boston.feature_names)
-
-bos = pd.DataFrame(boston.data)
-bos.columns = boston.feature_names
-bos['PRICE'] = boston.target
-print("Simples statistics : \n ", bos.describe())
-
-"""
-Correlation
-
-corr= bos.corr(method='pearson')
-
-# 1. HeatMap with Seaborn
-sns.heatmap(corr,
-            xticklabels=corr.columns,
-            yticklabels=corr.columns)
-
-# 2. If you want to figures out
-cmap = cmap=sns.diverging_palette(5, 250, as_cmap=True)
-def magnify():
-    return [dict(selector="th",
-                 props=[("font-size", "7pt")]),
-            dict(selector="td",
-                 props=[('padding', "0em 0em")]),
-            dict(selector="th:hover",
-                 props=[("font-size", "12pt")]),
-            dict(selector="tr:hover td:hover",
-                 props=[('max-width', '200px'),
-                        ('font-size', '12pt')])
-]
-corr.style.background_gradient(cmap, axis=1)\
-    .set_properties(**{'max-width': '80px', 'font-size': '10pt'})\
-    .set_caption("Hover to magify")\
-    .set_precision(2)\
-    .set_table_styles(magnify())
-
-
-#Pair plot
-
-sns.pairplot(bos)
-"""
-
-# Get the data
-#total_features, total_prices = load_boston(True)
+################################################################
+#reshape annotations data
+################################################################
 total_features2 = resultDF[["gx","gy","gw","gh","ga"]].as_matrix()
-total_prices2   = resultDF[["gz"]].as_matrix()
+total_dist2   = resultDF[["gz"]].as_matrix()
 
-# Keep 300 samples for training
-#train_features = scale(total_features[:300])
+# Keep  samples for training
+
 train_features2 = total_features2[:20000]
-#train_prices = total_prices[:300]
-train_prices2 = total_prices2[:20000]
+train_dist2 = total_dist2[:20000]
 
 
-# Keep 100 samples for validation
-#valid_features = scale(total_features[300:400])
+# Keep samples for validation
 valid_features2 = total_features2[20000:25000]
-#valid_prices = total_prices[300:400]
-valid_prices2 = total_prices2[20000:25000]
+valid_dist2 = total_dist2[20000:25000]
 
 # Keep remaining samples as test set
-#test_features = scale(total_features[400:])
 test_features2 = total_features2[25000:]
-#test_prices = total_prices[400:]
-test_prices2 = total_prices2[25000:]
+test_dist2 = total_dist2[25000:]
 
 
-nb_obs = total_features2.shape[0]
-print("There is {} observations in our dataset ".format(nb_obs))
+################################################################
+#construct network model
+################################################################
 
-nb_feature = total_features2.shape[1]
-print("There is {} features in our dataset ".format(nb_feature))
-
-import pdb; pdb.set_trace()
-nb_hidden = 5
 # Set model weights - with random initialization
 W1 = tf.Variable(tf.truncated_normal([nb_feature, nb_hidden], mean=0.0, stddev=1.0, dtype=tf.float64), name="weight1")
 W2 = tf.Variable(tf.truncated_normal([nb_hidden, 1], mean=0.0, stddev=1.0, dtype=tf.float64), name="weight2")
@@ -156,10 +109,9 @@ def linear_reg(x,y):
 
     # Return values
     return([Ypred,error])
-import pdb; pdb.set_trace()
-y, cost = linear_reg(train_features2, train_prices2)
 
 
+y, cost = linear_reg(train_features2, train_dist2)
 
 # Define your parameter :
 learning_rate = 0.01
@@ -173,7 +125,9 @@ optim = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimiz
 # Initialize the variables (i.e. assign their default value)
 init = tf.global_variables_initializer()
 
-
+################################################################
+#sess run
+################################################################
 with tf.Session() as sess:
     sess.run(init)
     for i in list(range(epochs)):
@@ -186,16 +140,6 @@ with tf.Session() as sess:
         if i % 100 == 0:
             print("Cost = ", sess.run(cost))
 
-    # Plot costs values
-    """
-    plt.plot(cost_history[0], cost_history[1], 'r--')
-    plt.ylabel('Costs')
-    plt.xlabel('Epochs')
-    plt.savefig(os.path.join(visualPath,'new.png'))
-    plt.show()
-    """
-
-    train_cost = linear_reg(train_features2, train_prices2)[1]
-    print('Train error =', sess.run(train_cost))
-    valid_cost = linear_reg(valid_features2, valid_prices2)[1]
+    
+    valid_cost = linear_reg(valid_features2, valid_dist2)[1]
     print('Validation error =', sess.run(valid_cost))
