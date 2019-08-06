@@ -148,7 +148,9 @@ with tf.Session() as sess:
     #なんらかの処理
 
     #保存
-    saver.save(sess, "model.ckpt")
+    cwd = os.getcwd()
+
+    saver.save(sess ,cwd + "\\model.ckpt")
     sess.run(init)
     for i in list(range(epochs)):
         sess.run(optim) # Execute the gradient descent, according our learning_rate and our cost function
