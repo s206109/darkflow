@@ -146,7 +146,7 @@ init = tf.global_variables_initializer()
 ################################################################
 with tf.Session() as sess:
     saver = tf.train.Saver()
-    sess = tf.InteractiveSession()
+
     #なんらかの処理
 
     #保存
@@ -166,5 +166,7 @@ with tf.Session() as sess:
 
 
 
+    saver = tf.train.Saver()
+    saver.save(sess, './model_ckpt/linear')
     valid_cost = linear_reg(valid_features2, valid_dist2)[1]
     print('Validation error =', sess.run(valid_cost))
