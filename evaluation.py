@@ -45,7 +45,7 @@ gtBoxes.sort()
 # load predicted boxes as predBoxes
 # jsonの読み込み
 cur_dir = os.getcwd()
-os.chdir('data/kitti/set1/PNGImagesTest/out-53000')
+os.chdir(meta['json_path'])
 jsonFiles = glob.glob('*.json')
 
 predBoxes = [0 for re2 in range(len(jsonFiles))] #jsonfileの数だけ要素を儲ける
@@ -76,7 +76,7 @@ bugname = []
 # and select the gtBox with the highest IoU
 
 # dataframe for result records
-#import pdb; pdb.set_trace()
+import pdb; pdb.set_trace()
 resultDF = pd.DataFrame(columns = ['iou','pc','px','py','pw','ph','pz','gc','gx','gy','gw','gh','gz','ga','pz-gz','garea','fn'])
 for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの数
     #print("======")
@@ -98,8 +98,8 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
                  continue #classが違えば飛ばす
 
             gtBox[gInd-1].c = gtBoxes[dInd][gInd][0]
-            gtBox[gInd-1].x = .5*(gtBoxes[dInd][gInd][1]+gtBoxes[dInd][gInd][3])
-            gtBox[gInd-1].y = .5*(gtBoxes[dInd][gInd][2]+gtBoxes[dInd][gInd][4])
+            gtBox[gInd-1].x = gtBoxes[dInd][gInd][1]
+            gtBox[gInd-1].y = gtBoxes[dInd][gInd][2]
             gtBox[gInd-1].w = gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1]
             gtBox[gInd-1].h = gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2]
             gtBox[gInd-1].z = gtBoxes[dInd][gInd][5]
@@ -120,7 +120,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 #-----------------------------
 #TEST
 #import pdb; pdb.set_trace()
-"""
+
 #surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
 surveyInd  = np.where((resultDF['gh'] > 25))[0]
 
@@ -162,7 +162,7 @@ plt.savefig(os.path.join(visualPath,'cont_new.png'))
 plt.show()
 #-----------------------------
 
-
+"""
 #-----------------------------
 #TEST
 import pdb; pdb.set_trace()
@@ -189,7 +189,7 @@ plt.savefig(os.path.join(visualPath,'cont_test.png'))
 # 表示する
 plt.show()
 #-----------------------------
-"""
+
 #-----------------------------
 
 # compute error
@@ -221,7 +221,7 @@ import pdb; pdb.set_trace()
 #-----------------------------
 # plot distance prediction error
 plt.plot(['10','20','30','40','40 over'],[error10, error20, error30, error40, error40over])
-
+plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
 plt.xlabel('true distance')
 plt.ylabel('absolute error')
 plt.savefig(os.path.join(visualPath,'error_test.png'))
@@ -229,7 +229,7 @@ plt.show()
 #-----------------------------
 pdb.set_trace()
 
-"""
+
 
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
