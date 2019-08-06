@@ -85,6 +85,15 @@ test_dist2 = total_dist2[25000:]
 #construct network model
 ################################################################
 
+nb_obs = total_features2.shape[0]
+print("There is {} observations in our dataset ".format(nb_obs))
+
+nb_feature = total_features2.shape[1]
+print("There is {} features in our dataset ".format(nb_feature))
+
+import pdb; pdb.set_trace()
+nb_hidden = 5
+
 # Set model weights - with random initialization
 W1 = tf.Variable(tf.truncated_normal([nb_feature, nb_hidden], mean=0.0, stddev=1.0, dtype=tf.float64), name="weight1")
 W2 = tf.Variable(tf.truncated_normal([nb_hidden, 1], mean=0.0, stddev=1.0, dtype=tf.float64), name="weight2")
@@ -140,6 +149,6 @@ with tf.Session() as sess:
         if i % 100 == 0:
             print("Cost = ", sess.run(cost))
 
-    
+
     valid_cost = linear_reg(valid_features2, valid_dist2)[1]
     print('Validation error =', sess.run(valid_cost))
