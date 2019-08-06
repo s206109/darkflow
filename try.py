@@ -148,7 +148,6 @@ with tf.Session() as sess:
     #なんらかの処理
 
     #保存
-    cwd = os.getcwd()
 
     saver.save(sess, "model_ckpt")
     sess.run(init)
