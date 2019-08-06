@@ -20,7 +20,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import os
 ################################################################
 # parameters
 ################################################################
