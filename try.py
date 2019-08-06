@@ -70,18 +70,20 @@ total_features2 = resultDF[["gx","gy","gw","gh","ga"]].as_matrix()
 total_dist2   = resultDF[["gz"]].as_matrix()
 
 # Keep  samples for training
+Cpoint1 = 10000
+Cpoint2 = 13500
 
-train_features2 = total_features2[:20000]
-train_dist2 = total_dist2[:20000]
+train_features2 = total_features2[:Cpoint1]
+train_dist2 = total_dist2[:Cpoint1]
 
 
 # Keep samples for validation
-valid_features2 = total_features2[20000:25000]
-valid_dist2 = total_dist2[20000:25000]
+valid_features2 = total_features2[Cpoint1:Cpoint2]
+valid_dist2 = total_dist2[Cpoint1:Cpoint2]
 
 # Keep remaining samples as test set
-test_features2 = total_features2[25000:]
-test_dist2 = total_dist2[25000:]
+test_features2 = total_features2[Cpoint2:]
+test_dist2 = total_dist2[Cpoint2:]
 
 
 ################################################################
