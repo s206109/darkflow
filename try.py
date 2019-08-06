@@ -145,7 +145,7 @@ init = tf.global_variables_initializer()
 with tf.Session() as sess:
     saver = tf.train.Saver()
 
-    なんらかの処理
+    #なんらかの処理
 
     #保存
     saver.save(sess, "model.ckpt")
