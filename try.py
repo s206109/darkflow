@@ -20,7 +20,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os
+
 ################################################################
 # parameters
 ################################################################
@@ -150,7 +150,7 @@ with tf.Session() as sess:
     #保存
     cwd = os.getcwd()
 
-    saver.save(sess ,cwd + "\\model.ckpt")
+    saver.save(sess, "model_ckpt")
     sess.run(init)
     for i in list(range(epochs)):
         sess.run(optim) # Execute the gradient descent, according our learning_rate and our cost function
