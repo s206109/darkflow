@@ -112,7 +112,7 @@ def linear_reg(x,y):
     Ypred = tf.nn.sigmoid(Ypred)
 
     # Define your loss function
-    error = 100* (y - Ypred)
+    error = abs(100* (y - Ypred))
 
     # Return values
     return([Ypred,error])
@@ -121,9 +121,9 @@ import pdb; pdb.set_trace()
 result = sess.run(linear_reg(test_features2,test_dist2))
 print(result[1]) #誤差の平均値
 
-'''
-surveyx = resultDF.ix[surveyInd]['ga']
-surveyy = resultDF.ix[surveyInd]['pz-gz']
+for ind in range(len(result[1])):
+    surveyx = ind
+    surveyy = result[1][ind]
 
 plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
 
@@ -134,7 +134,6 @@ plt.ylabel('distance [m]',fontsize = 18)
 
 # グラフのタイトルを設定する
 plt.title("Distribution of distance error",fontsize = 18)
-plt.savefig(os.path.join(visualPath,'cont_test.png'))
+plt.savefig(os.path.join(visualPath,'cont_dynamic.png'))
 # 表示する
 plt.show()
-'''
