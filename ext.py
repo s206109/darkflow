@@ -115,13 +115,14 @@ def linear_reg(x,y):
 
     # Define your loss function
     error = abs(100* (y - Ypred))
+    error2 = tf.reduce_mean(100 *(y - Ypred))
 
     # Return values
-    return([Ypred,error])
+    return([Ypred,error,erorr2])
 
 #import pdb; pdb.set_trace()
 result = sess.run(linear_reg(test_features2,test_dist2))
-print(result[1]) #誤差の平均値
+print(result[2]) #誤差の平均値
 import pdb; pdb.set_trace()
 for ind in range(len(result[1])):
     surveyx = ind
@@ -136,5 +137,5 @@ plt.ylabel('distance [m]',fontsize = 18)
 
 # グラフのタイトルを設定する
 plt.title("Distribution of distance error",fontsize = 18)
-plt.savefig(os.path.join(visualPath,'cont_dynamic.png'))
+plt.savefig(os.path.join(visualPath,'cont_dynamic2.png'))
 # 表示する
