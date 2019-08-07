@@ -118,7 +118,7 @@ def linear_reg(x,y):
     error2 = tf.reduce_mean(100 *(y - Ypred))
 
     # Return values
-    return([Ypred,error,erorr2])
+    return([Ypred,error,error2])
 
 #import pdb; pdb.set_trace()
 result = sess.run(linear_reg(test_features2,test_dist2))
