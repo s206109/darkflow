@@ -202,7 +202,7 @@ print(z3d_mean)
 #----------------------
 # histogram of alpha and ry
 for c in np.arange(nCluster):
-	print("{}:{},{}".format(c,kmeans.cluster_centers_[c][0],kmeans.cluster_centers_[c][1]))
+	print("{},{}]".format(c,kmeans.cluster_centers_[c][0],kmeans.cluster_centers_[c][1]))
 
 	inds = np.where(kmeans.labels_==c)[0]
 	fig, figInd=plt.subplots(ncols=5,sharex=False)
