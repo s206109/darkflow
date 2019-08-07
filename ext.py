@@ -69,7 +69,7 @@ for dInd in np.arange(0,len(gtBoxes)): #dInd = 何ファイル目なのかの数
 ################################################################
 #reshape annotations data
 ################################################################
-total_features2 = resultDF[["gx","gy","gw","gh","ga"]].as_matrix()
+total_features2 = resultDF[["gx","gy","gw","gh"]].as_matrix()
 total_dist2   = resultDF[["gz"]].as_matrix()
 
 # Keep  samples for training
