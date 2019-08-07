@@ -18,7 +18,9 @@ from sklearn.model_selection import train_test_split
 
 
 import tensorflow as tf
-import matplotlib.pyplot as plt
+import matplotlib as mpl
+mpl.use('Agg')
+import matplotlib.pylab as plt
 import seaborn as sns
 
 
