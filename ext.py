@@ -121,7 +121,7 @@ def linear_reg(x,y):
     return([Ypred,error,error2])
 
 #import pdb; pdb.set_trace()
-result = sess.run(linear_reg(train_features2,train_dist2))
+result = sess.run(linear_reg(test_features2,test_dist2))
 print(result[2]) #誤差の平均値
 import pdb; pdb.set_trace()
 for ind in range(len(result[1])):
@@ -129,6 +129,7 @@ for ind in range(len(result[1])):
     surveyy = result[1][ind]
     #plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
     plt.bar(surveyx, surveyy)
+    print("plot %d ", surveyy )
 
 
 # 凡例を表示する
