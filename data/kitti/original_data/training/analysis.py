@@ -180,10 +180,10 @@ print("img width:{}, height:{}".format(im.width,im.height))
 #print(cluster_centers*im_ratio)
 import pdb; pdb.set_trace()
 for c in np.arange(nCluster):
-	print("{},{},{},".format(
+	print("{},{},".format(
 	round(cluster_centers[c,0]*widthRatio,1),
 	round(cluster_centers[c,1]*heightRatio,1),
-	round(cluster_centers[c,2]*distRatio,1)))
+	#round(cluster_centers[c,2]*distRatio,1)))
 	#round(cluster_centers[c,3]*vecRatio,1),
 	#round(cluster_centers[c,4]*vecRatio,1)))
 	#round(cluster_centers[c,3]*alphaRatio,1)))
@@ -202,7 +202,7 @@ print(z3d_mean)
 #----------------------
 # histogram of alpha and ry
 for c in np.arange(nCluster):
-	print("{},{}]".format(c,kmeans.cluster_centers_[c][0],kmeans.cluster_centers_[c][1]))
+	print("{}:{},{}".format(c,kmeans.cluster_centers_[c][0],kmeans.cluster_centers_[c][1]))
 
 	inds = np.where(kmeans.labels_==c)[0]
 	fig, figInd=plt.subplots(ncols=5,sharex=False)
