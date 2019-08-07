@@ -1,6 +1,74 @@
 import tensorflow as tf
-import numpy
+import numpy as np
 import matplotlib.pyplot as plt
+
+
+################################################################
+# parameters
+################################################################
+visualPath = 'visualization'
+
+labels = ['car','negative']
+threshold = 0.7
+_, meta = process.parser('cfg/tiny-yolo-kitti-3d-10.cfg')
+
+
+
+################################################################
+#extract annotations data
+################################################################
+print('extract annotations data')
+gtBoxes = pascal_voc_clean_xml('data/kitti/set1/AnnotationsTrain', labels, exclusive = False)
+
+
+resultDF = pd.DataFrame(columns = ['gw','gh','gx','gy','gz','ga'])
+for dInd in np.arange(0,len(gtBoxes)): #dInd = 何ファイル目なのかの数
+        for gInd in np.arange(1,len(gtBoxes[dInd])):
+            Width    = (gtBoxes[dInd][gInd][3] - gtBoxes[dInd][gInd][1])/1242
+            Height   = (gtBoxes[dInd][gInd][4] - gtBoxes[dInd][gInd][2])/375
+
+            cellX = 1. * 1242 / 13 #画像の横幅を１グリッドあたりのピクセル数
+            cellY = 1. * 375  / 13 #画像の縦幅１グリッドあたりのピクセル数
+
+            centerX  =  .5*(gtBoxes[dInd][gInd][3] + gtBoxes[dInd][gInd][1])
+            centerY  =  .5*(gtBoxes[dInd][gInd][4] + gtBoxes[dInd][gInd][2])
+
+            centerX  = centerX / cellX
+            centerY  = centerY / cellY
+
+            centerX  = np.floor(centerX) /13
+            centerY  = np.floor(centerY) /13
+
+            Distance =  gtBoxes[dInd][gInd][5]/100
+            Alpha    =  gtBoxes[dInd][gInd][6]
+
+            resultDF = resultDF.append(pd.Series([ Width, Height, centerX, centerY, Distance, Alpha],
+                       index=resultDF.columns),ignore_index=True)
+
+################################################################
+#reshape annotations data
+################################################################
+total_features2 = resultDF[["gx","gy","gw","gh","ga"]].as_matrix()
+total_dist2   = resultDF[["gz"]].as_matrix()
+
+# Keep  samples for training
+Cpoint1 = 10000
+Cpoint2 = 13500
+#Cpoint1 = 3
+#Cpoint2 = 5
+
+train_features2 = total_features2[:Cpoint1]
+train_dist2 = total_dist2[:Cpoint1]
+
+
+# Keep samples for validation
+valid_features2 = total_features2[Cpoint1:Cpoint2]
+valid_dist2 = total_dist2[Cpoint1:Cpoint2]
+
+# Keep remaining samples as test set
+test_features2 = total_features2[Cpoint2:]
+test_dist2 = total_dist2[Cpoint2:]
+
 
 sess = tf.Session()
 
@@ -17,6 +85,20 @@ _B1 = graph.get_tensor_by_name("bias1:0")
 _W2 = graph.get_tensor_by_name("weight2:0")
 _B2 = graph.get_tensor_by_name("bias2:0")
 
+def linear_reg(x,y):
+    # Define your equation Ypred = X * W + b
+    hidden = tf.add(_B1,tf.matmul(x,_W1))
+    hidden = tf.nn.relu(hidden)
+    Ypred = tf.add(_B2,tf.matmul(hidden,_W2))
+    Ypred = tf.nn.sigmoid(Ypred)
+
+    # Define your loss function
+    error = tf.reduce_mean(tf.square(y - Ypred))
+
+    # Return values
+    return([Ypred,error])
+
+print(linear_reg(test_features2,test_dist2))
 # WとBをプリント
 print(sess.run('weight1:0'))
 print(sess.run('bias1:0'))
