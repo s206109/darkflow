@@ -70,6 +70,7 @@ for ind in range(13):
             dynamic_features[indb][0] = features_anchors[0][indb]
             dynamic_features[indb][1] = features_anchors[1][indb]
 
+        import pdb; pdb.set_trace()
         dist_anchors = dynamic_generator(dynamic_features)[0]
 
         for indc in range(anc_num):
