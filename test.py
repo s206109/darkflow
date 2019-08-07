@@ -73,7 +73,7 @@ for ind in range(13):
         dist_anchors = dynamic_generator(dynamic_features)[0]
 
         for indc in range(anc_num):
-            final[ind][inda][3][indb] = dist_anchors[indc]
+            final[ind][inda][3][indc] = dist_anchors[indc]
 
 
 
