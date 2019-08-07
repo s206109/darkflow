@@ -57,21 +57,24 @@ threshold = 0.7
 _, meta = process.parser(cfgPath)
 W, H, anc_num = 13, 13, int(cfgPath[23:25])
 
-features_anchor =  np.reshape(meta['anchors'],[2, 10]) / 13
+features_anchors =  np.reshape(meta['anchors'],[2, 10]) / 13
 final = np.zeros([ W, H, 3 , anc_num ])
 dynamic_features = np.zeros([anc_num, 4])
 import pdb; pdb.set_trace()
 for ind in range(13):
     for inda in range(13):
         for indb in range(anc_num):
-            final[ind][inda][0][indb]    = features_anchor[0][indb]
-            final[ind][inda][1][indb]    = features_anchor[1][indb]
+            final[ind][inda][0][indb] = features_anchors[0][indb]
+            final[ind][inda][1][indb] = features_anchor[1][indb]
 
-            dynamic_features[indb][0] = features_anchor[0][indb]
-            dynamic_features[indb][1] = features_anchor[1][indb]
+            dynamic_features[indb][0] = features_anchors[0][indb]
+            dynamic_features[indb][1] = features_anchors[1][indb]
 
-            #import pdb; pdb.set_trace()
-        import pdb; pdb.set_trace()
-#import pdb; pdb.set_trace()
+        dist_anchors = dynamic_generator(test_features2)[0]
+
+        for indc in range(anc_num):
+            final[ind][inda][3][indb] = dist_anchors[indc]
+        
+
 
 #print(dynamic_generator(test_features2))
