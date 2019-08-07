@@ -122,12 +122,12 @@ def linear_reg(x,y):
 
     # Define your loss function
     error = tf.reduce_mean(tf.square(y - Ypred))
-
+    error2 = tf.reduce_mean(100 *abs(y - Ypred))
     # Return values
-    return([Ypred,error])
+    return([Ypred,error,error2])
 
 
-y, cost = linear_reg(train_features2, train_dist2)
+y, cost, dist_error = linear_reg(train_features2, train_dist2)
 
 # Define your parameter :
 learning_rate = 0.01
@@ -159,9 +159,9 @@ with tf.Session() as sess:
         # For each 10 epochs, save costs values - we can plot it later
         if i % 10 == 0.:
             cost_history[0].append(i+1)
-            cost_history[1].append(sess.run(cost))
+            cost_history[1].append(sess.run(dist_error))
         if i % 100 == 0:
-            print("Cost = ", sess.run(cost))
+            print("Cost = ", sess.run(dist_error))
             #saver.save(sess, "model.ckpt")
 
 
