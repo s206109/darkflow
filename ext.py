@@ -12,5 +12,5 @@ saver = tf.train.import_meta_graph('./model_ckpt/linear.meta')
 saver.restore(sess,tf.train.latest_checkpoint('./model_ckpt'))
 
 graph = tf.get_default_graph()
-weight = graph.get_tensor_by_name("weight:0")
-bias = graph.get_tensor_by_name("bias:0")
+weight = graph.get_tensor_by_name("weight1:0")
+bias = graph.get_tensor_by_name("bias1:0")
