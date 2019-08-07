@@ -127,7 +127,8 @@ import pdb; pdb.set_trace()
 for ind in range(len(result[1])):
     surveyx = ind
     surveyy = result[1][ind]
-    plt.bar(surveyx, surveyy,   c='b', s = 5,label = None)
+    #plt.scatter(surveyx, surveyy,   c='b', s = 5,label = None)
+    plt.bar(surveyx, surveyy)
 
 
 # 凡例を表示する
