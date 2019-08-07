@@ -115,7 +115,7 @@ def linear_reg(x,y):
 
     # Define your loss function
     error = abs(100* (y - Ypred))
-    error2 = tf.reduce_mean(100 *(y - Ypred))
+    error2 = tf.reduce_mean(100 *abs(y - Ypred))
 
     # Return values
     return([Ypred,error,error2])
