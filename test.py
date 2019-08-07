@@ -64,8 +64,8 @@ import pdb; pdb.set_trace()
 for ind in range(13):
     for inda in range(13):
         for indb in range(anc_num):
-            final[ind][inda][0][indb] = features_anchors[0][indb]
-            final[ind][inda][1][indb] = features_anchors[1][indb]
+            final[ind][inda][0][indb] = 13 * features_anchors[0][indb]
+            final[ind][inda][1][indb] = 13 * features_anchors[1][indb]
 
             dynamic_features[indb][2] = features_anchors[0][indb]
             dynamic_features[indb][3] = features_anchors[1][indb]
@@ -76,7 +76,7 @@ for ind in range(13):
         dist_anchors = dynamic_generator(dynamic_features)[0]
 
         for indc in range(anc_num):
-            final[ind][inda][2][indc] = dist_anchors[indc]
+            final[ind][inda][2][indc] = 13 * dist_anchors[indc]
 
 
 import pdb; pdb.set_trace()
