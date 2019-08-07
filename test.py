@@ -92,4 +92,4 @@ test_features2 = total_features2[Cpoint2:]
 test_dist2 = total_dist2[Cpoint2:]
 
 
-print(dynamic_generator([test_features2]))
+print(dynamic_generator(test_features2))
