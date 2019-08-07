@@ -117,6 +117,6 @@ def linear_reg(x,y):
     # Return values
     return([Ypred,error])
 
-
+import pdb; pdb.set_trace()
 result = sess.run(linear_reg(test_features2,test_dist2))
 print(result[1])
