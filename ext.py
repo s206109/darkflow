@@ -119,10 +119,10 @@ def linear_reg(x,y):
     # Return values
     return([Ypred,error])
 
-import pdb; pdb.set_trace()
+#import pdb; pdb.set_trace()
 result = sess.run(linear_reg(test_features2,test_dist2))
 print(result[1]) #誤差の平均値
-
+import pdb; pdb.set_trace()
 for ind in range(len(result[1])):
     surveyx = ind
     surveyy = result[1][ind]
