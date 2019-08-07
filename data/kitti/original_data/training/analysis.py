@@ -136,7 +136,7 @@ for file in files[:nData]:
 # cluster
 #kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,minx,miny,maxx,maxy]).T)
 #kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,z3d,vecX, vecY]).T)
-kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,z3d]).T)
+kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d]).T)
 #kmeans= KMeans(n_clusters=nCluster, random_state=10).fit(np.vstack([width2d,height2d,(maxx-minx)/2]).T)
 
 #----------------------
