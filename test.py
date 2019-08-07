@@ -79,5 +79,5 @@ for ind in range(13):
             final[ind][inda][2][indc] = dist_anchors[indc]
 
 
-
-#print(dynamic_generator(test_features2))
+import pdb; pdb.set_trace()
+print(final)
