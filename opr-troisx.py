@@ -124,7 +124,7 @@ def linear_reg(x,y):
     error = tf.reduce_mean(tf.square(y - Ypred))
     error2 = tf.reduce_mean(100 *tf.abs(y - Ypred))
     # Return values
-    return([Ypred,error2])
+    return([Ypred,error])
 
 
 y, cost = linear_reg(train_features2, train_dist2)
