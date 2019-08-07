@@ -67,8 +67,11 @@ for ind in range(13):
             final[ind][inda][0][indb] = features_anchors[0][indb]
             final[ind][inda][1][indb] = features_anchors[1][indb]
 
-            dynamic_features[indb][0] = features_anchors[0][indb]
-            dynamic_features[indb][1] = features_anchors[1][indb]
+            dynamic_features[indb][2] = features_anchors[0][indb]
+            dynamic_features[indb][3] = features_anchors[1][indb]
+
+            dynamic_features[indb][0] = ind  / 13
+            dynamic_features[indb][1] = inda / 13
 
         dist_anchors = dynamic_generator(dynamic_features)[0]
 
