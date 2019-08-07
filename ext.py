@@ -136,4 +136,3 @@ plt.ylabel('distance [m]',fontsize = 18)
 plt.title("Distribution of distance error",fontsize = 18)
 plt.savefig(os.path.join(visualPath,'cont_dynamic.png'))
 # 表示する
-plt.show()
