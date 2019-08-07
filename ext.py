@@ -9,4 +9,4 @@ saver = tf.train.import_meta_graph('./model_ckpt/linear.meta')
 
 
 # モデルの復元
-saver.restore(sess,tf.train.latest_checkpoint('./'))
+saver.restore(sess,tf.train.latest_checkpoint('./model_ckpt'))
