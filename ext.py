@@ -117,7 +117,7 @@ def linear_reg(x,y):
     # Return values
     return([Ypred,error])
 
-print(sess.run(linear_reg(test_features2,test_dist2))
+print(sess.run(linear_reg(test_features2,test_dist2)))
 # WとBをプリント
 print(sess.run('weight1:0'))
 print(sess.run('bias1:0'))
