@@ -91,5 +91,5 @@ valid_dist2 = total_dist2[Cpoint1:Cpoint2]
 test_features2 = total_features2[Cpoint2:]
 test_dist2 = total_dist2[Cpoint2:]
 
-
+import pdb; pdb.set_trace()
 print(dynamic_generator(test_features2))
