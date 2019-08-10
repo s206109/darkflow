@@ -82,7 +82,7 @@ for ind in range(13): #cellx
             dynamic_features[indb][0] = ind  / 13 #cellx number
             dynamic_features[indb][1] = inda / 13 #celly number
 
-        dist_anchors = dynamic_generator(dynamic_features)[0]
+        dist_anchors = round(dynamic_generator(dynamic_features)[0],2)
 
         for indc in range(anc_num):
             final[ind][inda][2][indc] = 13 * dist_anchors[indc]
