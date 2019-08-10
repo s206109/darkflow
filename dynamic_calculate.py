@@ -46,6 +46,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+print (dynamic_calculater())
 ################################################################
 # parameters
 ################################################################
@@ -88,5 +89,4 @@ def dynamic_calculater():
                 final[ind][inda][2][indc] = 13 * dist_anchors[indc]
 
 
-    import pdb; pdb.set_trace()
     return (final)
