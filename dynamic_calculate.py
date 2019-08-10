@@ -46,7 +46,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-print (dynamic_calculater())
+print (self.dynamic_calculater())
 ################################################################
 # parameters
 ################################################################
