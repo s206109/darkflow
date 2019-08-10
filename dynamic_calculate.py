@@ -49,43 +49,44 @@ import seaborn as sns
 ################################################################
 # parameters
 ################################################################
-visualPath = 'visualization'
-cfgPath    = 'cfg/tiny-yolo-kitti-3d-10-dynamic.cfg'
-labels = ['car','negative']
-threshold = 0.7
-_, meta = process.parser(cfgPath)
-W, H, anc_num = 13, 13, int(cfgPath[23:25])
+def dynamic_calculater():
+    visualPath = 'visualization'
+    cfgPath    = 'cfg/tiny-yolo-kitti-3d-10-dynamic.cfg'
+    labels = ['car','negative']
+    threshold = 0.7
+    _, meta = process.parser(cfgPath)
+    W, H, anc_num = 13, 13, int(cfgPath[23:25])
 
-################################################################
-# prepare the features
-################################################################
+    ################################################################
+    # prepare the features
+    ################################################################
 
-features_anchors =  np.reshape(meta['anchors'],[2, 10]) / 13
-final = np.zeros([ W, H, 3 , anc_num ]) #final dynamic anchor
-dynamic_features = np.zeros([anc_num, 4]) #generatorに渡すための特徴量
+    features_anchors =  np.reshape(meta['anchors'],[2, 10]) / 13
+    final = np.zeros([ W, H, 3 , anc_num ]) #final dynamic anchor
+    dynamic_features = np.zeros([anc_num, 4]) #generatorに渡すための特徴量
 
-################################################################
-# calculate dist anchor every cells
-################################################################
-
-
-for ind in range(13): #cellx
-    for inda in range(13): #celly
-        for indb in range(anc_num): #num of anchors
-            final[ind][inda][0][indb] = 13 * features_anchors[0][indb] #cellx number
-            final[ind][inda][1][indb] = 13 * features_anchors[1][indb] #celly number
-
-            dynamic_features[indb][2] = features_anchors[0][indb] #cellx number
-            dynamic_features[indb][3] = features_anchors[1][indb] #celly number
-
-            dynamic_features[indb][0] = ind  / 13 #cellx number
-            dynamic_features[indb][1] = inda / 13 #celly number
-
-        dist_anchors = dynamic_generator(dynamic_features)[0] 
-
-        for indc in range(anc_num):
-            final[ind][inda][2][indc] = 13 * dist_anchors[indc]
+    ################################################################
+    # calculate dist anchor every cells
+    ################################################################
 
 
-import pdb; pdb.set_trace()
-print(final)
+    for ind in range(13): #cellx
+        for inda in range(13): #celly
+            for indb in range(anc_num): #num of anchors
+                final[ind][inda][0][indb] = 13 * features_anchors[0][indb] #cellx number
+                final[ind][inda][1][indb] = 13 * features_anchors[1][indb] #celly number
+
+                dynamic_features[indb][2] = features_anchors[0][indb] #cellx number
+                dynamic_features[indb][3] = features_anchors[1][indb] #celly number
+
+                dynamic_features[indb][0] = ind  / 13 #cellx number
+                dynamic_features[indb][1] = inda / 13 #celly number
+
+            dist_anchors = dynamic_generator(dynamic_features)[0]
+
+            for indc in range(anc_num):
+                final[ind][inda][2][indc] = 13 * dist_anchors[indc]
+
+
+    import pdb; pdb.set_trace()
+    return (final)
