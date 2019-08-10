@@ -31,7 +31,7 @@ def loss(self, net_out):
     HW = H * W # number of grid cells
 
     anchors = m['anchors']
-	import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
     print('{} loss hyper-parameters:'.format(m['model']))
     print('\tH       = {}'.format(H))
     print('\tW       = {}'.format(W))
