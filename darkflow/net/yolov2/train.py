@@ -7,7 +7,6 @@ import os
 import math
 import pdb
 
-from ..dynamic_calculate import dynamic_calculater
 
 def expit_tensor(x): #
 	return 1. / (1. + tf.exp(-x))
