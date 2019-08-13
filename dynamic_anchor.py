@@ -40,7 +40,7 @@ _B1 = graph.get_tensor_by_name("bias1:0")
 _W2 = graph.get_tensor_by_name("weight2:0")
 _B2 = graph.get_tensor_by_name("bias2:0")
 print("loading dynamic anchor .....................")
-sess.close()
+
 def re_dynamic(x):
     # Define your equation Ypred = X * W + b
     hidden = tf.add(_B1,tf.matmul(x,_W1))
@@ -55,4 +55,5 @@ def re_dynamic(x):
 
 def dynamic_generator(features):
     result = sess.run(re_dynamic(features))
+    sess.close()
     return(result)
