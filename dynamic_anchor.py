@@ -55,5 +55,4 @@ def re_dynamic(x):
 
 def dynamic_generator(features):
     result = sess.run(re_dynamic(features))
-    sess.close()
     return(result)
