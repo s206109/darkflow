@@ -1,5 +1,5 @@
 # imort YOLOs function
-from darkflow.net.build import TFNet
+#from darkflow.net.build import TFNet
 from darkflow.utils import box
 from darkflow.utils.pascal_voc_clean_xml_evaluation import pascal_voc_clean_xml
 from darkflow.utils import process
@@ -85,3 +85,4 @@ for ind in range(13): #cellx
 
 #np.set_printoptions(threshold=np.inf)
 print(final)
+np.savetxt('dynamic_anchor.txt', final)
