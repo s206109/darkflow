@@ -31,6 +31,7 @@ import glob
 import json
 import re
 import math
+import sys
 
 from sklearn.datasets import load_boston
 from sklearn.preprocessing import scale
@@ -85,4 +86,5 @@ for ind in range(13): #cellx
 
 #np.set_printoptions(threshold=np.inf)
 print(final)
-np.savetxt('dynamic_anchor.txt', final)
+#np.savetxt('dynamic_anchor.txt', final)
+np.savetxt(sys.stdout.buffer, final)
