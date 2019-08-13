@@ -86,5 +86,6 @@ for ind in range(13): #cellx
 
 #np.set_printoptions(threshold=np.inf)
 print(final)
+import pdb; pdb.set_trace()
 #np.savetxt('dynamic_anchor.txt', final)
 np.savetxt(sys.stdout.buffer, final)
