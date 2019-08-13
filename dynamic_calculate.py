@@ -84,8 +84,8 @@ for ind in range(13): #cellx
         for indc in range(anc_num):
             final[ind][inda][2][indc] = 13 * dist_anchors[indc]
 
-#np.set_printoptions(threshold=np.inf)
 print(final)
-import pdb; pdb.set_trace()
-#np.savetxt('dynamic_anchor.txt', final)
-np.savetxt(sys.stdout.buffer, final)
+#np.set_printoptions(threshold=np.inf)
+with open('dynamic_anchor.txt','wb') as f:
+    import pdb; pdb.set_trace()
+    np.savetxt(f,final,fmt='%.5f')
