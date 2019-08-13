@@ -22,11 +22,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from dynamic_anchor import dynamic_generator
-# imort YOLOs function
-from darkflow.net.build import TFNet
-from darkflow.utils import box
-from darkflow.utils.pascal_voc_clean_xml_evaluation import pascal_voc_clean_xml
-from darkflow.utils import process
+
 
 # Prepare the environment
 import numpy as np # linear algebra
