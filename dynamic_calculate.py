@@ -87,5 +87,5 @@ for ind in range(13): #cellx
         for indc in range(anc_num):
             final[ind][inda][2][indc] = 13 * dist_anchors[indc]
 
-np.set_printoptions(threshold=np.inf)
+#np.set_printoptions(threshold=np.inf)
 print(final)
