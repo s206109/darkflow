@@ -64,7 +64,7 @@ class TFNet(object):
 		self.framework = create_framework(*args)
 
 		self.meta = darknet.meta #cfgから取ってきた設定
-		import pdb; pdb.set_trace()
+		#import pdb; pdb.set_trace()
 		H, W, _ = self.meta['out_size']
 		B, C = self.meta['num'], self.meta['classes']
 		HW = H * W # number of grid cells
@@ -85,6 +85,7 @@ class TFNet(object):
 			dynamic_anchors =  np.reshape(dynamic_anchors, [1,HW,B,3])
 			self.meta['anchors'] = dynamic_anchors
 		self.say('\nBuilding net ...')
+		import pdb; pdb.set_trace()
 		start = time.time()
 		self.graph = tf.Graph()
 		device_name = FLAGS.gpuName \
