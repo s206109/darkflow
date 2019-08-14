@@ -31,7 +31,23 @@ def loss(self, net_out):
     H, W, _ = m['out_size']
     B, C = m['num'], m['classes']
     HW = H * W # number of grid cells
+    dynamic_anchors = np.zeros([13,13,10,3])
     anchors = m['anchors']
+    if self.FLAGS.dynamic:
+        anchors = np.reshape(anchors, [10,2])
+        with open('dynamic_anchor.txt','rb') as f:
+            dynamic_dist = np.loadtxt(f)
+            dynamic_dist = np.reshape(dynamic_dist,[13,13,10])
+            import pdb; pdb.set_trace()
+            for inda in range(H):
+                for indb in range(W):
+                    for indc in range(B):
+                        dynamic_anchors[inda][indb][indc][0] = anchors[indc][0]
+                        dynamic_anchors[inda][indb][indc][1] = anchors[indc][1]
+                        dynamic_anchors[inda][indb][indc][2] = dynamic_dist[inda][indb][indc]
+        dynamic_anchors =  np.reshape(dynamic_anchors, [1,169,10,3])
+    else:
+        anchors = np.reshape(anchors, [1, 1, B, 3]) #他に合うようにリシェイプ
 
     #import pdb; pdb.set_trace()
     print('{} loss hyper-parameters:'.format(m['model']))
@@ -103,10 +119,9 @@ def loss(self, net_out):
 
     import pdb; pdb.set_trace()
     if self.FLAGS.dynamic:
-        anchors =  np.reshape(anchors, [1,HW,B,3])
         adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
-        adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
-        adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:3] / np.reshape([W], [1, 1, 1, 1]))
+        adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * dynamic_anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
+        adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * dynamic_anchors[:,:,:,2:3] / np.reshape([W], [1, 1, 1, 1]))
     else:
         adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
         adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
