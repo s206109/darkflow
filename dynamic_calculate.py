@@ -1,5 +1,5 @@
 # imort YOLOs function
-#from darkflow.net.build import TFNet
+from darkflow.net.build import TFNet
 from darkflow.utils import box
 from darkflow.utils.pascal_voc_clean_xml_evaluation import pascal_voc_clean_xml
 from darkflow.utils import process
@@ -88,4 +88,4 @@ print(final)
 #np.set_printoptions(threshold=np.inf)
 with open('dynamic_anchor.txt','wb') as f:
     import pdb; pdb.set_trace()
-    np.savetxt(f,final,fmt='%g')
+    np.savetxt(f,final[0][0],fmt='%g')
