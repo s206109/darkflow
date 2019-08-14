@@ -103,6 +103,7 @@ def loss(self, net_out):
 
     import pdb; pdb.set_trace()
     if self.FLAGS.dynamic:
+        anchors =  np.reshape(anchors, [1,HW,B,3])
         adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
         adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
         adjusted_distance_z = tf.sqrt(tf.exp(distance[:,:,:,:1]) * anchors[:,:,:,2:3] / np.reshape([W], [1, 1, 1, 1]))

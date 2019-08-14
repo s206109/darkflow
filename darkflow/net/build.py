@@ -82,7 +82,6 @@ class TFNet(object):
 							dynamic_anchors[inda][indb][indc][0] = anchors[indc][0]
 							dynamic_anchors[inda][indb][indc][1] = anchors[indc][1]
 							dynamic_anchors[inda][indb][indc][2] = dynamic_dist[inda][indb][indc]
-			dynamic_anchors =  np.reshape(dynamic_anchors, [1,HW,B,3])
 			self.meta['anchors'] = dynamic_anchors
 		self.say('\nBuilding net ...')
 		import pdb; pdb.set_trace()
