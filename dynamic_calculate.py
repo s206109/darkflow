@@ -84,7 +84,7 @@ for ind in range(13): #cellx
 
 print(final)
 #np.set_printoptions(threshold=np.inf)
-with open('dynamic_anchor.txt','a') as f:
+with open('dynamic_anchor.txt','wb') as f:
     import pdb; pdb.set_trace()
     for inds in range(13):
         np.savetxt(f,final[inds],fmt='%g')
