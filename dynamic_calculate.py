@@ -59,7 +59,7 @@ W, H, anc_num = 13, 13, int(cfgPath[23:25])
 ################################################################
 
 features_anchors =  np.reshape(meta['anchors'],[2, 10]) / 13
-final = np.zeros([ W, H, 3 , anc_num ]) #final dynamic anchor
+final = np.zeros([ W, H, anc_num ]) #final dynamic anchor
 dynamic_features = np.zeros([anc_num, 4]) #generatorに渡すための特徴量
 
 ################################################################
@@ -70,8 +70,6 @@ dynamic_features = np.zeros([anc_num, 4]) #generatorに渡すための特徴量
 for ind in range(13): #cellx
     for inda in range(13): #celly
         for indb in range(anc_num): #num of anchors
-            final[ind][inda][0][indb] = 13 * features_anchors[0][indb] #cellx number
-            final[ind][inda][1][indb] = 13 * features_anchors[1][indb] #celly number
 
             dynamic_features[indb][2] = features_anchors[0][indb] #cellx number
             dynamic_features[indb][3] = features_anchors[1][indb] #celly number
@@ -82,7 +80,7 @@ for ind in range(13): #cellx
         dist_anchors = dynamic_generator(dynamic_features)[0]
 
         for indc in range(anc_num):
-            final[ind][inda][2][indc] = 13 * dist_anchors[indc]
+            final[ind][inda][indc] = 13 * dist_anchors[indc]
 
 print(final)
 #np.set_printoptions(threshold=np.inf)
