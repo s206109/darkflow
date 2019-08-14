@@ -36,6 +36,7 @@ class argHandler(dict):
         self.define('pbLoad', '', 'path to .pb protobuf file (metaLoad must also be specified)')
         self.define('metaLoad', '', 'path to .meta file generated during --savepb that corresponds to .pb file')
         self.define('alpha',False,'whether use meta of alpha')
+        self.define('dynamic',False,'whether use dynamic anchors')
 
     def define(self, argName, default, description):
         self[argName] = default

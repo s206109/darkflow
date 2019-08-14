@@ -33,7 +33,7 @@ def loss(self, net_out):
     HW = H * W # number of grid cells
 
     anchors = m['anchors']
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     print('{} loss hyper-parameters:'.format(m['model']))
     print('\tH       = {}'.format(H))
     print('\tW       = {}'.format(W))
@@ -110,7 +110,7 @@ def loss(self, net_out):
 
     adjusted_coords_xy = expit_tensor(coords[:,:,:,0:2])#シグモイド関数にかける
     adjusted_coords_wh = tf.sqrt(tf.exp(coords[:,:,:,2:4]) * anchors[:,:,:,0:2] / np.reshape([W, H], [1, 1, 1, 2]))
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     #adjusted_coords_xy = adjusted_coords_xy * _kayu
     #adjusted_coords_wh = adjusted_coords_wh * _kayu
 
@@ -237,7 +237,7 @@ def loss(self, net_out):
          #true = tf.concat([true, _vecX, _vecY], 3)
          wght = tf.concat([wght, veXid], 3)
 
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     print('Building {} loss'.format(m['model']))
     #loss = tf.pow(tf.multiply(_kayu , adjusted_net_out - true), 2)
     loss = tf.pow(adjusted_net_out - true, 2)

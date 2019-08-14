@@ -72,7 +72,7 @@ def pascal_voc_clean_xml(ANN, pick, exclusive = False):
         add = [[jpg, [w, h, all]]]
         dumps += add
         in_file.close()
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     # gather all stats
     stat = dict()
     for dump in dumps:

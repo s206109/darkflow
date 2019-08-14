@@ -101,7 +101,7 @@ def _batch(self, chunk):
         #vecX[obj[7], :, :] = [[math.cos(obj[6])]] * B # cosαをアンカーの数だけそれぞれに同じものを代入
         #vecY[obj[7], :, :] = [[(math.sin(obj[6])+1)/2]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
         #vecY[obj[7], :, :] = [[math.sin(obj[6])]] * B # sinαをアンカーの数だけそれぞれに同じものを代入
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     # Finalise the placeholders' values
     upleft   = np.expand_dims(prear[:,0:2], 1) #単純にBBの左上の座標
     botright = np.expand_dims(prear[:,2:4], 1) #単純にBBの右下の座標
@@ -114,7 +114,7 @@ def _batch(self, chunk):
     # value for placeholder at input layer
     inp_feed_val = img
     # value for placeholder at loss layer
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     loss_feed_val = {
         'probs': probs, 'confs': confs,
         'coord': coord, 'proid': proid,
