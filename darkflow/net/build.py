@@ -63,7 +63,7 @@ class TFNet(object):
 		self.framework = create_framework(*args)
 
 		self.meta = darknet.meta #cfgから取ってきた設定
-        import pdb; pdb.set_trace()
+		import pdb; pdb.set_trace()
 		self.say('\nBuilding net ...')
 		start = time.time()
 		self.graph = tf.Graph()
