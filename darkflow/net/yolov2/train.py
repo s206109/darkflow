@@ -8,6 +8,7 @@ import math
 import pdb
 
 
+
 def expit_tensor(x): #
 	return 1. / (1. + tf.exp(-x))
 
