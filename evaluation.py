@@ -122,6 +122,7 @@ for dInd in np.arange(0,len(predBoxes)): #dInd = 何ファイル目なのかの�
 #import pdb; pdb.set_trace()
 
 #surveyInd  = np.where((resultDF['iou'] > 0.7) & (resultDF['gh'] > 25))[0]
+"""
 surveyInd  = np.where((resultDF['gh'] > 25))[0]
 
 
@@ -162,7 +163,7 @@ plt.savefig(os.path.join(visualPath,'cont_new.png'))
 plt.show()
 #-----------------------------
 
-"""
+
 #-----------------------------
 #TEST
 import pdb; pdb.set_trace()
@@ -191,7 +192,7 @@ plt.show()
 #-----------------------------
 
 #-----------------------------
-
+"""
 # compute error
 print(bugname)
 #import pdb; pdb.set_trace()
@@ -224,13 +225,12 @@ plt.plot(['10','20','30','40','40 over'],[error10, error20, error30, error40, er
 plt.plot(['10','20','30','40','40 over'],[1.5,1,1.85,2.3,3])
 plt.xlabel('true distance')
 plt.ylabel('absolute error')
-plt.savefig(os.path.join(visualPath,'error_test.png'))
+plt.savefig(os.path.join(visualPath,'dynamic_error.png'))
 plt.show()
 #-----------------------------
-pdb.set_trace()
 
 
-
+"""
 #img = cv2.imread('data/kitti/set1/PNGImagesTest/000002.png')
 img = cv2.imread('test.jpg')
 # 解析を行う
