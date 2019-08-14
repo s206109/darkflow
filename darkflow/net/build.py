@@ -8,6 +8,7 @@ from .framework import create_framework
 from ..dark.darknet import Darknet
 import json
 import os
+import numpy as np
 
 class TFNet(object):
 
