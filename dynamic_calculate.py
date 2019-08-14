@@ -86,4 +86,4 @@ print(final)
 #np.set_printoptions(threshold=np.inf)
 with open('dynamic_anchor.txt','wb') as f:
     import pdb; pdb.set_trace()
-    np.savetxt(f,final[0][0],fmt='%g')
+    np.savetxt(f,final[0],fmt='%g')
