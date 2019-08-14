@@ -64,6 +64,25 @@ class TFNet(object):
 
 		self.meta = darknet.meta #cfgから取ってきた設定
 		import pdb; pdb.set_trace()
+		H, W, _ = self.meta['out_size']
+		B, C = self.meta['num'], self.meta['classes']
+		HW = H * W # number of grid cells
+		dynamic_anchors = np.zeros([H,W,B,3])
+		anchors = self.meta['anchors']
+		if self.FLAGS.dynamic:
+			anchors = np.reshape(anchors, [B ,2])
+			with open('dynamic_anchor.txt','rb') as f:
+				dynamic_dist = np.loadtxt(f)
+				dynamic_dist = np.reshape(dynamic_dist,[H,W,B])
+				import pdb; pdb.set_trace()
+				for inda in range(H):
+					for indb in range(W):
+						for indc in range(B):
+							dynamic_anchors[inda][indb][indc][0] = anchors[indc][0]
+							dynamic_anchors[inda][indb][indc][1] = anchors[indc][1]
+							dynamic_anchors[inda][indb][indc][2] = dynamic_dist[inda][indb][indc]
+			dynamic_anchors =  np.reshape(dynamic_anchors, [1,HW,B,3])
+			self.meta['anchors'] = dynamic_anchors
 		self.say('\nBuilding net ...')
 		start = time.time()
 		self.graph = tf.Graph()
