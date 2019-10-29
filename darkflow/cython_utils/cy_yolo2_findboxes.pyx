@@ -58,10 +58,10 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
         float  threshold = meta['thresh']
         float tempc,arr_max=0,sum=0
 
+        ####################################dynamic
+        double[:,:,:,:] anchors = np.asarray(meta['anchors'])
         ####################################
-        #double[:,:,:,:] anchors = np.asarray(meta['anchors'])
-        ####################################
-        double[:] anchors = np.asarray(meta['anchors'])
+        #double[:] anchors = np.asarray(meta['anchors'])
         list boxes = list()
         float maxz = meta['maxz']
 
@@ -87,13 +87,13 @@ def box_constructor(meta,np.ndarray[float,ndim=3] net_out_in):
                 Bbox_pred[row, col, box_loop, 0] = (col + expit_c(Bbox_pred[row, col, box_loop, 0])) / W
                 Bbox_pred[row, col, box_loop, 1] = (row + expit_c(Bbox_pred[row, col, box_loop, 1])) / H
                 ####################################
-                #Bbox_pred[row, col, box_loop, 2] = exp(Bbox_pred[row, col, box_loop, 2])    * anchors[row, col, box_loop, 0] / W
-                #Bbox_pred[row, col, box_loop, 3] = exp(Bbox_pred[row, col, box_loop, 3])    * anchors[row, col, box_loop, 1] / H
-                #DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * maxz * anchors[row, col, box_loop, 2] / W
+                Bbox_pred[row, col, box_loop, 2] = exp(Bbox_pred[row, col, box_loop, 2])    * anchors[row, col, box_loop, 0] / W
+                Bbox_pred[row, col, box_loop, 3] = exp(Bbox_pred[row, col, box_loop, 3])    * anchors[row, col, box_loop, 1] / H
+                DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * maxz * anchors[row, col, box_loop, 2] / W
                 ####################################
-                Bbox_pred[row, col, box_loop, 2] = exp(Bbox_pred[row, col, box_loop, 2]) * anchors[ANC * box_loop + 0] / W
-                Bbox_pred[row, col, box_loop, 3] = exp(Bbox_pred[row, col, box_loop, 3]) * anchors[ANC * box_loop + 1] / H
-                DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * maxz * anchors[ANC * box_loop + 2] / W
+                #Bbox_pred[row, col, box_loop, 2] = exp(Bbox_pred[row, col, box_loop, 2]) * anchors[ANC * box_loop + 0] / W
+                #Bbox_pred[row, col, box_loop, 3] = exp(Bbox_pred[row, col, box_loop, 3]) * anchors[ANC * box_loop + 1] / H
+                #DISTANCE[row, col, box_loop]     = exp(DISTANCE[row, col, box_loop]) * maxz * anchors[ANC * box_loop + 2] / W
 
                 #SOFTMAX BLOCK, no more pointer juggling
                 for class_loop in range(C):
