@@ -28,7 +28,7 @@ threshold = 0.7
 # load config values
 #_, meta = process.parser('cfg/tiny-yolo-kitti-3d.cfg')
 #_, meta = process.parser('cfg/tiny-yolo-kitti-3d_13x13.cfg')
-_, meta = process.parser('cfg/tiny-yolo-kitti-3d-10.cfg')
+_, meta = process.parser('cfg/tiny-yolo-kitti-3d-10-dynamic.cfg')
 #-----------------------------
 
 #-----------------------------
